@@ -2,7 +2,8 @@
 # define FDF_H
 
 #include <stdlib.h>
-#include "readlines.h"
 #include "libft.h"
+#include "read_elevation.h"
+#include "vec.h"
 
 #endif
