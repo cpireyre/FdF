@@ -1,41 +1,54 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: copireyr <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/05/17 09:27:31 by copireyr          #+#    #+#             */
+/*   Updated: 2024/05/20 10:12:04 by copireyr         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <stdlib.h>
 #include <unistd.h>
 
-#include "libft.h"
 #include "get_next_line.h"
+#include "libft.h"
 
-char		*get_next_line(int fd);
-static char	*read_until(int fd, char *buf);
-static char	*extract_line(char *buf);
-static char	*append(char *s1, char *s2);
+static char		*read_until(int fd, char *buf);
+static ssize_t	extract_line(char *buf, char **line);
+static char		*append(char *s1, char *s2);
+char			*ft_memdel(char **ptr);
 
 /*
  * Returns the next line from the specified file descriptor, handling
  * buffer management internally to preserve data across calls.
  */
 
-char		*get_next_line(int fd)
+ssize_t	ft_gnl(int fd, char **line)
 {
-	static char	*buf = NULL;
+	static char	*buf;
 	char		*newline_position;
-	char		*line;
+	ssize_t		ret;
 
-	if (fd < 0 || BUFFER_SIZE < 1)
-		return (NULL);
+	if (fd < 0 || BUFFER_SIZE < 1 || read(fd, NULL, 0) < 0)
+	{
+		ft_memdel(&buf);
+		return (-1);
+	}
 	newline_position = NULL;
 	if (buf)
 		newline_position = ft_strchr(buf, '\n');
 	if (!newline_position)
 		buf = read_until(fd, buf);
-	line = NULL;
+	*line = NULL;
+	ret = 0;
 	if (buf && *buf)
-		line = extract_line(buf);
-	if (!line)
-	{
-		free(buf);
-		buf = NULL;
-	}
-	return (line);
+		ret = extract_line(buf, line);
+	if (ret == 0 || ret == -1)
+		ft_memdel(&buf);
+	return (ret);
 }
 
 /*
@@ -61,10 +74,7 @@ static char	*read_until(int fd, char *buf)
 		newline_position = ft_strchr(buf, '\n');
 	}
 	if (bytes_read < 0)
-	{
-		free(buf);
-		buf = NULL;
-	}
+		ft_memdel(&buf);
 	return (buf);
 }
 
@@ -75,22 +85,22 @@ static char	*read_until(int fd, char *buf)
  * we know that s2 is never allocated on the heap and never null.
  */
 
-static char	*append(char *s1, char *s2)
+static char	*append(char *buf, char *s2)
 {
 	char	*merged;
 	size_t	merged_length;
 
 	merged_length = ft_strlen(s2);
-	if (s1)
-		merged_length += ft_strlen(s1);
+	if (buf)
+		merged_length += ft_strlen(buf);
 	merged = malloc(sizeof(char) * (merged_length + 1));
 	if (!merged)
-		return (NULL);
+		return (ft_memdel(&buf));
 	merged[0] = '\0';
-	if (s1)
-		ft_strcat(merged, s1);
+	if (buf)
+		ft_strcat(merged, buf);
 	ft_strcat(merged, s2);
-	free(s1);
+	free(buf);
 	return (merged);
 }
 
@@ -103,21 +113,27 @@ static char	*append(char *s1, char *s2)
  * We ft_memmove remaining_length + 1 to move the \0 along.
  */
 
-static char	*extract_line(char *buf)
+static ssize_t	extract_line(char *buf, char **line)
 {
 	size_t	endline_offset;
 	size_t	remaining_length;
-	char	*line;
 
 	endline_offset = 0;
 	while (buf[endline_offset] && buf[endline_offset] != '\n')
 		endline_offset++;
 	if (buf[endline_offset] == '\n')
 		endline_offset++;
-	line = ft_strndup(buf, endline_offset);
-	if (!line)
-		return (NULL);
+	*line = ft_strndup(buf, endline_offset);
+	if (!*line)
+		return (-1);
 	remaining_length = ft_strlen(buf) - endline_offset;
 	ft_memmove(buf, buf + endline_offset, remaining_length + 1);
-	return (line);
+	return ((ssize_t)endline_offset);
+}
+
+char	*ft_memdel(char **ptr)
+{
+	free(*ptr);
+	*ptr = NULL;
+	return (NULL);
 }

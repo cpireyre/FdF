@@ -1,59 +1,58 @@
-NAME := fdf
-
-LIBFT_DIR := ./libft/
-LIBFT := ./libft/libft.a
-
-LIBMLX	:= ./lib/MLX42
-HEADERS	:= -I$(LIBFT_DIR) -I./include -I$(LIBMLX)/include \
-	   -I./gnl
-LIBS	:= #$(LIBMLX)/build/libmlx42.a -ldl -lglfw -pthread -lm
+.DEFAULT_GOAL := all
+.SUFFIXES:
 
 CC := cc
-CFLAGS := -Wall -Wextra -Werror
-CFLAGS += $(HEADERS) $(LIBS)
-CFLAGS += -g -fsanitize=address
+CFLAGS := -Wall -Wextra -Werror -MMD -MP
+CPPFLAGS := -I./include/ -I./libft/include
+libft_dir := ./libft/
+libft := $(libft_dir)libft.a
+libmlx_dir := ./MLX42
+libmlx := ./MLX42/build/libmlx42.a
+LDFLAGS := -L$(libft_dir) -lft
 
-SRC_DIR := ./src/
-SRC_FILES := main.c readlines.c read_elevation.c vec.c \
-	     get_next_line.c get_next_line_utils.c
-SRC := $(addprefix $(SRC_DIR), $(SRC_FILES))
+name := FdF
+src_dir := ./src
+obj_dir := ./obj
+sources := main.c
+objects := $(sources:%.c=$(obj_dir)/%.o)
 
-OBJ_DIR := ./obj/
-OBJ := $(SRC:$(SRC_DIR)%.c=$(OBJ_DIR)%.o)
+$(libft):
+	$(MAKE) -C $(libft_dir) > /dev/null
+
+$(libmlx):
+	@cmake $(libmlx_dir) -B $(libmlx_dir)/build > /dev/null
+	@make -C $(libmlx_dir)/build -j4 > /dev/null
+
+$(obj_dir)/%.o: $(src_dir)/%.c
+	@mkdir -p $(@D)
+	$(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $@
+
+$(name): $(libmlx) $(libft) $(objects)
+	$(CC) $(CFLAGS) $(LDFLAGS) $(objects) -o $@
 
 .PHONY: all
-all: $(NAME)
+all: $(name)
 
-$(NAME): $(LIBFT) .libmlx $(OBJ)
-	$(CC) $(CFLAGS) $(LIBFT) $(OBJ) -o $@
-
-$(OBJ_DIR)%.o: $(SRC_DIR)%.c
-	@mkdir -p $(OBJ_DIR)
-	$(CC) $(CFLAGS) -c $< -o $@
-
-.libmlx:
-	@cmake $(LIBMLX) -B $(LIBMLX)/build && make -C $(LIBMLX)/build -j4
-	touch .libmlx
-
-.PHONY: libmlx
-libmlx: .libmlx
-
-LIBFT := ./libft/libft.a
-$(LIBFT):
-	$(MAKE) -C $(LIBFT_DIR)
+.PHONY: bonus
+bonus: $(name)
 
 .PHONY: clean
 clean:
-	$(RM) $(OBJ)
-	$(RM) -r $(OBJ_DIR)
+	$(RM) $(objects) $(objects:.o=.d)
+	@rmdir $(obj_dir) 2> /dev/null || true
+	@$(MAKE) -C $(libft_dir) clean > /dev/null
+	@$(RM) -r $(libmlx_dir)/build > /dev/null
 
 .PHONY: fclean
 fclean: clean
-	$(RM) $(NAME)
+	$(RM) $(name)
+	@$(MAKE) -C $(libft_dir) fclean
 
 .PHONY: re
 re: fclean all
 
-.PHONY: run
-run: $(NAME)
-	./$(NAME) test_maps/10-2.fdf
+.PHONY: debug
+debug: CFLAGS += -g -fsanitize=address -fsanitize=undefined
+debug: all
+
+-include $(objects:.o=.d)
