@@ -73,4 +73,4 @@ fclean: clean
 .PHONY: re
 re: fclean all
 
--include $(client_objects:.o=.d) $(server_objects:.o=.d)
+-include $(obj:.o=.d)
