@@ -11,12 +11,13 @@
 # **************************************************************************** #
 
 .DEFAULT_GOAL := all
+.DELETE_ON_ERROR:
 .SUFFIXES:
 
 libmlx_dir	:= ./MLX42
 libft_dir	:= ./libft
+libft		:= $(libft_dir)/libft.a
 libmlx 		:= $(libmlx_dir)/build/libmlx42.a
-libft		:= $(libft_dir)libft.a
 
 CC			:= cc
 CFLAGS		:= -Wall -Wextra -Werror -MMD -MP
@@ -53,8 +54,8 @@ bonus: $(name)
 clean:
 	$(RM) $(objects) $(objects:.o=.d)
 	@rmdir $(obj_dir) 2> /dev/null || true
-	@$(MAKE) -C $(libft_dir) clean > /dev/null
 	@$(RM) -r $(libmlx_dir)/build > /dev/null
+	@$(MAKE) -C $(libft_dir) clean > /dev/null
 
 .PHONY: fclean
 fclean: clean
@@ -66,7 +67,7 @@ re: fclean all
 
 .PHONY: debug
 debug: CFLAGS += -g -fsanitize=address -fsanitize=undefined
-debug: all
+debug: re
 
 .PHONY: norm
 norm:
