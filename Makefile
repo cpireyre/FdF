@@ -6,7 +6,7 @@
 #    By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/23 09:17:29 by copireyr          #+#    #+#              #
-#    Updated: 2024/05/23 09:25:38 by copireyr         ###   ########.fr        #
+#    Updated: 2024/05/23 09:48:31 by copireyr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -67,5 +67,9 @@ re: fclean all
 .PHONY: debug
 debug: CFLAGS += -g -fsanitize=address -fsanitize=undefined
 debug: all
+
+.PHONY: norm
+norm:
+	@norminette ./src ./include | grep --invert-match "OK" || true
 
 -include $(objects:.o=.d)
