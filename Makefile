@@ -6,22 +6,22 @@
 #    By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/23 09:17:29 by copireyr          #+#    #+#              #
-#    Updated: 2024/05/23 09:20:19 by copireyr         ###   ########.fr        #
+#    Updated: 2024/05/23 09:25:38 by copireyr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 .DEFAULT_GOAL := all
 .SUFFIXES:
 
-libft_dir	:= ./libft
-libft		:= $(libft_dir)libft.a
 libmlx_dir	:= ./MLX42
-libmlx 		:= ./MLX42/build/libmlx42.a
+libft_dir	:= ./libft
+libmlx 		:= $(libmlx_dir)/build/libmlx42.a
+libft		:= $(libft_dir)libft.a
 
 CC			:= cc
 CFLAGS		:= -Wall -Wextra -Werror -MMD -MP
-CPPFLAGS	:= -I./include/ -I$(libft_dir)/include -I$(libmlx_dir)/include
 LDFLAGS		:= -L$(libft_dir) -lft -L$(libmlx_dir)/build -lmlx42
+CPPFLAGS	:= -I./include/ -I$(libft_dir)/include -I$(libmlx_dir)/include
 
 name 	:= FdF
 src_dir := ./src
