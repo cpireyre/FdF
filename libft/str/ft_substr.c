@@ -11,7 +11,9 @@
 /* ************************************************************************** */
 
 #include <stdlib.h>
-#include "libft.h"
+
+size_t	ft_strlen(const char *s);
+char	*ft_strndup(const char *src, size_t n);
 
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 {

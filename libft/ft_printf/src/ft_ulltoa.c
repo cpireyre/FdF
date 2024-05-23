@@ -10,9 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdint.h>
-#include "libft.h"
+#include <sys/types.h>
 
+size_t			ft_strlen(const char *str);
 static size_t	count_digits(uintmax_t n, unsigned char radix);
 static char		pop_digit(uintmax_t *n, unsigned char radix);
 

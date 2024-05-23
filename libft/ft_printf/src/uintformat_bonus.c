@@ -12,6 +12,7 @@
 
 #include "ft_printf.h"
 
+size_t	ft_ulltoa(uintmax_t n, char *base, char *res);
 static void	ucompute_padding(t_spec s, t_format_output *o);
 
 void	format_lower_hexadecimal(t_emitter *e, t_spec s, unsigned int n)
