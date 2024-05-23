@@ -1,31 +1,44 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2024/05/23 09:17:29 by copireyr          #+#    #+#              #
+#    Updated: 2024/05/23 09:20:19 by copireyr         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
 .DEFAULT_GOAL := all
 .SUFFIXES:
 
-CC := cc
-CFLAGS := -Wall -Wextra -Werror -MMD -MP
-CPPFLAGS := -I./include/ -I./libft/include
-libft_dir := ./libft/
-libft := $(libft_dir)libft.a
-libmlx_dir := ./MLX42
-libmlx := ./MLX42/build/libmlx42.a
-LDFLAGS := -L$(libft_dir) -lft
+libft_dir	:= ./libft
+libft		:= $(libft_dir)libft.a
+libmlx_dir	:= ./MLX42
+libmlx 		:= ./MLX42/build/libmlx42.a
 
-name := FdF
+CC			:= cc
+CFLAGS		:= -Wall -Wextra -Werror -MMD -MP
+CPPFLAGS	:= -I./include/ -I$(libft_dir)/include -I$(libmlx_dir)/include
+LDFLAGS		:= -L$(libft_dir) -lft -L$(libmlx_dir)/build -lmlx42
+
+name 	:= FdF
 src_dir := ./src
 obj_dir := ./obj
 sources := main.c
 objects := $(sources:%.c=$(obj_dir)/%.o)
 
 $(libft):
-	$(MAKE) -C $(libft_dir) > /dev/null
+	$(MAKE) -j -C $(libft_dir) > /dev/null
 
 $(libmlx):
-	@cmake $(libmlx_dir) -B $(libmlx_dir)/build > /dev/null
-	@make -C $(libmlx_dir)/build -j4 > /dev/null
+	cmake $(libmlx_dir) -B $(libmlx_dir)/build > /dev/null
+	$(MAKE) -j -C $(libmlx_dir)/build > /dev/null
 
 $(obj_dir)/%.o: $(src_dir)/%.c
 	@mkdir -p $(@D)
-	$(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $@
+	$(CC) $(CFLAGS) $(CPPFLAGS) -c $< -o $@
 
 $(name): $(libmlx) $(libft) $(objects)
 	$(CC) $(CFLAGS) $(LDFLAGS) $(objects) -o $@
