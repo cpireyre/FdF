@@ -69,15 +69,14 @@ $(obj_dir)/%.o: %.c
 	$(CC) $(CFLAGS) $(CPPFLAGS) -c $< -o $@
 
 $(libft): $(obj)
-	ar rcs $@ $^
+	ar rcs $@ $?
 
 .PHONY: all
 all: $(libft)
 
 .PHONY: clean
 clean:
-	@$(RM) $(obj)
-	@$(RM) $(obj:.o=.d)
+	@$(RM) $(obj) $(obj:.o=.d)
 	@$(RM) -r $(obj_dir) 2> /dev/null || true
 
 .PHONY: fclean
