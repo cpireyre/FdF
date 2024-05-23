@@ -14,7 +14,7 @@
 .DELETE_ON_ERROR:
 .SUFFIXES:
 
-CC := cc
+CC := clang
 CPPFLAGS := -I./include
 CFLAGS := -Wall -Wextra -Werror -MMD -MP
 

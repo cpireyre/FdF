@@ -19,36 +19,36 @@ libft_dir	:= ./libft
 libft		:= $(libft_dir)/libft.a
 libmlx 		:= $(libmlx_dir)/build/libmlx42.a
 
-CC			:= cc
+CC			:= clang
 CFLAGS		:= -Wall -Wextra -Werror -MMD -MP
 LDFLAGS		:= -L$(libft_dir) -lft -L$(libmlx_dir)/build -lmlx42
-CPPFLAGS	:= -I./include/ -I$(libft_dir)/include -I$(libmlx_dir)/include
+CPPFLAGS	:= -I./include -I$(libft_dir)/include -I$(libmlx_dir)/include
 
-name 	:= FdF
+binary 	:= FdF
 src_dir := ./src
 obj_dir := ./obj
 sources := main.c
 objects := $(sources:%.c=$(obj_dir)/%.o)
 
-$(libft):
-	$(MAKE) -j -C $(libft_dir) > /dev/null
-
-$(libmlx):
-	cmake $(libmlx_dir) -B $(libmlx_dir)/build > /dev/null
-	$(MAKE) -j -C $(libmlx_dir)/build > /dev/null
-
 $(obj_dir)/%.o: $(src_dir)/%.c
 	@mkdir -p $(@D)
 	$(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $@
 
-$(name): $(libmlx) $(libft) $(objects)
-	$(CC) $(CFLAGS) $(objects) $(LDFLAGS) -o $@
+$(libft):
+	$(MAKE) -j$(shell nproc) -C $(libft_dir) > /dev/null
+
+$(libmlx):
+	cmake $(libmlx_dir) -B $(libmlx_dir)/build > /dev/null
+	$(MAKE) -j$(shell nproc) -C $(libmlx_dir)/build > /dev/null
+
+$(binary): $(libmlx) $(libft) $(objects)
+	$(CC) $(objects) $(LDFLAGS) -o $@
 
 .PHONY: all
-all: $(name)
+all: $(binary)
 
 .PHONY: bonus
-bonus: $(name)
+bonus: $(binary)
 
 .PHONY: clean
 clean:
@@ -59,14 +59,15 @@ clean:
 
 .PHONY: fclean
 fclean: clean
-	$(RM) $(name)
+	$(RM) $(binary)
 	@$(MAKE) -C $(libft_dir) fclean
 
 .PHONY: re
 re: fclean all
 
 .PHONY: debug
-target debug: CFLAGS += -g -fsanitize=address -fsanitize=undefined
+target debug: CFLAGS  += -g -fsanitize=address -fsanitize=undefined
+target debug: LDFLAGS += -g -fsanitize=address -fsanitize=undefined
 debug: re
 
 .PHONY: norm
