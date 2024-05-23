@@ -39,10 +39,10 @@ $(libmlx):
 
 $(obj_dir)/%.o: $(src_dir)/%.c
 	@mkdir -p $(@D)
-	$(CC) $(CFLAGS) $(CPPFLAGS) -c $< -o $@
+	$(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $@
 
 $(name): $(libmlx) $(libft) $(objects)
-	$(CC) $(CFLAGS) $(LDFLAGS) $(objects) -o $@
+	$(CC) $(CFLAGS) $(objects) $(LDFLAGS) -o $@
 
 .PHONY: all
 all: $(name)
@@ -66,7 +66,7 @@ fclean: clean
 re: fclean all
 
 .PHONY: debug
-debug: CFLAGS += -g -fsanitize=address -fsanitize=undefined
+target debug: CFLAGS += -g -fsanitize=address -fsanitize=undefined
 debug: re
 
 .PHONY: norm
