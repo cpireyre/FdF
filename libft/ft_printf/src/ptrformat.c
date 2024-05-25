@@ -12,7 +12,7 @@
 
 #include "ft_printf.h"
 
-void	format_pointer(t_emitter *e, t_spec s, unsigned long long ptr)
+void	format_pointer(t_emitter *e, t_spec s, uintptr_t ptr)
 {
 	t_format_output	o;
 

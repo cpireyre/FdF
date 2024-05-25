@@ -14,8 +14,12 @@
 
 int	main(int argc, char **argv)
 {
-	(void)argc;
-	(void)argv;
-	ft_printf("Hello world");
-	render();
+	t_map	*map;
+
+	if (argc == 2)
+	{
+		map = parse_file(argv[1]);
+		render(map);
+		free_map(map);
+	}
 }

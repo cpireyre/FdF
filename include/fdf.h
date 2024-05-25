@@ -14,6 +14,9 @@
 # define FDF_H
 
 # include "libft.h"
-# include "render.h"
+# include "t_map.h"
+
+t_map	*parse_file(const char *path);
+int	render(t_map *map);
 
 #endif

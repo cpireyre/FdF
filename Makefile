@@ -18,7 +18,7 @@ bin 		:= FdF
 src_dir 	:= ./src
 obj_dir 	:= ./obj
 inc_dir		:= ./include
-sources 	:= main.c render.c
+sources 	:= main.c render.c parse_file.c free_map.c
 objects 	:= $(sources:%.c=$(obj_dir)/%.o)
 libft_dir	:= ./libft
 libmlx_dir	:= ./MLX42
@@ -32,6 +32,7 @@ LDFLAGS		:= -L$(libft_dir) -lft -L$(libmlx_dir)/build -lmlx42
 LDFLAGS		+= -framework Cocoa -framework OpenGL -framework IOKit
 LDFLAGS		+= -ldl -lglfw -pthread -lm
 CPPFLAGS	:= -I$(inc_dir) -I$(libft_dir)/include -I$(libmlx_dir)/include
+cmakeflags	:= -DCMAKE_C_FLAGS="-Wno-int-to-void-pointer-cast"
 
 
 $(obj_dir)/%.o: $(src_dir)/%.c Makefile
@@ -39,10 +40,10 @@ $(obj_dir)/%.o: $(src_dir)/%.c Makefile
 	$(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $@
 
 $(libft):
-	$(MAKE) -j4 -C $(libft_dir) > /dev/null
+	CFLAGS="$(CFLAGS)" $(MAKE) -j4 -C $(libft_dir)
 
 $(libmlx):
-	cmake $(libmlx_dir) -B $(libmlx_dir)/build > /dev/null
+	cmake $(cmakeflags) $(libmlx_dir) -B $(libmlx_dir)/build > /dev/null
 	$(MAKE) -j4 -C $(libmlx_dir)/build > /dev/null
 
 glfw_path := "$(shell brew --cellar)/glfw/3.4/lib"
@@ -65,6 +66,7 @@ clean:
 .PHONY: fclean
 fclean: clean
 	$(RM) $(bin)
+	$(RM) -r $(libmlx_dir)/build
 	@$(MAKE) -C $(libft_dir) fclean
 
 .PHONY: re
@@ -78,7 +80,14 @@ debug: re
 
 .PHONY: run
 run: $(bin)
-	./$(bin)
+	./$(bin) ./test_maps/basictest.fdf
+
+leaks_flags := -g3
+.PHONY: leaks
+target leaks: CFLAGS  += $(leaks_flags)
+target leaks: LDFLAGS += $(leaks_flags)
+leaks: fclean all
+	leaks -atExit -quiet -- ./$(bin) test_maps/basictest.fdf
 
 .PHONY: norm
 ifeq ($(shell command -v norminette),)

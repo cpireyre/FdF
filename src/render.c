@@ -11,13 +11,15 @@
 /* ************************************************************************** */
 
 #include "MLX42/MLX42.h"
+#include "t_map.h"
 
 static void	key_hooks(mlx_key_data_t key_data, void *param);
 
-int	render(void)
+int	render(t_map *map)
 {
 	mlx_t	*mlx;
 
+	(void)map;
 	mlx = mlx_init(600, 480, "FdF", true);
 	if (!mlx)
 		return (1);

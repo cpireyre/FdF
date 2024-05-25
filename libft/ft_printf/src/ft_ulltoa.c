@@ -14,14 +14,14 @@
 #include <stdint.h>
 
 size_t			ft_strlen(const char *str);
-static size_t	count_digits(uintmax_t n, unsigned char radix);
-static char		pop_digit(uintmax_t *n, unsigned char radix);
+static size_t	count_digits(uintmax_t n, size_t radix);
+static char		pop_digit(uintmax_t *n, size_t radix);
 
 size_t	ft_ulltoa(uintmax_t n, char *base, char *res)
 {
-	size_t			digits;
-	size_t			ret;
-	unsigned char	radix;
+	size_t	digits;
+	size_t	ret;
+	size_t	radix;
 
 	radix = ft_strlen(base);
 	digits = count_digits(n, radix);
@@ -33,10 +33,10 @@ size_t	ft_ulltoa(uintmax_t n, char *base, char *res)
 
 size_t	ft_lltoa(intmax_t n, char *base, char *res)
 {
-	uintmax_t		nbr;
-	size_t			digits;
-	size_t			size;
-	unsigned char	radix;
+	uintmax_t	nbr;
+	size_t		digits;
+	size_t		size;
+	size_t		radix;
 
 	nbr = (uintmax_t)(n * (n >= 0) - n * (n < 0));
 	radix = ft_strlen(base);
@@ -47,7 +47,7 @@ size_t	ft_lltoa(intmax_t n, char *base, char *res)
 	return (size);
 }
 
-static size_t	count_digits(uintmax_t n, unsigned char radix)
+static size_t	count_digits(uintmax_t n, size_t radix)
 {
 	size_t	digits;
 
@@ -60,7 +60,7 @@ static size_t	count_digits(uintmax_t n, unsigned char radix)
 	return (digits);
 }
 
-static char	pop_digit(uintmax_t *n, unsigned char radix)
+static char	pop_digit(uintmax_t *n, size_t radix)
 {
 	char	digit;
 

@@ -31,7 +31,7 @@ static t_format_output	charformat_bonus(t_spec s, int c)
 	size_t			padding;
 
 	ft_bzero(&o, sizeof(o));
-	o.buf[0] = c;
+	o.buf[0] = (char)c;
 	o.buf_len = 1;
 	if (s.flags.pad_with_zeros)
 		o.pad_character = '0';

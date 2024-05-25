@@ -73,7 +73,7 @@ static void	convert(t_emitter *e, t_spec s, va_list ap)
 	else if (s.conversion == STRING)
 		format_string(e, s, va_arg(ap, char *));
 	else if (s.conversion == POINTER)
-		format_pointer(e, s, va_arg(ap, unsigned long long));
+		format_pointer(e, s, va_arg(ap, uintptr_t));
 	else if (s.conversion == INTEGER)
 		format_integer(e, s, va_arg(ap, int));
 	else if (s.conversion == UNSIGNED_INTEGER)

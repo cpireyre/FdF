@@ -16,7 +16,6 @@
 
 CC		 := clang
 CPPFLAGS := -I./include
-CFLAGS	 := -Wall -Wextra -Werror -MMD -MP
 
 libft := libft.a
 
@@ -37,7 +36,7 @@ src := ./io/ft_gnl.c      ./ctype/ft_atoi.c  ./str/ft_split.c \
 	   ./str/ft_strcat.c  ./mem/ft_memmove.c ./str/ft_strnstr.c   \
 	   ./str/ft_strrchr.c ./str/ft_strlcpy.c ./str/ft_strncmp.c    \
 	   ./str/ft_strndup.c ./str/ft_strjoin.c ./str/ft_strlcat.c     \
-	   ./str/ft_strtrim.c ./ctype/ft_isdigit.c    
+	   ./str/ft_strtrim.c ./ctype/ft_isdigit.c    ./mem/ft_memdel.c
 
 obj_dir := ./obj
 $(obj_dir)/%.o: %.c

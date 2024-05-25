@@ -24,7 +24,7 @@ int	ft_atoi(const char *str)
 	nbr = 0;
 	while ('0' <= *str && *str <= '9')
 		nbr = nbr * 10 + *str++ - '0';
-	return (sign * nbr);
+	return (sign * (int)nbr);
 }
 
 static int	ft_isspace(int c)
