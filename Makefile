@@ -6,7 +6,7 @@
 #    By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/23 09:17:29 by copireyr          #+#    #+#              #
-#    Updated: 2024/05/25 15:41:36 by copireyr         ###   ########.fr        #
+#    Updated: 2024/05/25 15:56:05 by copireyr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,27 +25,26 @@ LDFLAGS		:= -L$(libft_dir) -lft -L$(libmlx_dir)/build -lmlx42
 LDFLAGS		+= -framework Cocoa -framework OpenGL -framework IOKit
 LDFLAGS		+= -ldl -lglfw -pthread -lm
 CPPFLAGS	:= -I./include -I$(libft_dir)/include -I$(libmlx_dir)/include
-
 binary 	:= FdF
 src_dir := ./src
 obj_dir := ./obj
 sources := main.c render.c
 objects := $(sources:%.c=$(obj_dir)/%.o)
 
-$(obj_dir)/%.o: $(src_dir)/%.c
+$(obj_dir)/%.o: $(src_dir)/%.c Makefile
 	@mkdir -p $(@D)
 	$(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $@
 
 $(libft):
-	$(MAKE) -j$(shell nproc) -C $(libft_dir) > /dev/null
+	$(MAKE) -j4 -C $(libft_dir) > /dev/null
 
 $(libmlx):
 	cmake $(libmlx_dir) -B $(libmlx_dir)/build > /dev/null
-	$(MAKE) -j$(shell nproc) -C $(libmlx_dir)/build > /dev/null
+	$(MAKE) -j4 -C $(libmlx_dir)/build > /dev/null
 
-target goal $(binary): LIBRARY_PATH="/Users/copireyr/.brew/Cellar/glfw/3.4/lib" 
+glfw_path := "/Users/copireyr/.brew/Cellar/glfw/3.4/lib"
 $(binary): $(libmlx) $(libft) $(objects)
-	$(CC) $(objects) $(LDFLAGS) -o $@
+	LIBRARY_PATH=$(glfw_path) $(CC) $(objects) $(LDFLAGS) -o $@
 
 .PHONY: all
 all: $(binary)
