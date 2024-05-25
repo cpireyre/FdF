@@ -31,12 +31,19 @@
 # define MLX42_H
 # include <stddef.h>
 # include <stdint.h>
-# include <stdbool.h>
+# include <stddef.h>
+
+#ifndef __cplusplus
+    #define bool int
+    #define true 1
+    #define false 0
+#endif
+
 # ifdef __cplusplus
 extern "C" {
 # endif
 
-//= Types =//
+/* Types */
 
 /**
  * The input key codes are copied straight from GLFW.
@@ -54,7 +61,7 @@ typedef enum action
 {
 	MLX_RELEASE = 0,
 	MLX_PRESS	= 1,
-	MLX_REPEAT	= 2,
+	MLX_REPEAT	= 2
 }	action_t;
 
 /**
@@ -76,7 +83,7 @@ typedef enum modifier_key
 	MLX_ALT			= 0x0004,
 	MLX_SUPERKEY	= 0x0008,
 	MLX_CAPSLOCK	= 0x0010,
-	MLX_NUMLOCK		= 0x0020,
+	MLX_NUMLOCK		= 0x0020
 }	modifier_key_t;
 
 /**
@@ -89,7 +96,7 @@ typedef enum mouse_key
 {
 	MLX_MOUSE_BUTTON_LEFT	= 0,
 	MLX_MOUSE_BUTTON_RIGHT	= 1,
-	MLX_MOUSE_BUTTON_MIDDLE	= 2,
+	MLX_MOUSE_BUTTON_MIDDLE	= 2
 }	mouse_key_t;
 
 /**
@@ -102,7 +109,7 @@ typedef enum mouse_mode
 {
 	MLX_MOUSE_NORMAL	= 0x00034001,
 	MLX_MOUSE_HIDDEN	= 0x00034002,
-	MLX_MOUSE_DISABLED	= 0x00034003,
+	MLX_MOUSE_DISABLED	= 0x00034003
 }	mouse_mode_t;
 
 /**
@@ -121,7 +128,7 @@ typedef enum cursor
 	MLX_CURSOR_CROSSHAIR	= 0x00036003,
 	MLX_CURSOR_HAND			= 0x00036004,
 	MLX_CURSOR_HRESIZE		= 0x00036005,
-	MLX_CURSOR_VRESIZE		= 0x00036006,
+	MLX_CURSOR_VRESIZE		= 0x00036006
 }	cursor_t;
 
 /**
@@ -248,7 +255,7 @@ typedef enum keys
 	MLX_KEY_RIGHT_CONTROL	= 345,
 	MLX_KEY_RIGHT_ALT		= 346,
 	MLX_KEY_RIGHT_SUPER		= 347,
-	MLX_KEY_MENU			= 348,
+	MLX_KEY_MENU			= 348
 }	keys_t;
 
 /**
@@ -366,42 +373,42 @@ typedef struct mlx
 	double		delta_time;
 }	mlx_t;
 
-// The error codes used to identify the correct error message.
+/* The error codes used to identify the correct error message. */
 typedef enum mlx_errno
 {
-	MLX_SUCCESS = 0,	// No Errors
-	MLX_INVEXT,			// File has an invalid extension
-	MLX_INVFILE,		// File was invalid / does not exist.
-	MLX_INVPNG,			// Something is wrong with the given PNG file.
-	MLX_INVXPM,			// Something is wrong with the given XPM file.
-	MLX_INVPOS,			// The specified X/Y positions are out of bounds.
-	MLX_INVDIM,			// The specified W/H dimensions are out of bounds.
-	MLX_INVIMG,			// The provided image is invalid, might indicate mismanagement of images.
-	MLX_VERTFAIL,		// Failed to compile the vertex shader.
-	MLX_FRAGFAIL,		// Failed to compile the fragment shader.
-	MLX_SHDRFAIL,		// Failed to compile the shaders.
-	MLX_MEMFAIL,		// Dynamic memory allocation has failed.
-	MLX_GLADFAIL,		// OpenGL loader has failed.
-	MLX_GLFWFAIL,		// GLFW failed to initialize.
-	MLX_WINFAIL,		// Failed to create a window.
-	MLX_STRTOOBIG,		// The string is too big to be drawn.
-	MLX_ERRMAX,			// Error count
+	MLX_SUCCESS = 0,	 /* No Errors */
+	MLX_INVEXT,			 /* File has an invalid extension */
+	MLX_INVFILE,		 /* File was invalid / does not exist. */
+	MLX_INVPNG,			 /* Something is wrong with the given PNG file. */
+	MLX_INVXPM,			 /* Something is wrong with the given XPM file. */
+	MLX_INVPOS,			 /* The specified X/Y positions are out of bounds. */
+	MLX_INVDIM,			 /* The specified W/H dimensions are out of bounds. */
+	MLX_INVIMG,			 /* The provided image is invalid, might indicate mismanagement of images. */
+	MLX_VERTFAIL,		 /* Failed to compile the vertex shader. */
+	MLX_FRAGFAIL,		 /* Failed to compile the fragment shader. */
+	MLX_SHDRFAIL,		 /* Failed to compile the shaders. */
+	MLX_MEMFAIL,		 /* Dynamic memory allocation has failed. */
+	MLX_GLADFAIL,		 /* OpenGL loader has failed. */
+	MLX_GLFWFAIL,		 /* GLFW failed to initialize. */
+	MLX_WINFAIL,		 /* Failed to create a window. */
+	MLX_STRTOOBIG,		 /* The string is too big to be drawn. */
+	MLX_ERRMAX			 /* Error count */
 }	mlx_errno_t;
 
-// Global error code from the MLX42 library, 0 on no error.
+/* Global error code from the MLX42 library, 0 on no error. */
 extern mlx_errno_t mlx_errno;
 
-//= Global Settings =//
+/* Global Settings */
 
-// Set these values, if necessary, before calling `mlx_init` as they define the behaviour of MLX42.
+/* Set these values, if necessary, before calling `mlx_init` as they define the behaviour of MLX42. */
 typedef enum mlx_settings
 {
-	MLX_STRETCH_IMAGE = 0,	// Should images resize with the window as it's being resized or not. Default: false
-	MLX_FULLSCREEN,			// Should the window be in Fullscreen, note it will fullscreen at the given resolution. Default: false
-	MLX_MAXIMIZED,			// Start the window in a maximized state, overwrites the fullscreen state if this is true. Default: false
-	MLX_DECORATED,			// Have the window be decorated with a window bar. Default: true
-	MLX_HEADLESS,			// Run in headless mode, no window is created. (NOTE: Still requires some form of window manager such as xvfb)
-	MLX_SETTINGS_MAX,		// Setting count.
+	MLX_STRETCH_IMAGE = 0,	/* Should images resize with the window as it's being resized or not. Default: false */
+	MLX_FULLSCREEN,			/* Should the window be in Fullscreen, note it will fullscreen at the given resolution. Default: false */
+	MLX_MAXIMIZED,			/* Start the window in a maximized state, overwrites the fullscreen state if this is true. Default: false */
+	MLX_DECORATED,			/* Have the window be decorated with a window bar. Default: true */
+	MLX_HEADLESS,			/* Run in headless mode, no window is created. (NOTE: Still requires some form of window manager such as xvfb) */
+	MLX_SETTINGS_MAX		/* Setting count. */
 }	mlx_settings_t;
 
 /**
@@ -470,7 +477,7 @@ typedef void (*mlx_closefunc)(void* param);
  */
 typedef void mlx_win_cursor_t;
 
-//= Error Functions =//
+/* Error Functions */
 
 /**
  * Gets the english description of the error code.
@@ -480,7 +487,7 @@ typedef void mlx_win_cursor_t;
  */
 const char* mlx_strerror(mlx_errno_t val);
 
-//= Generic Functions =//
+/* Generic Functions */
 
 /**
  * Initializes a new MLX42 Instance.
@@ -547,7 +554,7 @@ void mlx_terminate(mlx_t* mlx);
  */
 double mlx_get_time(void);
 
-//= Window/Monitor Functions =//
+/* Window/Monitor Functions */
 
 /**
  * This function brings the specified window to front and sets input focus.
@@ -623,7 +630,7 @@ void mlx_set_window_limit(mlx_t* mlx, int32_t min_w, int32_t min_h, int32_t max_
  */
 void mlx_set_window_title(mlx_t* mlx, const char* title);
 
-//= Input Functions =//
+/* Input Functions */
 
 /**
  * Returns true or false if the key is down or not.
@@ -706,7 +713,7 @@ void mlx_destroy_cursor(mlx_win_cursor_t* cursor);
  */
 void mlx_set_cursor(mlx_t* mlx, mlx_win_cursor_t* cursor);
 
-//= Hooks =//
+/* Hooks */
 
 /**
  * This function sets the scroll callback, which is called when a scrolling 
@@ -779,7 +786,7 @@ void mlx_resize_hook(mlx_t* mlx, mlx_resizefunc func, void* param);
  */
 bool mlx_loop_hook(mlx_t* mlx, void (*f)(void*), void* param);
 
-//= Texture Functions =//
+/* Texture Functions */
 
 /**
  * Decode/load a PNG file into a buffer.
@@ -823,7 +830,7 @@ void mlx_delete_xpm42(xpm_t* xpm);
  */
 mlx_image_t* mlx_texture_to_image(mlx_t* mlx, mlx_texture_t* texture);
 
-//= Image Functions =//
+/* Image Functions */
 
 /**
  * Sets / puts a pixel onto an image.
@@ -903,7 +910,7 @@ bool mlx_resize_image(mlx_image_t* img, uint32_t nwidth, uint32_t nheight);
  */
 void mlx_set_instance_depth(mlx_instance_t* instance, int32_t zdepth);
 
-//= String Functions =//
+/* String Functions */
 
 /**
  * Draws a string on an image and then outputs it to the window.
@@ -937,4 +944,4 @@ int32_t mlx_get_texoffset(char c);
 # ifdef __cplusplus
 }
 # endif
-#endif
+#endif /* MLX42_H */

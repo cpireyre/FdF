@@ -14,23 +14,25 @@
 .DELETE_ON_ERROR:
 .SUFFIXES:
 
+bin 		:= FdF
+src_dir 	:= ./src
+obj_dir 	:= ./obj
+inc_dir		:= ./include
+sources 	:= main.c render.c
+objects 	:= $(sources:%.c=$(obj_dir)/%.o)
 libft_dir	:= ./libft
 libmlx_dir	:= ./MLX42
 libft		:= $(libft_dir)/libft.a
 libmlx 		:= $(libmlx_dir)/build/libmlx42.a
 
 CC			:= clang
-CFLAGS		:= -Wconversion
-CFLAGS		+= -Wall -Wextra -Werror -MMD -MP
+CFLAGS		:= -Wconversion -std=c89
+CFLAGS		+= -Wall -Wextra -Werror -MMD -MP -pedantic
 LDFLAGS		:= -L$(libft_dir) -lft -L$(libmlx_dir)/build -lmlx42
 LDFLAGS		+= -framework Cocoa -framework OpenGL -framework IOKit
 LDFLAGS		+= -ldl -lglfw -pthread -lm
-CPPFLAGS	:= -I./include -I$(libft_dir)/include -I$(libmlx_dir)/include
-binary 	:= FdF
-src_dir := ./src
-obj_dir := ./obj
-sources := main.c render.c
-objects := $(sources:%.c=$(obj_dir)/%.o)
+CPPFLAGS	:= -I$(inc_dir) -I$(libft_dir)/include -I$(libmlx_dir)/include
+
 
 $(obj_dir)/%.o: $(src_dir)/%.c Makefile
 	@mkdir -p $(@D)
@@ -43,15 +45,15 @@ $(libmlx):
 	cmake $(libmlx_dir) -B $(libmlx_dir)/build > /dev/null
 	$(MAKE) -j4 -C $(libmlx_dir)/build > /dev/null
 
-glfw_path := "/Users/copireyr/.brew/Cellar/glfw/3.4/lib"
-$(binary): $(libmlx) $(libft) $(objects)
+glfw_path := "$(shell brew --cellar)/glfw/3.4/lib"
+$(bin): $(libmlx) $(libft) $(objects)
 	LIBRARY_PATH=$(glfw_path) $(CC) $(objects) $(LDFLAGS) -o $@
 
 .PHONY: all
-all: $(binary)
+all: $(bin) | norm
 
 .PHONY: bonus
-bonus: $(binary)
+bonus: $(bin)
 
 .PHONY: clean
 clean:
@@ -62,7 +64,7 @@ clean:
 
 .PHONY: fclean
 fclean: clean
-	$(RM) $(binary)
+	$(RM) $(bin)
 	@$(MAKE) -C $(libft_dir) fclean
 
 .PHONY: re
@@ -75,11 +77,16 @@ target debug: LDFLAGS += $(debug_flags)
 debug: re
 
 .PHONY: run
-run: $(binary)
-	./$(binary)
+run: $(bin)
+	./$(bin)
 
 .PHONY: norm
+ifeq ($(shell command -v norminette),)
 norm:
-	@norminette ./src ./include | grep --invert-match "OK" || true
+	@echo "norminette not installed, skipping lint check."
+else
+norm:
+	@norminette $(src_dir) $(libft_dir) $(inc_dir) | grep -v "OK" || true
+endif
 
 -include $(objects:.o=.d)

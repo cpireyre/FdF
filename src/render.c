@@ -14,7 +14,7 @@
 
 static void	key_hooks(mlx_key_data_t key_data, void *param);
 
-void	render(void)
+int	render(void)
 {
 	mlx_t	*mlx;
 
@@ -24,7 +24,7 @@ void	render(void)
 	mlx_key_hook(mlx, &key_hooks, mlx);
 	mlx_loop(mlx);
 	mlx_terminate(mlx);
-	return (0);
+	return (MLX_SUCCESS);
 }
 
 static void	key_hooks(mlx_key_data_t key_data, void *param)
