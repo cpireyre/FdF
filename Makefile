@@ -6,7 +6,7 @@
 #    By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/23 09:17:29 by copireyr          #+#    #+#              #
-#    Updated: 2024/05/25 15:56:05 by copireyr         ###   ########.fr        #
+#    Updated: 2024/05/25 16:23:29 by copireyr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,8 @@ libft		:= $(libft_dir)/libft.a
 libmlx 		:= $(libmlx_dir)/build/libmlx42.a
 
 CC			:= clang
-CFLAGS		:= -Wall -Wextra -Werror -MMD -MP
+CFLAGS		:= -Wconversion
+CFLAGS		+= -Wall -Wextra -Werror -MMD -MP
 LDFLAGS		:= -L$(libft_dir) -lft -L$(libmlx_dir)/build -lmlx42
 LDFLAGS		+= -framework Cocoa -framework OpenGL -framework IOKit
 LDFLAGS		+= -ldl -lglfw -pthread -lm
@@ -67,10 +68,15 @@ fclean: clean
 .PHONY: re
 re: fclean all
 
+debug_flags := -g3 -fsanitize=address -fsanitize=undefined
 .PHONY: debug
-target debug: CFLAGS  += -g -fsanitize=address -fsanitize=undefined
-target debug: LDFLAGS += -g -fsanitize=address -fsanitize=undefined
+target debug: CFLAGS  += $(debug_flags)
+target debug: LDFLAGS += $(debug_flags)
 debug: re
+
+.PHONY: run
+run: $(binary)
+	./$(binary)
 
 .PHONY: norm
 norm:
