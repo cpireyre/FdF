@@ -6,7 +6,7 @@
 /*   By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 11:43:04 by copireyr          #+#    #+#             */
-/*   Updated: 2024/05/23 11:52:08 by copireyr         ###   ########.fr       */
+/*   Updated: 2024/05/25 16:02:07 by copireyr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 void	render(void)
 {
-	mlx_t* mlx = mlx_init(600, 480, "meme lib", true);
+	mlx_t	*mlx;
+
+	mlx_init(600, 480, "meme lib", true);
 	mlx_loop(mlx);
 }
