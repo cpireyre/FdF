@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "ft_printf/emit.h"
 
 void	emit_char(t_emitter *e, char c)
 {

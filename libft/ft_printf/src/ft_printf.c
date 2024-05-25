@@ -12,7 +12,10 @@
 
 #include "ft_printf.h"
 
-int	ft_vdprintf(int fd, const char *format, va_list ap)
+static int	ft_vdprintf(int fd, const char *format, va_list ap);
+static void	convert(t_emitter *e, t_spec s, va_list ap);
+
+static int	ft_vdprintf(int fd, const char *format, va_list ap)
 {
 	t_spec		spec;
 	t_emitter	e;
@@ -63,7 +66,7 @@ int	ft_printf(const char *format, ...)
 	return (ret);
 }
 
-void	convert(t_emitter *e, t_spec s, va_list ap)
+static void	convert(t_emitter *e, t_spec s, va_list ap)
 {
 	if (s.conversion == UNSIGNED_CHAR)
 		format_char(e, s, va_arg(ap, int));

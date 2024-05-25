@@ -12,6 +12,7 @@
 
 #include "ft_printf.h"
 
+size_t	ft_lltoa(intmax_t n, char *base, char *res);
 static t_format_output	intformat_bonus(t_spec s, int n, char *base);
 static void				compute_padding(t_spec s, t_format_output *o);
 
@@ -52,7 +53,7 @@ static t_format_output	intformat_bonus(t_spec s, int n, char *base)
 
 static void	compute_padding(t_spec s, t_format_output *o)
 {
-	size_t			padding;
+	size_t	padding;
 
 	if (s.flags.pad_with_zeros)
 		o->pad_character = '0';

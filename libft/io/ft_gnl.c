@@ -10,16 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-#include <unistd.h>
-
 #include "get_next_line.h"
-#include "libft.h"
 
 static char		*read_until(int fd, char *buf);
 static ssize_t	extract_line(char *buf, char **line);
 static char		*append(char *s1, char *s2);
-char			*ft_memdel(char **ptr);
 
 /*
  * Returns the next line from the specified file descriptor, handling
@@ -34,7 +29,8 @@ ssize_t	ft_gnl(int fd, char **line)
 
 	if (fd < 0 || BUFFER_SIZE < 1 || read(fd, NULL, 0) < 0)
 	{
-		ft_memdel(&buf);
+		free(buf);
+		buf = NULL;
 		return (-1);
 	}
 	newline_position = NULL;
@@ -47,7 +43,10 @@ ssize_t	ft_gnl(int fd, char **line)
 	if (buf && *buf)
 		ret = extract_line(buf, line);
 	if (ret == 0 || ret == -1)
-		ft_memdel(&buf);
+	{
+		free(buf);
+		buf = NULL;
+	}
 	return (ret);
 }
 
@@ -74,7 +73,10 @@ static char	*read_until(int fd, char *buf)
 		newline_position = ft_strchr(buf, '\n');
 	}
 	if (bytes_read < 0)
-		ft_memdel(&buf);
+	{
+		free(buf);
+		buf = NULL;
+	}
 	return (buf);
 }
 
@@ -95,7 +97,11 @@ static char	*append(char *buf, char *s2)
 		merged_length += ft_strlen(buf);
 	merged = malloc(sizeof(char) * (merged_length + 1));
 	if (!merged)
-		return (ft_memdel(&buf));
+	{
+		free(buf);
+		buf = NULL;
+		return (NULL);
+	}
 	merged[0] = '\0';
 	if (buf)
 		ft_strcat(merged, buf);
@@ -129,11 +135,4 @@ static ssize_t	extract_line(char *buf, char **line)
 	remaining_length = ft_strlen(buf) - endline_offset;
 	ft_memmove(buf, buf + endline_offset, remaining_length + 1);
 	return ((ssize_t)endline_offset);
-}
-
-char	*ft_memdel(char **ptr)
-{
-	free(*ptr);
-	*ptr = NULL;
-	return (NULL);
 }

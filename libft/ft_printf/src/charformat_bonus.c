@@ -10,8 +10,10 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "ft_printf/emit.h"
+#include "ft_printf/parse_format.h"
 
+void	ft_bzero(void *s, size_t n);
 static t_format_output	charformat_bonus(t_spec s, int c);
 static void				emit_char_with_format(t_emitter *e, t_format_output o);
 

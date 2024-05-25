@@ -11,7 +11,9 @@
 /* ************************************************************************** */
 
 #include <stddef.h>
-#include "libft.h"
+
+size_t	ft_strlen(const char *s);
+void	*ft_memcpy(void *dst, const void *src, size_t n);
 
 size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
 {

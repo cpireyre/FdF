@@ -11,7 +11,10 @@
 /* ************************************************************************** */
 
 #include <stdlib.h>
-#include "libft.h"
+
+size_t	ft_strlen(const char *s);
+char	*ft_strchr(const char *s, int c);
+char	*ft_strndup(const char *src, size_t n);
 
 char	*ft_strtrim(char const *s1, char const *set)
 {

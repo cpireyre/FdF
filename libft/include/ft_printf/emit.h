@@ -15,6 +15,7 @@
 
 # include <sys/types.h>
 # include <unistd.h>
+# include "ft_printf/format_bonus.h"
 
 # define EMITTER_BUFFER_SIZE 256
 
