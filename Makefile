@@ -6,7 +6,7 @@
 #    By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/23 09:17:29 by copireyr          #+#    #+#              #
-#    Updated: 2024/05/23 09:48:31 by copireyr         ###   ########.fr        #
+#    Updated: 2024/05/23 14:44:35 by copireyr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,19 +21,22 @@ libft		:= $(libft_dir)libft.a
 CC			:= cc
 CFLAGS		:= -Wall -Wextra -Werror -MMD -MP
 LDFLAGS		:= -L$(libft_dir) -lft -L$(libmlx_dir)/build -lmlx42
+LDFLAGS		+= -framework Cocoa -framework OpenGL -framework IOKit
+LDFLAGS		+= -ldl -lglfw -pthread -lm
 CPPFLAGS	:= -I./include/ -I$(libft_dir)/include -I$(libmlx_dir)/include
+debug		:= -DDEBUG=1
 
 name 	:= FdF
 src_dir := ./src
 obj_dir := ./obj
-sources := main.c
+sources := main.c render.c
 objects := $(sources:%.c=$(obj_dir)/%.o)
 
 $(libft):
 	$(MAKE) -j -C $(libft_dir) > /dev/null
 
 $(libmlx):
-	cmake $(libmlx_dir) -B $(libmlx_dir)/build > /dev/null
+	cmake $(debug) $(libmlx_dir) -B $(libmlx_dir)/build > /dev/null
 	$(MAKE) -j -C $(libmlx_dir)/build > /dev/null
 
 $(obj_dir)/%.o: $(src_dir)/%.c
@@ -41,7 +44,7 @@ $(obj_dir)/%.o: $(src_dir)/%.c
 	$(CC) $(CFLAGS) $(CPPFLAGS) -c $< -o $@
 
 $(name): $(libmlx) $(libft) $(objects)
-	$(CC) $(CFLAGS) $(LDFLAGS) $(objects) -o $@
+	LIBRARY_PATH="/Users/copireyr/.brew/Cellar/glfw/3.4/lib" $(CC) $(CFLAGS) $(LDFLAGS) $(objects) -o $@
 
 .PHONY: all
 all: $(name)

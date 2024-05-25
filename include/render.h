@@ -1,19 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fdf.h                                              :+:      :+:    :+:   */
+/*   render.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/23 09:45:14 by copireyr          #+#    #+#             */
+/*   Created: 2024/05/23 11:51:06 by copireyr          #+#    #+#             */
 /*   Updated: 2024/05/23 11:51:26 by copireyr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FDF_H
-# define FDF_H
+#ifndef RENDER_H
+# define RENDER_H
 
-# include "libft.h"
-# include "render.h"
+void	render(void);
 
 #endif
