@@ -6,11 +6,12 @@
 /*   By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 15:31:12 by copireyr          #+#    #+#             */
-/*   Updated: 2024/05/03 11:10:59 by copireyr         ###   ########.fr       */
+/*   Updated: 2024/05/25 15:42:44 by copireyr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sys/types.h>
+#include <stdint.h>
 
 size_t			ft_strlen(const char *str);
 static size_t	count_digits(uintmax_t n, unsigned char radix);

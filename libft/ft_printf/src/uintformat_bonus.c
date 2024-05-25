@@ -6,11 +6,12 @@
 /*   By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 15:22:05 by copireyr          #+#    #+#             */
-/*   Updated: 2024/05/08 13:08:06 by copireyr         ###   ########.fr       */
+/*   Updated: 2024/05/25 15:43:41 by copireyr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
+#include <stdint.h>
 
 size_t	ft_ulltoa(uintmax_t n, char *base, char *res);
 static void	ucompute_padding(t_spec s, t_format_output *o);

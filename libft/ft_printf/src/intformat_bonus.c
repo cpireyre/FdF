@@ -6,11 +6,12 @@
 /*   By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 10:51:05 by copireyr          #+#    #+#             */
-/*   Updated: 2024/05/08 13:13:16 by copireyr         ###   ########.fr       */
+/*   Updated: 2024/05/25 15:43:15 by copireyr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
+#include <stdint.h>
 
 size_t	ft_lltoa(intmax_t n, char *base, char *res);
 static t_format_output	intformat_bonus(t_spec s, int n, char *base);
