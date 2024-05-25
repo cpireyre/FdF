@@ -29,14 +29,15 @@ ft_printf_src := ./ft_printf/src/emit.c       \
 				 ./ft_printf/src/charformat_bonus.c  \
 				 ./ft_printf/src/uintformat_bonus.c
 
-src := ./io/ft_gnl.c      ./ctype/ft_atoi.c  ./str/ft_split.c \
-	   ./mem/ft_bzero.c   ./mem/ft_memchr.c  ./mem/ft_memcmp.c \
-	   ./mem/ft_memcpy.c  ./mem/ft_memset.c  ./str/ft_strdup.c  \
-	   ./str/ft_strlen.c  ./str/ft_strchr.c  ./str/ft_substr.c   \
-	   ./str/ft_strcat.c  ./mem/ft_memmove.c ./str/ft_strnstr.c   \
-	   ./str/ft_strrchr.c ./str/ft_strlcpy.c ./str/ft_strncmp.c    \
-	   ./str/ft_strndup.c ./str/ft_strjoin.c ./str/ft_strlcat.c     \
-	   ./str/ft_strtrim.c ./ctype/ft_isdigit.c    ./mem/ft_memdel.c
+src := ./io/ft_gnl.c      ./ctype/ft_atoi.c    ./str/ft_split.c \
+	   ./mem/ft_bzero.c   ./mem/ft_memchr.c    ./mem/ft_memcmp.c \
+	   ./mem/ft_memcpy.c  ./mem/ft_memset.c    ./str/ft_strdup.c  \
+	   ./str/ft_strlen.c  ./str/ft_strchr.c    ./str/ft_substr.c   \
+	   ./str/ft_strcat.c  ./mem/ft_memmove.c   ./str/ft_strnstr.c   \
+	   ./str/ft_strrchr.c ./str/ft_strlcpy.c   ./str/ft_strncmp.c    \
+	   ./str/ft_strndup.c ./str/ft_strjoin.c   ./str/ft_strlcat.c     \
+	   ./str/ft_strtrim.c ./ctype/ft_isdigit.c ./mem/ft_memdel.c       \
+	   ./io/ft_error.c
 
 obj_dir := ./obj
 $(obj_dir)/%.o: %.c

@@ -18,7 +18,7 @@ bin 		:= FdF
 src_dir 	:= ./src
 obj_dir 	:= ./obj
 inc_dir		:= ./include
-sources 	:= main.c render.c parse_file.c free_map.c
+sources 	:= main.c render.c build_map.c free_map.c
 objects 	:= $(sources:%.c=$(obj_dir)/%.o)
 libft_dir	:= ./libft
 libmlx_dir	:= ./MLX42
@@ -88,6 +88,20 @@ target leaks: CFLAGS  += $(leaks_flags)
 target leaks: LDFLAGS += $(leaks_flags)
 leaks: fclean all
 	leaks -atExit -quiet -- ./$(bin) test_maps/basictest.fdf
+
+test_flags := -g3
+.PHONY: test
+target test: CFLAGS  += $(test_flags)
+target test: LDFLAGS += $(test_flags)
+test: fclean all
+	leaks -atExit -quiet -- ./$(bin) test_maps/2x1.fdf
+	leaks -atExit -quiet -- ./$(bin) test_maps/space_after.fdf
+	leaks -atExit -quiet -- ./$(bin) test_maps/missing_last.fdf
+	leaks -atExit -quiet -- ./$(bin) test_maps/wrong_cols.fdf
+	leaks -atExit -quiet -- ./$(bin) nonexistentmap
+	leaks -atExit -quiet -- ./$(bin) test_maps/empty_map
+	leaks -atExit -quiet -- ./$(bin) test_maps/basictest.fdf
+	leaks -atExit -quiet -- ./$(bin) test_maps/just_one.fdf
 
 .PHONY: norm
 ifeq ($(shell command -v norminette),)

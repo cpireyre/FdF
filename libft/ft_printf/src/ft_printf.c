@@ -13,7 +13,7 @@
 #include "ft_printf.h"
 
 static int	ft_vdprintf(int fd, const char *format, va_list ap);
-static void	convert(t_emitter *e, t_spec s, va_list ap);
+static void	convert(t_emitter *e, t_spec s, va_list *ap);
 
 static int	ft_vdprintf(int fd, const char *format, va_list ap)
 {
@@ -28,7 +28,7 @@ static int	ft_vdprintf(int fd, const char *format, va_list ap)
 		{
 			ft_bzero(&spec, sizeof(spec));
 			spec = parse_format(++format);
-			convert(&e, spec, ap);
+			convert(&e, spec, &ap);
 			while (*format && !ft_strchr(CONVERSIONS, *format))
 				format++;
 		}
@@ -66,22 +66,22 @@ int	ft_printf(const char *format, ...)
 	return (ret);
 }
 
-static void	convert(t_emitter *e, t_spec s, va_list ap)
+static void	convert(t_emitter *e, t_spec s, va_list *ap)
 {
 	if (s.conversion == UNSIGNED_CHAR)
-		format_char(e, s, va_arg(ap, int));
+		format_char(e, s, va_arg(*ap, int));
 	else if (s.conversion == STRING)
-		format_string(e, s, va_arg(ap, char *));
+		format_string(e, s, va_arg(*ap, char *));
 	else if (s.conversion == POINTER)
-		format_pointer(e, s, va_arg(ap, uintptr_t));
+		format_pointer(e, s, va_arg(*ap, uintptr_t));
 	else if (s.conversion == INTEGER)
-		format_integer(e, s, va_arg(ap, int));
+		format_integer(e, s, va_arg(*ap, int));
 	else if (s.conversion == UNSIGNED_INTEGER)
-		format_unsigned_integer(e, s, va_arg(ap, unsigned int));
+		format_unsigned_integer(e, s, va_arg(*ap, uintmax_t));
 	else if (s.conversion == LOWER_HEXADECIMAL)
-		format_lower_hexadecimal(e, s, va_arg(ap, unsigned int));
+		format_lower_hexadecimal(e, s, va_arg(*ap, unsigned int));
 	else if (s.conversion == UPPER_HEXADECIMAL)
-		format_upper_hexadecimal(e, s, va_arg(ap, unsigned int));
+		format_upper_hexadecimal(e, s, va_arg(*ap, unsigned int));
 	else if (s.conversion == PERCENT)
 		format_char(e, s, '%');
 }

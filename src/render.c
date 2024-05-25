@@ -17,9 +17,10 @@ static void	key_hooks(mlx_key_data_t key_data, void *param);
 
 int	render(t_map *map)
 {
-	mlx_t	*mlx;
+	mlx_t			*mlx;
 
 	(void)map;
+	mlx_set_setting(MLX_HEADLESS, true);
 	mlx = mlx_init(600, 480, "FdF", true);
 	if (!mlx)
 		return (1);

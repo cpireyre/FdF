@@ -14,12 +14,19 @@
 
 int	main(int argc, char **argv)
 {
+	int		i;
 	t_map	*map;
 
-	if (argc == 2)
+	i = 1;
+	while (i < argc)
 	{
-		map = parse_file(argv[1]);
-		render(map);
-		free_map(map);
+		map = build_map_from_file(argv[i]);
+		if (map)
+		{
+			render(map);
+			free_map(map);
+		}
+		i++;
 	}
+	return (0);
 }

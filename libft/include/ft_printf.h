@@ -27,12 +27,12 @@ char			*ft_strchr(const char *s, int c);
 void			format_char(t_emitter *e, t_spec s, int c);
 void			format_integer(t_emitter *e, t_spec s, int n);
 void			format_lower_hexadecimal(t_emitter *e, t_spec s,
-					unsigned int n);
+					uintmax_t n);
 void			format_upper_hexadecimal(t_emitter *e, t_spec s,
-					unsigned int n);
+					uintmax_t n);
 void			format_string(t_emitter *e, t_spec s, char *str);
 t_format_output	format_unsigned(t_spec s, unsigned long n, char *base);
 void			format_pointer(t_emitter *e, t_spec s, uintptr_t ptr);
-void			format_unsigned_integer(t_emitter *e, t_spec s, unsigned int n);
+void			format_unsigned_integer(t_emitter *e, t_spec s, uintmax_t n);
 
 #endif

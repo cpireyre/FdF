@@ -16,7 +16,7 @@
 # include "libft.h"
 # include "t_map.h"
 
-t_map	*parse_file(const char *path);
-int	render(t_map *map);
+t_map	*build_map_from_file(const char *path);
+int		render(t_map *map);
 
 #endif
