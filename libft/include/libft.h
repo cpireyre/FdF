@@ -45,12 +45,13 @@ char	*ft_strnstr(const char *haystack, const char *needle, size_t len);
 /* Ctype */
 
 int		ft_isdigit(int c);
+int		ft_isspace(int c);
 int		ft_atoi(const char *str);
 
 /* IO */
 
 ssize_t	ft_gnl(int fd, char **line);
-void	*ft_error(void *data, const char *msg);
+int		ft_error(void *data, const char *msg);
 int		ft_printf(const char *format, ...);
 int		ft_dprintf(int fd, const char *format, ...);
 

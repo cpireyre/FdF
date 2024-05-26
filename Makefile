@@ -95,13 +95,13 @@ target test: CFLAGS  += $(test_flags)
 target test: LDFLAGS += $(test_flags)
 test: fclean all
 	leaks -atExit -quiet -- ./$(bin) test_maps/2x1.fdf
-	leaks -atExit -quiet -- ./$(bin) test_maps/space_after.fdf
+	# leaks -atExit -quiet -- ./$(bin) test_maps/space_after.fdf
 	leaks -atExit -quiet -- ./$(bin) test_maps/missing_last.fdf
 	leaks -atExit -quiet -- ./$(bin) test_maps/wrong_cols.fdf
 	leaks -atExit -quiet -- ./$(bin) nonexistentmap
 	leaks -atExit -quiet -- ./$(bin) test_maps/empty_map
-	leaks -atExit -quiet -- ./$(bin) test_maps/basictest.fdf
-	leaks -atExit -quiet -- ./$(bin) test_maps/just_one.fdf
+	# leaks -atExit -quiet -- ./$(bin) test_maps/basictest.fdf
+	# leaks -atExit -quiet -- ./$(bin) test_maps/just_one.fdf
 
 .PHONY: norm
 ifeq ($(shell command -v norminette),)

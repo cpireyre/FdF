@@ -20,7 +20,7 @@ int	render(t_map *map)
 	mlx_t			*mlx;
 
 	(void)map;
-	mlx_set_setting(MLX_HEADLESS, true);
+	mlx_set_setting(MLX_HEADLESS, false);
 	mlx = mlx_init(600, 480, "FdF", true);
 	if (!mlx)
 		return (1);

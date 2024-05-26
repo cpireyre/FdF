@@ -37,7 +37,7 @@ src := ./io/ft_gnl.c      ./ctype/ft_atoi.c    ./str/ft_split.c \
 	   ./str/ft_strrchr.c ./str/ft_strlcpy.c   ./str/ft_strncmp.c    \
 	   ./str/ft_strndup.c ./str/ft_strjoin.c   ./str/ft_strlcat.c     \
 	   ./str/ft_strtrim.c ./ctype/ft_isdigit.c ./mem/ft_memdel.c       \
-	   ./io/ft_error.c
+	   ./io/ft_error.c	  ./ctype/ft_isspace.c
 
 obj_dir := ./obj
 $(obj_dir)/%.o: %.c

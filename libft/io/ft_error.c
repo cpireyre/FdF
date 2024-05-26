@@ -1,9 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void	*ft_error(void *data, char *msg)
+int	ft_error(void *data, char *msg)
 {
 	free(data);
 	perror(msg);
-	return (NULL);
+	return (1);
 }

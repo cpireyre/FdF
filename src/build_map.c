@@ -10,56 +10,49 @@ static t_point	**parse_file(int fd, t_map *map);
 static t_point	*tokenize(int fd, t_map *map);
 static size_t	count_words_in_line(const char *line);
 
-t_map	*build_map_from_file(const char *path)
+int	build_map_from_file(const char *path, t_map *map)
 {
 	int		fd;
-	t_map	*map;
 	ssize_t	num_lines;
 
 	num_lines = count_lines_in_file(path);
 	if (num_lines < 1 || num_lines > 1000)
 		return (ft_error(NULL, path));
-	map = malloc(sizeof(t_map));
-	if (!map)
-		return (ft_error(map, NULL));
 	map->rows = (size_t)num_lines;
 	fd = open(path, O_RDONLY);
 	if (fd == -1)
-		return (ft_error(map, path));
+		return (ft_error(NULL, path));
 	map->points = parse_file(fd, map);
 	if (!map->points)
-		ft_memdel((void**)&map);
+		return (ft_error(NULL, "Bad map"));
 	close(fd);
-	return (map);
+	return (0);
 }
 
 static t_point	**parse_file(int fd, t_map *map)
 {
 	size_t	i;
 	size_t	cols;
-	t_point	**points;
 
-	points = malloc(map->rows * sizeof(t_point *));
-	if (!points)
+	map->points = malloc(map->rows * sizeof(t_point *));
+	if (!map->points)
 		return (NULL);
 	i = 0;
 	cols = 0;
 	while (i < map->rows)
 	{
-		points[i] = tokenize(fd, map);
+		map->points[i] = tokenize(fd, map);
 		ft_dprintf(STDERR_FILENO, "\n");
 		if (!cols)
 			cols = map->cols;
-		if (cols != map->cols || !points[i])
+		if (cols != map->cols || !map->points[i])
 		{
-			while (i)
-				free(points[i--]);
-			free(points[0]);
-			return (ft_error(points, "Unexpected amount of columns"));
+			free_map(map);
+			return (NULL);
 		}
 		i++;
 	}
-	return (points);
+	return (map->points);
 }
 
 static t_point	*tokenize(int fd, t_map *map)
@@ -72,8 +65,6 @@ static t_point	*tokenize(int fd, t_map *map)
 	if (ft_gnl(fd, &line) == -1)
 		return (NULL);
 	map->cols = count_words_in_line(line);
-	ft_printf("line %s cols %d\n", line, map->cols);
-	ft_printf("line %s cols %d\n", "1 1", count_words_in_line("1 1"));
 	points = malloc(sizeof(t_point) * map->cols);
 	if (!points)
 	{
@@ -81,12 +72,12 @@ static t_point	*tokenize(int fd, t_map *map)
 		return (NULL);
 	}
 	i = 0;
-	token = strtok((char *)line, " "); /* TODO: add to libft */
+	token = strtok((char *)line, " \n"); /* TODO: add to libft */
 	while (i < map->cols)
 	{
 		ft_dprintf(STDERR_FILENO, "%d ", ft_atoi(token));
 		points[i++].elevation = ft_atoi(token);
-		token = strtok(NULL, " ");
+		token = strtok(NULL, " \n");
 	}
 	ft_memdel((void**)&line);
 	return (points);
@@ -124,11 +115,11 @@ static size_t	count_words_in_line(const char *line)
 	words = 0;
 	while (*line)
 	{
-		while (*line == ' ')
+		while (*line && ft_isspace(*line))
 			line++;
-		if (*line)
+		if (*line && !ft_isspace(*line))
 			words++;
-		while (*line && *line != ' ')
+		while (*line && !ft_isspace(*line))
 			line++;
 	}
 	return (words);

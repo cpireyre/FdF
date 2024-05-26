@@ -15,16 +15,17 @@
 int	main(int argc, char **argv)
 {
 	int		i;
-	t_map	*map;
+	int		err;
+	t_map	map;
 
 	i = 1;
 	while (i < argc)
 	{
-		map = build_map_from_file(argv[i]);
-		if (map)
+		err = build_map_from_file(argv[i], &map);
+		if (!err)
 		{
-			render(map);
-			free_map(map);
+			render(&map);
+			free_map(&map);
 		}
 		i++;
 	}
