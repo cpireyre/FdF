@@ -24,7 +24,7 @@ int	main(int argc, char **argv)
 		err = build_map_from_file(argv[i], &map);
 		if (!err)
 		{
-			render(&map);
+			render(&map, argv[i]);
 			free_map(&map);
 		}
 		i++;

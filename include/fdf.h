@@ -17,6 +17,6 @@
 # include "t_map.h"
 
 int		build_map_from_file(const char *path, t_map *map);
-int		render(t_map *map);
+int		render(t_map *map, const char *name);
 
 #endif

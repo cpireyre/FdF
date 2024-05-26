@@ -18,7 +18,7 @@ bin 		:= FdF
 src_dir 	:= ./src
 obj_dir 	:= ./obj
 inc_dir		:= ./include
-sources 	:= main.c render.c build_map.c free_map.c
+sources 	:= main.c render.c build_map.c free_map.c project.c
 objects 	:= $(sources:%.c=$(obj_dir)/%.o)
 libft_dir	:= ./libft
 libmlx_dir	:= ./MLX42
