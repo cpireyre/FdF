@@ -1,7 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   project.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/05/27 13:21:31 by copireyr          #+#    #+#             */
+/*   Updated: 2024/05/27 13:21:32 by copireyr         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "t_map.h"
 #include <math.h>
 
-static t_point	project_point(t_point p, t_projection *param, size_t x, size_t y);
+static t_point	project_point(t_point p, t_projection *s, size_t x, size_t y);
+
 void	project(t_map *map, t_projection *param)
 {
 	size_t	i;
@@ -22,15 +35,15 @@ void	project(t_map *map, t_projection *param)
 	}
 }
 
-static t_point	project_point(t_point p, t_projection *param, size_t x, size_t y)
+static t_point	project_point(t_point p, t_projection *s, size_t x, size_t y)
 {
 	t_point	pro;
-    double	cos_45 = cos(45);
-    double	sin_45 = sin(45);
+	double	iso_x;
+	double	iso_y;
 
-    double isoX = (x - y) * cos_45;
-    double isoY = (x + y) * sin_45 / 2 - p.elevation;
-    pro.pixelX = param->offset_x + (unsigned int)(param->scale * isoX);
-    pro.pixelY = param->offset_y + (unsigned int)(param->scale * isoY);
+	iso_x = (x - y) * cos(45);
+	iso_y = (x + y) * sin(45) / 2 - p.elevation;
+	pro.pixelX = s->offset_x + (unsigned int)(s->scale * iso_x);
+	pro.pixelY = s->offset_y + (unsigned int)(s->scale * iso_y);
 	return (pro);
 }

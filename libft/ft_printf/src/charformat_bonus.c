@@ -6,14 +6,14 @@
 /*   By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 13:01:06 by copireyr          #+#    #+#             */
-/*   Updated: 2024/05/08 13:13:10 by copireyr         ###   ########.fr       */
+/*   Updated: 2024/05/27 13:30:14 by copireyr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf/emit.h"
 #include "ft_printf/parse_format.h"
 
-void	ft_bzero(void *s, size_t n);
+void					ft_bzero(void *s, size_t n);
 static t_format_output	charformat_bonus(t_spec s, int c);
 static void				emit_char_with_format(t_emitter *e, t_format_output o);
 

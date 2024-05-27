@@ -6,15 +6,14 @@
 /*   By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 11:43:04 by copireyr          #+#    #+#             */
-/*   Updated: 2024/05/25 16:37:07 by copireyr         ###   ########.fr       */
+/*   Updated: 2024/05/27 13:25:06 by copireyr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "MLX42/MLX42.h"
 #include "libft.h"
 #include "t_map.h"
-# define WIDTH 800
-# define HEIGHT 800
+#include "config.h"
 
 static void	key_hooks(mlx_key_data_t key_data, void *param);
 static void	draw_points(mlx_image_t *img, t_map *map);
@@ -23,7 +22,7 @@ int	render(t_map *map, const char *name)
 {
 	mlx_t			*mlx;
 	t_projection	param;
-	mlx_image_t	*img;
+	mlx_image_t		*img;
 
 	mlx_set_setting(MLX_HEADLESS, false);
 	mlx = mlx_init(WIDTH, HEIGHT, name, true);
@@ -38,11 +37,8 @@ int	render(t_map *map, const char *name)
 	}
 	if (mlx_image_to_window(mlx, img, 0, 0) < 0)
 		return (1);
-	ft_memset(img->pixels, 255, img->width * img->height * sizeof(int32_t));
-	param.scale = 30;
-	param.angle = (float)0.70710678118;
-	param.offset_x = WIDTH / 3;
-	param.offset_y = HEIGHT / 3;
+	ft_memset(img->pixels, 0, img->width * img->height * sizeof(int32_t));
+	param = init_projection();
 	project(map, &param);
 	draw_points(img, map);
 	mlx_loop(mlx);
@@ -74,4 +70,15 @@ static void	draw_points(mlx_image_t *img, t_map *map)
 		}
 		i++;
 	}
+}
+
+static t_projection	init_projection(void)
+{
+	t_projection	param;
+
+	param.scale = 30;
+	param.angle = (float)0.70710678118;
+	param.offset_x = WIDTH / 3;
+	param.offset_y = HEIGHT / 3;
+	return (param);
 }

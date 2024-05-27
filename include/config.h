@@ -1,29 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   config.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/15 12:52:30 by copireyr          #+#    #+#             */
-/*   Updated: 2024/05/27 13:30:49 by copireyr         ###   ########.fr       */
+/*   Created: 2024/05/27 13:23:27 by copireyr          #+#    #+#             */
+/*   Updated: 2024/05/27 13:23:28 by copireyr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+#ifndef CONFIG_H
+# define CONFIG_H
 
-# ifndef BUFFER_SIZE
-#  define BUFFER_SIZE	500
-# endif
+# define WIDTH 800
+# define HEIGHT 800
 
-# include <stdlib.h>
-# include <unistd.h>
-
-size_t	ft_strlen(const char *str);
-char	*ft_strchr(const char *s, int c);
-char	*ft_strcat(char *dst, const char *src);
-char	*ft_strndup(const char *src, size_t n);
-void	*ft_memmove(void *dst, const void *src, size_t len);
-
-#endif
+#endif /* CONFIG_H */

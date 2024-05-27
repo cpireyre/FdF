@@ -1,24 +1,36 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   t_map.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/05/27 13:31:32 by copireyr          #+#    #+#             */
+/*   Updated: 2024/05/27 13:34:38 by copireyr         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef T_MAP_H
 # define T_MAP_H
 
-#include <stddef.h>
+# include <stddef.h>
 
-typedef struct
+typedef struct s_point
 {
-    int				elevation;
-    unsigned int	pixelX;
-    unsigned int	pixelY;
-    unsigned int	color;
-}	t_point;
+	int				elevation;
+	unsigned int	pixel_x;
+	unsigned int	pixel_y;
+	unsigned int	color;
+}					t_point;
 
-typedef struct
+typedef struct s_map
 {
-    t_point	**points;
-    size_t	rows;
-    size_t	cols;
+	t_point	**points;
+	size_t	rows;
+	size_t	cols;
 }	t_map;
 
-typedef struct
+typedef struct s_projection
 {
 	float			scale;
 	float			angle;

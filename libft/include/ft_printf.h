@@ -6,7 +6,7 @@
 /*   By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 14:50:58 by copireyr          #+#    #+#             */
-/*   Updated: 2024/05/20 10:08:03 by copireyr         ###   ########.fr       */
+/*   Updated: 2024/05/27 11:49:16 by copireyr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include <stdarg.h>
 # include <stddef.h>
+# include <stdint.h>
 # include "./ft_printf/parse_format.h"
 # include "./ft_printf/format_bonus.h"
 # include "./ft_printf/emit.h"

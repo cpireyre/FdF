@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   build_map.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/05/27 13:16:52 by copireyr          #+#    #+#             */
+/*   Updated: 2024/05/27 13:17:57 by copireyr         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <fcntl.h>
 #include <unistd.h>
 #include <stdlib.h>
@@ -68,18 +80,18 @@ static t_point	*tokenize(int fd, t_map *map)
 	points = malloc(sizeof(t_point) * map->cols);
 	if (!points)
 	{
-		ft_memdel((void**)&line);
+		ft_memdel((void **)&line);
 		return (NULL);
 	}
 	i = 0;
-	token = strtok((char *)line, " \n"); /* TODO: add to libft */
+	token = strtok((char *)line, " \n");
 	while (i < map->cols)
 	{
 		ft_dprintf(STDERR_FILENO, "%d ", ft_atoi(token));
 		points[i++].elevation = ft_atoi(token);
 		token = strtok(NULL, " \n");
 	}
-	ft_memdel((void**)&line);
+	ft_memdel((void **)&line);
 	return (points);
 }
 
@@ -97,7 +109,7 @@ static ssize_t	count_lines_in_file(const char *path)
 	while (1)
 	{
 		ret = ft_gnl(fd, &line);
-		ft_memdel((void**)&line);
+		ft_memdel((void **)&line);
 		if (ret == 0 || ret == -1)
 			break ;
 		num_lines++;

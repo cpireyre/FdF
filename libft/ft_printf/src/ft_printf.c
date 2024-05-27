@@ -6,7 +6,7 @@
 /*   By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 12:42:20 by copireyr          #+#    #+#             */
-/*   Updated: 2024/05/20 10:08:15 by copireyr         ###   ########.fr       */
+/*   Updated: 2024/05/27 13:29:02 by copireyr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,30 +17,28 @@ static void	convert(t_emitter *e, t_spec s, va_list *ap);
 
 static int	ft_vdprintf(int fd, const char *format, va_list ap)
 {
-	t_spec		spec;
 	t_emitter	e;
+	va_list		copy;
 
+	va_copy(copy, ap);
 	ft_bzero(&e, sizeof(e));
 	e.fd = fd;
 	while (*format)
 	{
 		if (*format == '%')
 		{
-			ft_bzero(&spec, sizeof(spec));
-			spec = parse_format(++format);
-			convert(&e, spec, &ap);
+			convert(&e, parse_format(++format), &copy);
 			while (*format && !ft_strchr(CONVERSIONS, *format))
 				format++;
 		}
 		else
-		{
 			emit_char(&e, *format);
-		}
 		if (*format)
 			format++;
 	}
 	if (e.idx && e.written != -1)
 		emit_flush(&e);
+	va_end(copy);
 	return ((int)e.written);
 }
 
