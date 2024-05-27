@@ -6,7 +6,7 @@
 /*   By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 13:21:31 by copireyr          #+#    #+#             */
-/*   Updated: 2024/05/27 13:21:32 by copireyr         ###   ########.fr       */
+/*   Updated: 2024/05/27 13:37:26 by copireyr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static t_point	project_point(t_point p, t_projection *s, size_t x, size_t y)
 
 	iso_x = (x - y) * cos(45);
 	iso_y = (x + y) * sin(45) / 2 - p.elevation;
-	pro.pixelX = s->offset_x + (unsigned int)(s->scale * iso_x);
-	pro.pixelY = s->offset_y + (unsigned int)(s->scale * iso_y);
+	pro.pixel_x = s->offset_x + (unsigned int)(s->scale * iso_x);
+	pro.pixel_y = s->offset_y + (unsigned int)(s->scale * iso_y);
 	return (pro);
 }

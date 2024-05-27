@@ -6,7 +6,7 @@
 /*   By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 11:43:04 by copireyr          #+#    #+#             */
-/*   Updated: 2024/05/27 13:25:06 by copireyr         ###   ########.fr       */
+/*   Updated: 2024/05/27 13:41:43 by copireyr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,9 @@
 #include "t_map.h"
 #include "config.h"
 
-static void	key_hooks(mlx_key_data_t key_data, void *param);
-static void	draw_points(mlx_image_t *img, t_map *map);
+static void			key_hooks(mlx_key_data_t key_data, void *param);
+static void			draw_points(mlx_image_t *img, t_map *map);
+static t_projection	init_projection(void);
 
 int	render(t_map *map, const char *name)
 {
@@ -35,12 +36,12 @@ int	render(t_map *map, const char *name)
 		ft_printf("Uh oh no image");
 		return (1);
 	}
-	if (mlx_image_to_window(mlx, img, 0, 0) < 0)
-		return (1);
 	ft_memset(img->pixels, 0, img->width * img->height * sizeof(int32_t));
 	param = init_projection();
 	project(map, &param);
 	draw_points(img, map);
+	if (mlx_image_to_window(mlx, img, 0, 0) < 0)
+		return (1);
 	mlx_loop(mlx);
 	mlx_terminate(mlx);
 	return (MLX_SUCCESS);
@@ -65,7 +66,7 @@ static void	draw_points(mlx_image_t *img, t_map *map)
 		while (j < map->cols)
 		{
 			curr = map->points[i][j];
-			mlx_put_pixel(img, curr.pixelX, curr.pixelY, 255);
+			mlx_put_pixel(img, curr.pixel_x, curr.pixel_y, 255);
 			j++;
 		}
 		i++;
