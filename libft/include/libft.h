@@ -6,7 +6,7 @@
 /*   By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 12:48:12 by copireyr          #+#    #+#             */
-/*   Updated: 2024/05/20 10:13:37 by copireyr         ###   ########.fr       */
+/*   Updated: 2024/05/28 11:04:14 by copireyr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include <stddef.h>
 # include <sys/types.h>
+# include "arena.h"
 
 /* Mem */
 

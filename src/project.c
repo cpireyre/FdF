@@ -6,19 +6,19 @@
 /*   By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 13:21:31 by copireyr          #+#    #+#             */
-/*   Updated: 2024/05/27 13:37:26 by copireyr         ###   ########.fr       */
+/*   Updated: 2024/05/28 11:09:46 by copireyr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "t_map.h"
 #include <math.h>
 
-static t_point	project_point(t_point p, t_projection *s, size_t x, size_t y);
+static t_point	project_point(t_point p, t_projection *s, int x, int y);
 
 void	project(t_map *map, t_projection *param)
 {
-	size_t	i;
-	size_t	j;
+	int		i;
+	int		j;
 	t_point	curr;
 
 	i = 0;
@@ -35,7 +35,7 @@ void	project(t_map *map, t_projection *param)
 	}
 }
 
-static t_point	project_point(t_point p, t_projection *s, size_t x, size_t y)
+static t_point	project_point(t_point p, t_projection *s, int x, int y)
 {
 	t_point	pro;
 	double	iso_x;

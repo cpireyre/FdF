@@ -6,7 +6,7 @@
 /*   By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 13:31:32 by copireyr          #+#    #+#             */
-/*   Updated: 2024/05/27 13:34:38 by copireyr         ###   ########.fr       */
+/*   Updated: 2024/05/28 11:05:13 by copireyr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@ typedef struct s_point
 typedef struct s_map
 {
 	t_point	**points;
-	size_t	rows;
-	size_t	cols;
+	int		rows;
+	int		cols;
 }	t_map;
 
 typedef struct s_projection

@@ -6,7 +6,7 @@
 /*   By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 13:16:52 by copireyr          #+#    #+#             */
-/*   Updated: 2024/05/27 13:17:57 by copireyr         ###   ########.fr       */
+/*   Updated: 2024/05/28 11:25:54 by copireyr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,59 +17,56 @@
 #include "t_map.h"
 #include "libft.h"
 
-static ssize_t	count_lines_in_file(const char *path);
-static t_point	**parse_file(int fd, t_map *map);
-static t_point	*tokenize(int fd, t_map *map);
-static size_t	count_words_in_line(const char *line);
+static int		count_lines_in_file(const char *path);
+static t_point	**parse_file(int fd, t_map *map, t_arena a);
+static t_point	*tokenize(int fd, t_map *map, t_arena a);
+static int		count_words_in_line(const char *line);
 
-int	build_map_from_file(const char *path, t_map *map)
+int	build_map_from_file(const char *path, t_map *map, t_arena a)
 {
 	int		fd;
-	ssize_t	num_lines;
+	int		num_lines;
 
 	num_lines = count_lines_in_file(path);
 	if (num_lines < 1 || num_lines > 1000)
 		return (ft_error(NULL, path));
-	map->rows = (size_t)num_lines;
+	map->rows = num_lines;
 	fd = open(path, O_RDONLY);
 	if (fd == -1)
 		return (ft_error(NULL, path));
-	map->points = parse_file(fd, map);
+	map->points = parse_file(fd, map, a);
 	if (!map->points)
 		return (ft_error(NULL, "Bad map"));
 	close(fd);
 	return (0);
 }
 
-static t_point	**parse_file(int fd, t_map *map)
+static t_point	**parse_file(int fd, t_map *map, t_arena a)
 {
-	size_t	i;
-	size_t	cols;
+	int	i;
+	int	cols;
 
-	map->points = malloc(map->rows * sizeof(t_point *));
+	map->points = arena_calloc(a, (size_t)map->rows, sizeof(t_point *));
 	if (!map->points)
 		return (NULL);
 	i = 0;
 	cols = 0;
 	while (i < map->rows)
 	{
-		map->points[i] = tokenize(fd, map);
+		map->points[i] = tokenize(fd, map, a);
 		ft_dprintf(STDERR_FILENO, "\n");
 		if (!cols)
 			cols = map->cols;
 		if (cols != map->cols || !map->points[i])
-		{
-			free_map(map);
 			return (NULL);
-		}
 		i++;
 	}
 	return (map->points);
 }
 
-static t_point	*tokenize(int fd, t_map *map)
+static t_point	*tokenize(int fd, t_map *map, t_arena a)
 {
-	size_t	i;
+	int		i;
 	char	*line;
 	char	*token;
 	t_point	*points;
@@ -77,7 +74,7 @@ static t_point	*tokenize(int fd, t_map *map)
 	if (ft_gnl(fd, &line) == -1)
 		return (NULL);
 	map->cols = count_words_in_line(line);
-	points = malloc(sizeof(t_point) * map->cols);
+	points = arena_calloc(a, (size_t)map->cols, sizeof(t_point));
 	if (!points)
 	{
 		ft_memdel((void **)&line);
@@ -95,12 +92,12 @@ static t_point	*tokenize(int fd, t_map *map)
 	return (points);
 }
 
-static ssize_t	count_lines_in_file(const char *path)
+static int	count_lines_in_file(const char *path)
 {
 	int		fd;
 	ssize_t	ret;
 	char	*line;
-	ssize_t	num_lines;
+	int		num_lines;
 
 	fd = open(path, O_RDONLY);
 	if (fd == -1)
@@ -120,9 +117,9 @@ static ssize_t	count_lines_in_file(const char *path)
 	return (num_lines);
 }
 
-static size_t	count_words_in_line(const char *line)
+static int	count_words_in_line(const char *line)
 {
-	size_t	words;
+	int	words;
 
 	words = 0;
 	while (*line)
