@@ -6,7 +6,7 @@
 /*   By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 13:31:32 by copireyr          #+#    #+#             */
-/*   Updated: 2024/05/28 11:05:13 by copireyr         ###   ########.fr       */
+/*   Updated: 2024/05/28 11:29:49 by copireyr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ typedef struct s_projection
 	unsigned int	offset_y;
 }	t_projection;
 
-void	free_map(t_map *map);
 void	project(t_map *map, t_projection *param);
 
 #endif /* T_MAP_H */
