@@ -6,13 +6,14 @@
 /*   By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 13:31:32 by copireyr          #+#    #+#             */
-/*   Updated: 2024/05/28 11:29:49 by copireyr         ###   ########.fr       */
+/*   Updated: 2024/05/28 15:05:12 by copireyr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef T_MAP_H
 # define T_MAP_H
 
+# include "MLX42/MLX42.h"
 # include <stddef.h>
 
 typedef struct s_point
@@ -37,6 +38,14 @@ typedef struct s_projection
 	unsigned int	offset_x;
 	unsigned int	offset_y;
 }	t_projection;
+
+struct s_ptr
+{
+	mlx_t			*mlx;
+	mlx_image_t		*img;
+	t_map			*map;
+	t_projection	*param;
+};
 
 void	project(t_map *map, t_projection *param);
 
