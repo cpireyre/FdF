@@ -6,7 +6,7 @@
 /*   By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 11:43:04 by copireyr          #+#    #+#             */
-/*   Updated: 2024/05/28 15:35:42 by copireyr         ###   ########.fr       */
+/*   Updated: 2024/06/10 16:58:19 by copireyr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 #include "t_map.h"
 #include "config.h"
 #include <string.h>
+#include <stdio.h>
 
-static void			key_hooks(void *p);
+static void			loop_hook(void *param);
 static void			draw_points(mlx_image_t *img, t_map *map);
 static t_projection	init_projection(void);
-static void			actual_render(void *ptr);
 
 int	render(t_map *map, const char *name)
 {
@@ -33,56 +33,43 @@ int	render(t_map *map, const char *name)
 		return (1);
 	img = mlx_new_image(mlx, WIDTH, HEIGHT);
 	param = init_projection();
-	project(map, &param);
-	draw_points(img, map);
 	if (mlx_image_to_window(mlx, img, 0, 0) < 0)
 		return (1);
 	p.mlx = mlx;
 	p.img = img;
 	p.map = map;
 	p.param = &param;
-	mlx_loop_hook(mlx, &key_hooks, &p);
+	mlx_loop_hook(mlx, &loop_hook, &p);
 	mlx_loop(mlx);
 	mlx_terminate(mlx);
-	(void)actual_render;
 	return (MLX_SUCCESS);
 }
 
-static void	actual_render(void *ptr)
+static void	loop_hook(void *param)
 {
 	struct s_ptr	*p;
 
-	p = (struct s_ptr *)ptr;
-}
-
-static void	key_hooks(void *ptr)
-{
-	struct s_ptr	*p;
-
-	p = (struct s_ptr *)ptr;
-	if (mlx_is_key_down(p->mlx, MLX_KEY_H))
-		p->param->offset_x -= 1;
-	if (mlx_is_key_down(p->mlx, MLX_KEY_L))
-		p->param->offset_x += 1;
-	if (mlx_is_key_down(p->mlx, MLX_KEY_J))
-		p->param->offset_y += 1;
-	if (mlx_is_key_down(p->mlx, MLX_KEY_K))
-		p->param->offset_y -= 1;
-	if (mlx_is_key_down(p->mlx, MLX_KEY_K)
-		&& mlx_is_key_down(p->mlx, MLX_KEY_LEFT_SHIFT))
+	p = (struct s_ptr *)param;
+	if (!mlx_is_key_down(p->mlx, MLX_KEY_LEFT_SHIFT)
+		&& !mlx_is_key_down(p->mlx, MLX_KEY_RIGHT_SHIFT))
 	{
-		p->param->scale += 1;
+		p->param->offset_x -= 5 * mlx_is_key_down(p->mlx, MLX_KEY_A);
+		p->param->offset_x += 5 *  mlx_is_key_down(p->mlx, MLX_KEY_D);
+		p->param->offset_y -= 5 * mlx_is_key_down(p->mlx, MLX_KEY_W);
+		p->param->offset_y += 5 * mlx_is_key_down(p->mlx, MLX_KEY_S);
 	}
-	if (mlx_is_key_down(p->mlx, MLX_KEY_J)
-		&& mlx_is_key_down(p->mlx, MLX_KEY_LEFT_SHIFT))
+	else
 	{
-		p->param->scale -= 1;
-		if (p->param->scale == 0)
-			p->param->scale = 1;
+		p->param->angle -= 0.1F * mlx_is_key_down(p->mlx, MLX_KEY_A);
+		p->param->angle += 0.1F * mlx_is_key_down(p->mlx, MLX_KEY_D);
+		p->param->scale -= 2 * mlx_is_key_down(p->mlx, MLX_KEY_W);
+		p->param->scale += 2 * mlx_is_key_down(p->mlx, MLX_KEY_S);
+		printf("Angle: %g\n", p->param->angle);
+		if (p->param->scale < 0)
+			p->param->scale = 0;
 	}
 	project(p->map, p->param);
 	draw_points(p->img, p->map);
-	mlx_image_to_window(p->mlx, p->img, 0, 0);
 	if (mlx_is_key_down(p->mlx, MLX_KEY_ESCAPE))
 		mlx_close_window(p->mlx);
 }
@@ -98,23 +85,19 @@ static void	draw_points(mlx_image_t *img, t_map *map)
 	{
 		j = 0;
 		while ((uint32_t)j < img->height)
-		{
-			mlx_put_pixel(img, (uint32_t)i, (uint32_t)j, 0x000000ff);
-			j++;
-		}
+			mlx_put_pixel(img, (uint32_t)i, (uint32_t)j++, 0x000000ff);
 		i++;
 	}
 	i = 0;
 	while (i < map->rows)
 	{
-		j = 0;
-		while (j < map->cols)
+		j = -1;
+		while (++j < map->cols)
 		{
 			curr = map->points[i][j];
 			if (0 <= curr.pixel_x && curr.pixel_x < img->width
 				&& 0 <= curr.pixel_y && curr.pixel_y < img->height)
 				mlx_put_pixel(img, curr.pixel_x, curr.pixel_y, 0xffffffff);
-			j++;
 		}
 		i++;
 	}
@@ -125,7 +108,7 @@ static t_projection	init_projection(void)
 	t_projection	param;
 
 	param.scale = 30;
-	param.angle = 45;
+	param.angle = 2.3F;
 	param.offset_x = WIDTH / 3;
 	param.offset_y = HEIGHT / 3;
 	return (param);

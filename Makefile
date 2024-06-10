@@ -6,7 +6,7 @@
 #    By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/23 09:17:29 by copireyr          #+#    #+#              #
-#    Updated: 2024/05/28 14:57:48 by copireyr         ###   ########.fr        #
+#    Updated: 2024/06/06 13:38:36 by copireyr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,7 @@ libft		:= $(libft_dir)/libft.a
 libmlx 		:= $(libmlx_dir)/build/libmlx42.a
 
 CC			:= clang
-CFLAGS		:= -Wconversion -O2 #-std=c89
+CFLAGS		:= -Wconversion -Ofast #-std=c89
 CFLAGS		+= -Wall -Wextra -Werror -MMD -MP -pedantic
 LDFLAGS		:= -L$(libft_dir) -lft -L$(libmlx_dir)/build -lmlx42
 LDFLAGS		+= -framework Cocoa -framework OpenGL -framework IOKit
