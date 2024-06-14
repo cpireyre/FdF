@@ -6,7 +6,7 @@
 #    By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/23 09:17:29 by copireyr          #+#    #+#              #
-#    Updated: 2024/06/14 10:10:55 by copireyr         ###   ########.fr        #
+#    Updated: 2024/06/14 12:57:35 by copireyr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,6 +15,7 @@
 .SUFFIXES:
 
 bin 		:= FdF
+link		:= fdf
 src_dir 	:= ./src
 obj_dir 	:= ./obj
 inc_dir		:= ./include
@@ -54,6 +55,7 @@ $(bin): $(libmlx) $(libft) $(objects)
 
 .PHONY: all
 all: $(bin) | norm
+	ln -sf $(bin) $(link)
 
 .PHONY: bonus
 bonus: $(bin)
@@ -67,7 +69,7 @@ clean:
 
 .PHONY: fclean
 fclean: clean
-	$(RM) $(bin)
+	$(RM) $(bin) $(link)
 	$(RM) -r $(libmlx_dir)/build
 	@$(MAKE) -C $(libft_dir) fclean
 
@@ -83,6 +85,8 @@ debug: re
 .PHONY: run
 run: $(bin)
 	./$(bin) ./test_maps/42.fdf
+.PHONY: r
+r: run
 
 leaks_flags := -g3
 .PHONY: leaks

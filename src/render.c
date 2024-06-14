@@ -6,7 +6,7 @@
 /*   By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 11:43:04 by copireyr          #+#    #+#             */
-/*   Updated: 2024/06/14 10:17:13 by copireyr         ###   ########.fr       */
+/*   Updated: 2024/06/14 10:21:34 by copireyr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,19 +25,19 @@ int	render(t_map *map, const char *name)
 	struct s_ptr	p;
 
 	mlx_set_setting(MLX_HEADLESS, false);
-	mlx = mlx_init(WIDTH, HEIGHT, name, false);
+	mlx = mlx_init(WIN_WIDTH, WIN_HEIGHT, name, false);
 	if (!mlx)
 		return (1);
-	img = mlx_new_image(mlx, WIDTH, HEIGHT);
+	img = mlx_new_image(mlx, WIN_WIDTH, WIN_HEIGHT);
 	if (mlx_image_to_window(mlx, img, 0, 0) < 0)
 		return (1);
 	p.mlx = mlx;
 	p.img = img;
 	p.map = map;
-	p.param.scale = 30;
+	p.param.scale = 40;
 	p.param.angle = 2.3F;
-	p.param.offset_x = WIDTH / 3;
-	p.param.offset_y = HEIGHT / 3;
+	p.param.offset_x = WIN_WIDTH / 3;
+	p.param.offset_y = WIN_HEIGHT / 2;
 	mlx_loop_hook(mlx, &loop_hook, &p);
 	mlx_loop(mlx);
 	mlx_terminate(mlx);
