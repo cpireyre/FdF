@@ -6,7 +6,7 @@
 #    By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/23 09:17:29 by copireyr          #+#    #+#              #
-#    Updated: 2024/06/06 13:38:36 by copireyr         ###   ########.fr        #
+#    Updated: 2024/06/14 09:48:16 by copireyr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,8 +29,10 @@ CC			:= clang
 CFLAGS		:= -Wconversion -Ofast #-std=c89
 CFLAGS		+= -Wall -Wextra -Werror -MMD -MP -pedantic
 LDFLAGS		:= -L$(libft_dir) -lft -L$(libmlx_dir)/build -lmlx42
-LDFLAGS		+= -framework Cocoa -framework OpenGL -framework IOKit
-LDFLAGS		+= -ldl -lglfw -pthread -lm
+# TODO add platform conditional
+#LDFLAGS		+= -framework Cocoa -framework OpenGL -framework IOKit
+#LDFLAGS		+= -ldl -lglfw -pthread -lm
+LDFLAGS += -Iinclude -ldl -lglfw -pthread -lm
 CPPFLAGS	:= -I$(inc_dir) -I$(libft_dir)/include -I$(libmlx_dir)/include
 cmakeflags	:= -DCMAKE_C_FLAGS="-Wno-int-to-void-pointer-cast"
 
@@ -46,7 +48,7 @@ $(libmlx):
 	cmake $(cmakeflags) $(libmlx_dir) -B $(libmlx_dir)/build > /dev/null
 	$(MAKE) -j4 -C $(libmlx_dir)/build > /dev/null
 
-glfw_path := "$(shell brew --cellar)/glfw/3.4/lib"
+#glfw_path := "$(shell brew --cellar)/glfw/3.4/lib"
 $(bin): $(libmlx) $(libft) $(objects)
 	LIBRARY_PATH=$(glfw_path) $(CC) $(objects) $(LDFLAGS) -o $@
 
