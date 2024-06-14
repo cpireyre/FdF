@@ -6,7 +6,7 @@
 /*   By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 11:43:04 by copireyr          #+#    #+#             */
-/*   Updated: 2024/06/10 16:58:19 by copireyr         ###   ########.fr       */
+/*   Updated: 2024/06/14 09:36:57 by copireyr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static void	loop_hook(void *param)
 		&& !mlx_is_key_down(p->mlx, MLX_KEY_RIGHT_SHIFT))
 	{
 		p->param->offset_x -= 5 * mlx_is_key_down(p->mlx, MLX_KEY_A);
-		p->param->offset_x += 5 *  mlx_is_key_down(p->mlx, MLX_KEY_D);
+		p->param->offset_x += 5 * mlx_is_key_down(p->mlx, MLX_KEY_D);
 		p->param->offset_y -= 5 * mlx_is_key_down(p->mlx, MLX_KEY_W);
 		p->param->offset_y += 5 * mlx_is_key_down(p->mlx, MLX_KEY_S);
 	}

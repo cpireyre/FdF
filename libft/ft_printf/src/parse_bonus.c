@@ -6,7 +6,7 @@
 /*   By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 14:55:30 by copireyr          #+#    #+#             */
-/*   Updated: 2024/05/06 15:10:33 by copireyr         ###   ########.fr       */
+/*   Updated: 2024/06/14 09:47:20 by copireyr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,8 @@ static t_flags	read_flags(const char *format)
 		if ('1' <= *format && *format <= '9')
 			ignore_zero = 1;
 		flags.alternate_form |= *format == '#';
-		flags.pad_with_zeros |= *format == '0' && !ignore_zero;
+		if (*format == '0' && !ignore_zero)
+			flags.pad_with_zeros |= 1;
 		flags.pad_right |= *format == '-';
 		flags.add_blank |= *format == ' ';
 		flags.show_sign |= *format == '+';

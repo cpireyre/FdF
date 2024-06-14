@@ -6,7 +6,7 @@
 /*   By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 12:26:43 by copireyr          #+#    #+#             */
-/*   Updated: 2024/04/23 13:38:13 by copireyr         ###   ########.fr       */
+/*   Updated: 2024/06/14 09:45:39 by copireyr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ int	ft_atoi(const char *str)
 	while (ft_isspace(*str))
 		str++;
 	sign = (*str != '-') - (*str == '-');
-	str += *str == '-' || *str == '+';
+	if (*str == '-' || *str == '+')
+		str++;
 	nbr = 0;
 	while ('0' <= *str && *str <= '9')
 		nbr = nbr * 10 + *str++ - '0';
