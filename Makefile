@@ -6,7 +6,7 @@
 #    By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/23 09:17:29 by copireyr          #+#    #+#              #
-#    Updated: 2024/06/14 09:48:16 by copireyr         ###   ########.fr        #
+#    Updated: 2024/06/14 10:10:55 by copireyr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ bin 		:= FdF
 src_dir 	:= ./src
 obj_dir 	:= ./obj
 inc_dir		:= ./include
-sources 	:= main.c render.c build_map.c project.c
+sources 	:= main.c render.c build_map.c project.c move.c draw.c
 objects 	:= $(sources:%.c=$(obj_dir)/%.o)
 libft_dir	:= ./libft
 libmlx_dir	:= ./MLX42

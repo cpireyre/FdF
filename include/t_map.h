@@ -6,7 +6,7 @@
 /*   By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 13:31:32 by copireyr          #+#    #+#             */
-/*   Updated: 2024/05/28 15:05:12 by copireyr         ###   ########.fr       */
+/*   Updated: 2024/06/14 10:15:56 by copireyr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ struct s_ptr
 	mlx_t			*mlx;
 	mlx_image_t		*img;
 	t_map			*map;
-	t_projection	*param;
+	t_projection	param;
 };
 
 void	project(t_map *map, t_projection *param);
