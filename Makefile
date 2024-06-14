@@ -6,7 +6,7 @@
 #    By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/23 09:17:29 by copireyr          #+#    #+#              #
-#    Updated: 2024/06/14 12:57:35 by copireyr         ###   ########.fr        #
+#    Updated: 2024/06/14 13:16:03 by copireyr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,8 +14,7 @@
 .DELETE_ON_ERROR:
 .SUFFIXES:
 
-bin 		:= FdF
-link		:= fdf
+bin 		:= fdf
 src_dir 	:= ./src
 obj_dir 	:= ./obj
 inc_dir		:= ./include
@@ -27,7 +26,7 @@ libft		:= $(libft_dir)/libft.a
 libmlx 		:= $(libmlx_dir)/build/libmlx42.a
 
 CC			:= clang
-CFLAGS		:= -Wconversion -Ofast #-std=c89
+CFLAGS		:= -Wconversion -Ofast -fPIE -fPIC #-std=c89
 CFLAGS		+= -Wall -Wextra -Werror -MMD -MP -pedantic
 LDFLAGS		:= -L$(libft_dir) -lft -L$(libmlx_dir)/build -lmlx42
 # TODO add platform conditional
@@ -43,11 +42,11 @@ $(obj_dir)/%.o: $(src_dir)/%.c Makefile
 	$(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $@
 
 $(libft):
-	CFLAGS="$(CFLAGS)" $(MAKE) -j4 -C $(libft_dir)
+	CFLAGS="$(CFLAGS)" $(MAKE) -C $(libft_dir)
 
 $(libmlx):
 	cmake $(cmakeflags) $(libmlx_dir) -B $(libmlx_dir)/build > /dev/null
-	$(MAKE) -j4 -C $(libmlx_dir)/build > /dev/null
+	$(MAKE) -C $(libmlx_dir)/build > /dev/null
 
 #glfw_path := "$(shell brew --cellar)/glfw/3.4/lib"
 $(bin): $(libmlx) $(libft) $(objects)
@@ -55,7 +54,6 @@ $(bin): $(libmlx) $(libft) $(objects)
 
 .PHONY: all
 all: $(bin) | norm
-	ln -sf $(bin) $(link)
 
 .PHONY: bonus
 bonus: $(bin)
@@ -69,7 +67,7 @@ clean:
 
 .PHONY: fclean
 fclean: clean
-	$(RM) $(bin) $(link)
+	$(RM) $(bin)
 	$(RM) -r $(libmlx_dir)/build
 	@$(MAKE) -C $(libft_dir) fclean
 

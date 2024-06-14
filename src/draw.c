@@ -6,7 +6,7 @@
 /*   By: copireyr <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 10:10:25 by copireyr          #+#    #+#             */
-/*   Updated: 2024/06/14 10:13:11 by copireyr         ###   ########.fr       */
+/*   Updated: 2024/06/14 13:07:56 by copireyr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,7 @@ void	draw_points(mlx_image_t *img, t_map *map)
 		while (++j < map->cols)
 		{
 			curr = map->points[i][j];
-			if (0 <= curr.pixel_x && curr.pixel_x < img->width
-				&& 0 <= curr.pixel_y && curr.pixel_y < img->height)
+			if (curr.pixel_x < img->width && curr.pixel_y < img->height)
 				mlx_put_pixel(img, curr.pixel_x, curr.pixel_y, 0xffffffff);
 		}
 		i++;
