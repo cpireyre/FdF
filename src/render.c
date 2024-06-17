@@ -18,6 +18,8 @@ static void	loop_hook(void *param);
 void		move(mlx_t *m, t_projection *param);
 void		draw_points(mlx_image_t *img, t_map *map);
 void		paint_background(mlx_image_t *img, uint32_t bgcolor);
+void drawline(mlx_image_t *img, t_point begin, t_point end);
+static void draw_line_to_cursor(void *ctx);
 
 int	render(t_map *map, const char *name)
 {
@@ -55,6 +57,22 @@ static void	loop_hook(void *ctx)
 	if (!mlx_is_key_down(p->mlx, MLX_KEY_SPACE))
 		paint_background(p->img, 0x000000ff);
 	draw_points(p->img, p->map);
+	draw_line_to_cursor(ctx);
 	if (mlx_is_key_down(p->mlx, MLX_KEY_ESCAPE))
 		mlx_close_window(p->mlx);
+}
+
+static void draw_line_to_cursor(void *ctx)
+{
+	t_point	mouse;
+	struct s_ptr *p;
+	t_point	center;
+
+	p = (struct s_ptr *)ctx;
+	center.pixel_x = WIN_WIDTH / 2;
+	center.pixel_y = WIN_HEIGHT / 2;
+	mlx_get_mouse_pos(p->mlx, (int*)&mouse.pixel_x, (int*)&mouse.pixel_y);
+	if (mouse.pixel_x >= 0 && mouse.pixel_x < WIN_WIDTH
+		&& mouse.pixel_y >= 0 && mouse.pixel_y < WIN_HEIGHT)
+		drawline(p->img, center, mouse);
 }
