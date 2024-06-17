@@ -13,6 +13,7 @@
 .DEFAULT_GOAL := all
 .DELETE_ON_ERROR:
 .SUFFIXES:
+UNAME_S := $(shell uname -s)
 
 bin 		:= fdf
 src_dir 	:= ./src
@@ -26,12 +27,12 @@ libft		:= $(libft_dir)/libft.a
 libmlx 		:= $(libmlx_dir)/build/libmlx42.a
 
 CC			:= clang
-CFLAGS		:= -Wconversion -Ofast -fPIE -fPIC #-std=c89
+CFLAGS		:= -Wconversion
 CFLAGS		+= -Wall -Wextra -Werror -MMD -MP -pedantic
 LDFLAGS		:= -L$(libft_dir) -lft -L$(libmlx_dir)/build -lmlx42
-# TODO add platform conditional
-#LDFLAGS		+= -framework Cocoa -framework OpenGL -framework IOKit
-#LDFLAGS		+= -ldl -lglfw -pthread -lm
+ifeq ($(UNAME_S), Darwin)
+LDFLAGS		+= -framework Cocoa -framework OpenGL -framework IOKit
+endif
 LDFLAGS += -Iinclude -ldl -lglfw -pthread -lm
 CPPFLAGS	:= -I$(inc_dir) -I$(libft_dir)/include -I$(libmlx_dir)/include
 cmakeflags	:= -DCMAKE_C_FLAGS="-Wno-int-to-void-pointer-cast"
@@ -48,7 +49,7 @@ $(libmlx):
 	cmake $(cmakeflags) $(libmlx_dir) -B $(libmlx_dir)/build > /dev/null
 	$(MAKE) -C $(libmlx_dir)/build > /dev/null
 
-#glfw_path := "$(shell brew --cellar)/glfw/3.4/lib"
+glfw_path := $(shell brew --prefix glfw)/lib
 $(bin): $(libmlx) $(libft) $(objects)
 	LIBRARY_PATH=$(glfw_path) $(CC) $(objects) $(LDFLAGS) -o $@
 

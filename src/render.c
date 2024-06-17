@@ -34,8 +34,8 @@ int	render(t_map *map, const char *name)
 	p.mlx = mlx;
 	p.img = img;
 	p.map = map;
-	p.param.scale = 40;
-	p.param.angle = 2.3F;
+	p.param.scale = 10;
+	p.param.angle = 45;
 	p.param.offset_x = WIN_WIDTH / 3;
 	p.param.offset_y = WIN_HEIGHT / 2;
 	mlx_loop_hook(mlx, &loop_hook, &p);

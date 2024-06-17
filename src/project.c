@@ -28,23 +28,28 @@ void	project(t_map *map, t_projection *param)
 		while (j < map->cols)
 		{
 			curr = map->points[i][j];
-			map->points[i][j] = project_point(curr, param, i, j);
+			map->points[i][j] = project_point(curr, param, j, i);
 			j++;
 		}
 		i++;
 	}
 }
 
-static t_point	project_point(t_point p, t_projection *s, int x, int y)
+/* TODO: benchmark using floats and precomputing sin and cos */
+static t_point project_point(t_point p, t_projection *s, int x, int y)
 {
-	t_point	pro;
-	float	iso_x;
-	float	iso_y;
+    t_point pro;
+    double iso_x;
+    double iso_y;
+	double scaled_iso_x;
+	double scaled_iso_y;
 
-	iso_x = (float)((x - y) * cos(s->angle));
-	iso_y = (float)((x + y) * sin(s->angle) / 2 - p.elevation);
-	pro.pixel_x = s->offset_x + (unsigned int)(s->scale * iso_x);
-	pro.pixel_y = s->offset_y + (unsigned int)(s->scale * iso_y);
-	pro.elevation = p.elevation;
-	return (pro);
+    iso_x = (x - y) * cos(s->angle);
+    iso_y = (x + y) * sin(s->angle) - p.elevation;
+    scaled_iso_x = s->scale * iso_x;
+    scaled_iso_y = s->scale * iso_y;
+    pro.pixel_x = (unsigned int)(s->offset_x + round(scaled_iso_x));
+    pro.pixel_y = (unsigned int)(s->offset_y + round(scaled_iso_y));
+    pro.elevation = p.elevation;
+    return (pro);
 }
