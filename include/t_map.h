@@ -19,8 +19,8 @@
 typedef struct s_point
 {
 	int				elevation;
-	unsigned int	pixel_x;
-	unsigned int	pixel_y;
+	int				pixel_x;
+	int				pixel_y;
 	unsigned int	color;
 }					t_point;
 
@@ -33,10 +33,10 @@ typedef struct s_map
 
 typedef struct s_projection
 {
-	float			scale;
-	float			angle;
-	unsigned int	offset_x;
-	unsigned int	offset_y;
+	float	scale;
+	float	angle;
+	int		offset_x;
+	int		offset_y;
 }	t_projection;
 
 struct s_ptr

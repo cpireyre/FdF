@@ -48,8 +48,8 @@ static t_point project_point(t_point p, t_projection *s, int x, int y)
     iso_y = (x + y) * sin(s->angle) - p.elevation;
     scaled_iso_x = s->scale * iso_x;
     scaled_iso_y = s->scale * iso_y;
-    pro.pixel_x = (unsigned int)(s->offset_x + round(scaled_iso_x));
-    pro.pixel_y = (unsigned int)(s->offset_y + round(scaled_iso_y));
+    pro.pixel_x = s->offset_x + (int)round(scaled_iso_x);
+    pro.pixel_y = s->offset_y + (int)round(scaled_iso_y);
     pro.elevation = p.elevation;
     return (pro);
 }

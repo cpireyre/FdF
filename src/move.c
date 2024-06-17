@@ -17,17 +17,17 @@ void	move(mlx_t *m, t_projection *param)
 	if (!mlx_is_key_down(m, MLX_KEY_LEFT_SHIFT)
 		&& !mlx_is_key_down(m, MLX_KEY_RIGHT_SHIFT))
 	{
-		param->offset_x -= 5 * mlx_is_key_down(m, MLX_KEY_A);
-		param->offset_x += 5 * mlx_is_key_down(m, MLX_KEY_D);
 		param->offset_y -= 5 * mlx_is_key_down(m, MLX_KEY_W);
+		param->offset_x -= 5 * mlx_is_key_down(m, MLX_KEY_A);
 		param->offset_y += 5 * mlx_is_key_down(m, MLX_KEY_S);
+		param->offset_x += 5 * mlx_is_key_down(m, MLX_KEY_D);
 	}
 	else
 	{
-		param->angle -= 0.01F * mlx_is_key_down(m, MLX_KEY_A);
-		param->angle += 0.01F * mlx_is_key_down(m, MLX_KEY_D);
 		param->scale -= 1 * mlx_is_key_down(m, MLX_KEY_W);
+		param->angle -= 0.01F * mlx_is_key_down(m, MLX_KEY_A);
 		param->scale += 1 * mlx_is_key_down(m, MLX_KEY_S);
+		param->angle += 0.01F * mlx_is_key_down(m, MLX_KEY_D);
 		if (param->scale < 0)
 			param->scale = 0;
 	}

@@ -45,15 +45,60 @@ int	render(t_map *map, const char *name)
 	return (MLX_SUCCESS);
 }
 
+void	flatten(t_map *map)
+{
+	int				i;
+	int				j;
+
+	i = 0;
+	while (i < map->rows)
+	{
+		j = 0;
+		while (j < map->cols)
+		{
+			if (map->points[i][j].elevation)
+			{
+				map->points[i][j].elevation -= 1;
+				if (map->points[i][j].elevation < 1)
+					map->points[i][j].elevation = 1;
+			}
+			j++;
+		}
+		i++;
+	}
+}
+
+void	grow(t_map *map)
+{
+	int				i;
+	int				j;
+
+	i = 0;
+	while (i < map->rows)
+	{
+		j = 0;
+		while (j < map->cols)
+		{
+			if (map->points[i][j].elevation)
+				map->points[i][j].elevation += 1;
+			j++;
+		}
+		i++;
+	}
+}
+
 static void	loop_hook(void *ctx)
 {
 	struct s_ptr	*p;
 
 	p = (struct s_ptr *)ctx;
+	paint_background(p->img, 0x000000ff);
+	if (mlx_is_key_down(p->mlx, MLX_KEY_DOWN))
+		flatten(p->map);
+	if (mlx_is_key_down(p->mlx, MLX_KEY_UP))
+		grow(p->map);
 	move(p->mlx, &p->param);
 	project(p->map, &p->param);
-	if (!mlx_is_key_down(p->mlx, MLX_KEY_SPACE))
-		paint_background(p->img, 0x000000ff);
 	draw(p->img, p->map);
 	if (mlx_is_key_down(p->mlx, MLX_KEY_ESCAPE))
 		mlx_close_window(p->mlx);
