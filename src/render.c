@@ -17,6 +17,7 @@
 static void	loop_hook(void *param);
 void		move(mlx_t *m, t_projection *param);
 void		draw_points(mlx_image_t *img, t_map *map);
+void		paint_background(mlx_image_t *img, uint32_t bgcolor);
 
 int	render(t_map *map, const char *name)
 {
@@ -51,6 +52,7 @@ static void	loop_hook(void *ctx)
 	p = (struct s_ptr *)ctx;
 	move(p->mlx, &p->param);
 	project(p->map, &p->param);
+	paint_background(p->img, 0x000000ff);
 	draw_points(p->img, p->map);
 	if (mlx_is_key_down(p->mlx, MLX_KEY_ESCAPE))
 		mlx_close_window(p->mlx);

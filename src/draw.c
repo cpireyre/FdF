@@ -12,20 +12,27 @@
 
 #include "t_map.h"
 
-void	draw_points(mlx_image_t *img, t_map *map)
+void	paint_background(mlx_image_t *img, uint32_t bgcolor)
 {
-	int		i;
-	int		j;
-	t_point	curr;
+	int	i;
+	int	j;
 
 	i = 0;
 	while ((uint32_t)i < img->width)
 	{
 		j = 0;
 		while ((uint32_t)j < img->height)
-			mlx_put_pixel(img, (uint32_t)i, (uint32_t)j++, 0x000000ff);
+			mlx_put_pixel(img, (uint32_t)i, (uint32_t)j++, bgcolor);
 		i++;
 	}
+}
+
+void	draw_points(mlx_image_t *img, t_map *map)
+{
+	int		i;
+	int		j;
+	t_point	curr;
+
 	i = 0;
 	while (i < map->rows)
 	{
