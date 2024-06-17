@@ -24,10 +24,10 @@ void	move(mlx_t *m, t_projection *param)
 	}
 	else
 	{
-		param->angle -= 0.1F * mlx_is_key_down(m, MLX_KEY_A);
-		param->angle += 0.1F * mlx_is_key_down(m, MLX_KEY_D);
-		param->scale -= 2 * mlx_is_key_down(m, MLX_KEY_W);
-		param->scale += 2 * mlx_is_key_down(m, MLX_KEY_S);
+		param->angle -= 0.01F * mlx_is_key_down(m, MLX_KEY_A);
+		param->angle += 0.01F * mlx_is_key_down(m, MLX_KEY_D);
+		param->scale -= 1 * mlx_is_key_down(m, MLX_KEY_W);
+		param->scale += 1 * mlx_is_key_down(m, MLX_KEY_S);
 		if (param->scale < 0)
 			param->scale = 0;
 	}
