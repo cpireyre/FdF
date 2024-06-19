@@ -6,7 +6,7 @@
 /*   By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 13:21:31 by copireyr          #+#    #+#             */
-/*   Updated: 2024/06/14 09:33:26 by copireyr         ###   ########.fr       */
+/*   Updated: 2024/06/19 15:30:43 by copireyr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ void	project(t_map *map, t_projection *param)
 /* TODO: benchmark using floats and precomputing sin and cos */
 static t_point project_point(t_point p, t_projection *s, int x, int y)
 {
-    t_point pro;
     double iso_x;
     double iso_y;
 	double scaled_iso_x;
@@ -48,8 +47,7 @@ static t_point project_point(t_point p, t_projection *s, int x, int y)
     iso_y = (x + y) * sin(s->angle) - p.elevation;
     scaled_iso_x = s->scale * iso_x;
     scaled_iso_y = s->scale * iso_y;
-    pro.pixel_x = s->offset_x + (int)round(scaled_iso_x);
-    pro.pixel_y = s->offset_y + (int)round(scaled_iso_y);
-    pro.elevation = p.elevation;
-    return (pro);
+    p.pixel_x = s->offset_x + (int)round(scaled_iso_x);
+    p.pixel_y = s->offset_y + (int)round(scaled_iso_y);
+    return (p);
 }
