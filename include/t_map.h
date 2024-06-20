@@ -6,7 +6,7 @@
 /*   By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 13:31:32 by copireyr          #+#    #+#             */
-/*   Updated: 2024/06/14 10:15:56 by copireyr         ###   ########.fr       */
+/*   Updated: 2024/06/20 12:25:55 by copireyr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,10 @@
 
 typedef struct s_point
 {
-	int				elevation;
-	int				pixel_x;
-	int				pixel_y;
-	unsigned int	color;
+	int			pixel_x;
+	int			pixel_y;
+	int			elevation;
+	uint32_t	color;
 }					t_point;
 
 typedef struct s_map

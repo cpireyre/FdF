@@ -6,7 +6,7 @@
 #    By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/23 09:17:29 by copireyr          #+#    #+#              #
-#    Updated: 2024/06/14 13:16:03 by copireyr         ###   ########.fr        #
+#    Updated: 2024/06/20 13:44:24 by copireyr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,8 @@ bin 		:= fdf
 src_dir 	:= ./src
 obj_dir 	:= ./obj
 inc_dir		:= ./include
-sources 	:= main.c render.c build_map.c project.c move.c draw.c
+sources 	:= main.c render.c build_map.c project.c move.c draw.c bresenham.c \
+			   interpolate_color.c fixed_point.c
 objects 	:= $(sources:%.c=$(obj_dir)/%.o)
 libft_dir	:= ./libft
 libmlx_dir	:= ./MLX42
@@ -49,12 +50,14 @@ $(libmlx):
 	cmake $(cmakeflags) $(libmlx_dir) -B $(libmlx_dir)/build > /dev/null
 	$(MAKE) -C $(libmlx_dir)/build > /dev/null
 
-glfw_path := $(shell brew --prefix glfw)/lib
+ifeq ($(UNAME_S), Darwin)
+	glfw_path := $(shell brew --prefix glfw)/lib
+endif
 $(bin): $(libmlx) $(libft) $(objects)
 	LIBRARY_PATH=$(glfw_path) $(CC) $(objects) $(LDFLAGS) -o $@
 
 .PHONY: all
-all: $(bin) | norm
+all: $(bin) #| norm
 
 .PHONY: bonus
 bonus: $(bin)

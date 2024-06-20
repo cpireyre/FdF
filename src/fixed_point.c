@@ -1,19 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   config.h                                           :+:      :+:    :+:   */
+/*   fixed_point.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/27 13:23:27 by copireyr          #+#    #+#             */
-/*   Updated: 2024/06/19 14:39:29 by copireyr         ###   ########.fr       */
+/*   Created: 2024/06/20 13:36:12 by copireyr          #+#    #+#             */
+/*   Updated: 2024/06/20 13:44:03 by copireyr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CONFIG_H
-# define CONFIG_H
+#include "fixed_point.h"
 
-# define WIN_WIDTH 3000
-# define WIN_HEIGHT 2000
+int	to_fixed_point(int n)
+{
+	return (n << FP_SHIFT);
+}
 
-#endif /* CONFIG_H */
+int	to_integer(int n)
+{
+	return ((n + FP_HALF) >> FP_SHIFT);
+}
+
+int	fixed_point_multiply(int a, int b)
+{
+	return ((a * b) >> FP_SHIFT);
+}
+
+int	fixed_point_divide(int a, int b)
+{
+	return ((a << FP_SHIFT) / b);
+}
