@@ -1,5 +1,6 @@
 *.swp
 FdF
+fdf
 ./obj
 *.o
 *.d
