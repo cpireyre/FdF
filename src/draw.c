@@ -6,7 +6,7 @@
 /*   By: copireyr <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 10:10:25 by copireyr          #+#    #+#             */
-/*   Updated: 2024/06/20 10:17:02 by copireyr         ###   ########.fr       */
+/*   Updated: 2024/06/20 13:56:39 by copireyr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,9 @@
 #include "t_map.h"
 #include "config.h"
 
+int			point_is_in_window(t_point p, int width, int height);
+void		bresenham(mlx_image_t *img, t_point bgn, t_point end);
 static void	draw_line(mlx_image_t *img, t_point begin, t_point end);
-int		point_is_in_window(t_point p, int width, int height);
 
 void	paint_background(mlx_image_t *img, uint32_t bgcolor)
 {
@@ -56,7 +57,6 @@ void	draw(mlx_image_t *img, t_map *map)
 	}
 }
 
-void	bresenham(mlx_image_t *img, t_point bgn, t_point end);
 static void	draw_line(mlx_image_t *img, t_point begin, t_point end)
 {
 	bresenham(img, begin, end);

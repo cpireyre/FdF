@@ -6,7 +6,7 @@
 /*   By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 11:43:04 by copireyr          #+#    #+#             */
-/*   Updated: 2024/06/20 11:42:39 by copireyr         ###   ########.fr       */
+/*   Updated: 2024/06/20 13:54:49 by copireyr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 static void	loop_hook(void *param);
 void		move(mlx_t *m, t_projection *param);
 void		draw(mlx_image_t *img, t_map *map);
-void	paint_background(mlx_image_t *img, uint32_t bgcolor);
+void		paint_background(mlx_image_t *img, uint32_t bgcolor);
 
 int	render(t_map *map, const char *name)
 {

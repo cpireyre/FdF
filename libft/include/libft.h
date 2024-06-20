@@ -6,7 +6,7 @@
 /*   By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 12:48:12 by copireyr          #+#    #+#             */
-/*   Updated: 2024/05/28 11:04:14 by copireyr         ###   ########.fr       */
+/*   Updated: 2024/06/20 14:12:05 by copireyr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <stddef.h>
 # include <sys/types.h>
 # include "arena.h"
+# include "fixed_point.h"
 
 /* Mem */
 
@@ -55,5 +56,9 @@ ssize_t	ft_gnl(int fd, char **line);
 int		ft_error(void *data, const char *msg);
 int		ft_printf(const char *format, ...);
 int		ft_dprintf(int fd, const char *format, ...);
+
+/* Math */
+
+int		ft_abs(int a);
 
 #endif
