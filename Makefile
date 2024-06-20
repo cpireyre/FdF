@@ -6,7 +6,7 @@
 #    By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/23 09:17:29 by copireyr          #+#    #+#              #
-#    Updated: 2024/06/20 13:44:24 by copireyr         ###   ########.fr        #
+#    Updated: 2024/06/20 14:21:10 by copireyr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ src_dir 	:= ./src
 obj_dir 	:= ./obj
 inc_dir		:= ./include
 sources 	:= main.c render.c build_map.c project.c move.c draw.c bresenham.c \
-			   interpolate_color.c fixed_point.c
+			   interpolate_color.c 
 objects 	:= $(sources:%.c=$(obj_dir)/%.o)
 libft_dir	:= ./libft
 libmlx_dir	:= ./MLX42
@@ -57,7 +57,10 @@ $(bin): $(libmlx) $(libft) $(objects)
 	LIBRARY_PATH=$(glfw_path) $(CC) $(objects) $(LDFLAGS) -o $@
 
 .PHONY: all
-all: $(bin) #| norm
+all: $(bin) | norm tags
+
+tags: $(addprefix $(src_dir)/, $(sources))
+	ctags --recurse
 
 .PHONY: bonus
 bonus: $(bin)
