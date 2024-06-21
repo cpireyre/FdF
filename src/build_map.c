@@ -6,7 +6,7 @@
 /*   By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 13:16:52 by copireyr          #+#    #+#             */
-/*   Updated: 2024/06/21 10:33:10 by copireyr         ###   ########.fr       */
+/*   Updated: 2024/06/21 12:17:58 by copireyr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ static t_point	**parse_file(int fd, t_map *map, t_arena a)
 	while (i < map->rows)
 	{
 		map->points[i] = tokenize(fd, map, a);
-		ft_dprintf(STDERR_FILENO, "\n");
 		if (!cols)
 			cols = map->cols;
 		if (cols != map->cols || !map->points[i])
@@ -85,7 +84,6 @@ static t_point	*tokenize(int fd, t_map *map, t_arena a)
 	while (i < map->cols)
 	{
 		points[i].elevation = ft_atoi(token);
-		ft_dprintf(STDERR_FILENO, "%d ", points[i].elevation);
 		i++;
 		token = strtok(NULL, " \n");
 	}
