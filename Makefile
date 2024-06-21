@@ -6,7 +6,7 @@
 #    By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/23 09:17:29 by copireyr          #+#    #+#              #
-#    Updated: 2024/06/20 14:21:10 by copireyr         ###   ########.fr        #
+#    Updated: 2024/06/21 12:02:09 by copireyr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ src_dir 	:= ./src
 obj_dir 	:= ./obj
 inc_dir		:= ./include
 sources 	:= main.c render.c build_map.c project.c move.c draw.c bresenham.c \
-			   interpolate_color.c 
+			   interpolate_color.c assign_colors.c clip_line.c
 objects 	:= $(sources:%.c=$(obj_dir)/%.o)
 libft_dir	:= ./libft
 libmlx_dir	:= ./MLX42
@@ -28,7 +28,7 @@ libft		:= $(libft_dir)/libft.a
 libmlx 		:= $(libmlx_dir)/build/libmlx42.a
 
 CC			:= clang
-CFLAGS		:= -Wconversion
+CFLAGS		:= -Wconversion -O3
 CFLAGS		+= -Wall -Wextra -Werror -MMD -MP -pedantic
 LDFLAGS		:= -L$(libft_dir) -lft -L$(libmlx_dir)/build -lmlx42
 ifeq ($(UNAME_S), Darwin)
@@ -44,7 +44,7 @@ $(obj_dir)/%.o: $(src_dir)/%.c Makefile
 	$(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $@
 
 $(libft):
-	CFLAGS="$(CFLAGS)" $(MAKE) -C $(libft_dir)
+	CFLAGS="$(CFLAGS)" $(MAKE) -j4 -C $(libft_dir)
 
 $(libmlx):
 	cmake $(cmakeflags) $(libmlx_dir) -B $(libmlx_dir)/build > /dev/null

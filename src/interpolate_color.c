@@ -6,11 +6,11 @@
 /*   By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 12:15:50 by copireyr          #+#    #+#             */
-/*   Updated: 2024/06/20 14:12:48 by copireyr         ###   ########.fr       */
+/*   Updated: 2024/06/21 10:36:31 by copireyr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "interpolate_colors.h"
+#include "interpolate_color.h"
 #include "libft.h"
 
 static uint32_t	color_to_int(t_color c);
@@ -59,6 +59,6 @@ static uint8_t	interpolate_component(uint8_t s, uint8_t e, int cur, int steps)
 
 	fcur = to_fixed_point(cur);
 	fsteps = to_fixed_point(steps);
-	ret = to_fixed_point(s) + fixed_point_divide(fcur * (e - s), fsteps);
+	ret = to_fixed_point(s) + fixed_point_divide(fcur, fsteps) * (e - s);
 	return ((uint8_t)to_integer(ret));
 }

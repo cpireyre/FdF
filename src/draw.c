@@ -6,7 +6,7 @@
 /*   By: copireyr <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 10:10:25 by copireyr          #+#    #+#             */
-/*   Updated: 2024/06/20 13:56:39 by copireyr         ###   ########.fr       */
+/*   Updated: 2024/06/21 12:13:07 by copireyr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include <math.h>
 #include "t_map.h"
 #include "config.h"
+#include "clip_line.h"
 
 int			point_is_in_window(t_point p, int width, int height);
 void		bresenham(mlx_image_t *img, t_point bgn, t_point end);
@@ -59,5 +60,6 @@ void	draw(mlx_image_t *img, t_map *map)
 
 static void	draw_line(mlx_image_t *img, t_point begin, t_point end)
 {
-	bresenham(img, begin, end);
+	if (clip_line(&begin.pixel_x, &begin.pixel_y, &end.pixel_x, &end.pixel_y))
+		bresenham(img, begin, end);
 }

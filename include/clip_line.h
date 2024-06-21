@@ -1,37 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   clip_line.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/23 09:45:09 by copireyr          #+#    #+#             */
-/*   Updated: 2024/06/21 11:30:45 by copireyr         ###   ########.fr       */
+/*   Created: 2024/06/21 11:55:35 by copireyr          #+#    #+#             */
+/*   Updated: 2024/06/21 12:14:33 by copireyr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
+#ifndef CLIP_LINE_H
+# define CLIP_LINE_H
 
-int	main(int argc, char **argv)
+typedef int	t_outcode;
+
+enum e_outcode
 {
-	t_arena	a;
-	int		err;
-	t_map	map;
+	INSIDE = 0,
+	LEFT = 1,
+	RIGHT = 2,
+	BOTTOM = 4,
+	TOP = 8
+};
 
-	if (argc == 2)
-	{
-		a = arena_new();
-		if (!a)
-			return (1);
-		err = build_map_from_file(argv[1], &map, a);
-		if (!err)
-		{
-			assign_colors(&map, 0xa6e36dff, 0xdb762eff);
-			render(&map, argv[1]);
-		}
-		arena_dispose(&a);
-	}
-	else
-		ft_printf("Usage: ./fdf map.fdf\n");
-	return (0);
-}
+extern int	clip_line(int *x0, int *y0, int *x1, int *y1);
+
+#endif /* CLIP_LINE_H */

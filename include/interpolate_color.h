@@ -1,37 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   interpolate_color.h                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/23 09:45:09 by copireyr          #+#    #+#             */
-/*   Updated: 2024/06/21 11:30:45 by copireyr         ###   ########.fr       */
+/*   Created: 2024/06/21 10:35:56 by copireyr          #+#    #+#             */
+/*   Updated: 2024/06/21 10:36:19 by copireyr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
+#ifndef INTERPOLATE_COLOR_H
+# define INTERPOLATE_COLOR_H
 
-int	main(int argc, char **argv)
+# include <stdint.h>
+
+# define R_MASK	0xff000000
+# define G_MASK	0x00ff0000
+# define B_MASK	0x0000ff00
+# define A_MASK	0x000000ff
+
+uint32_t	interpolate_color(uint32_t start, uint32_t end, int cur, int steps);
+
+typedef struct s_color
 {
-	t_arena	a;
-	int		err;
-	t_map	map;
+	uint8_t	r;
+	uint8_t	g;
+	uint8_t	b;
+	uint8_t	a;
+}				t_color;
 
-	if (argc == 2)
-	{
-		a = arena_new();
-		if (!a)
-			return (1);
-		err = build_map_from_file(argv[1], &map, a);
-		if (!err)
-		{
-			assign_colors(&map, 0xa6e36dff, 0xdb762eff);
-			render(&map, argv[1]);
-		}
-		arena_dispose(&a);
-	}
-	else
-		ft_printf("Usage: ./fdf map.fdf\n");
-	return (0);
-}
+#endif /* INTERPOLATE_COLOR_H */

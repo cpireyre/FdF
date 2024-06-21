@@ -1,33 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   interpolate_colors.h                               :+:      :+:    :+:   */
+/*   assign_colors.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/20 12:23:51 by copireyr          #+#    #+#             */
-/*   Updated: 2024/06/20 13:55:44 by copireyr         ###   ########.fr       */
+/*   Created: 2024/06/21 11:06:23 by copireyr          #+#    #+#             */
+/*   Updated: 2024/06/21 11:12:25 by copireyr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef INTERPOLATE_COLORS_H
-# define INTERPOLATE_COLORS_H
+#ifndef ASSIGN_COLORS_H
+# define ASSIGN_COLORS_H
 
-# include <stdint.h>
+#include "t_map.h"
+#include "interpolate_color.h"
 
-# define R_MASK	0xff000000
-# define G_MASK	0x00ff0000
-# define B_MASK	0x0000ff00
-# define A_MASK	0x000000ff
+extern void	assign_colors(t_map *map, uint32_t low_color, uint32_t high_color);
 
-uint32_t	interpolate_color(uint32_t start, uint32_t end, int cur, int steps);
-
-typedef struct s_color
-{
-	uint8_t	r;
-	uint8_t	g;
-	uint8_t	b;
-	uint8_t	a;
-}				t_color;
-
-#endif /* INTERPOLATE_COLORS_H */
+#endif /* ASSIGN_COLORS_H */

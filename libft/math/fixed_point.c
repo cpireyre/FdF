@@ -6,7 +6,7 @@
 /*   By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 13:36:12 by copireyr          #+#    #+#             */
-/*   Updated: 2024/06/20 13:44:03 by copireyr         ###   ########.fr       */
+/*   Updated: 2024/06/21 10:29:11 by copireyr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,5 +29,5 @@ int	fixed_point_multiply(int a, int b)
 
 int	fixed_point_divide(int a, int b)
 {
-	return ((a << FP_SHIFT) / b);
+	return ((int)((long)a * FP_ONE / b));
 }
