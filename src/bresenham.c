@@ -6,7 +6,7 @@
 /*   By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 10:09:12 by copireyr          #+#    #+#             */
-/*   Updated: 2024/06/21 12:15:53 by copireyr         ###   ########.fr       */
+/*   Updated: 2024/06/21 12:36:26 by copireyr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	bresenham(mlx_image_t *img, t_point begin, t_point end)
 	slope.x = (begin.pixel_x < end.pixel_x) - (begin.pixel_x >= end.pixel_x);
 	slope.y = (begin.pixel_y < end.pixel_y) - (begin.pixel_y >= end.pixel_y);
 	int i = 0;
-	while (i < steps)
+	while (begin.pixel_x != end.pixel_x || begin.pixel_y != end.pixel_y)
 	{
 		plot(img, begin, interpolate_color(begin.color, end.color, i, steps));
 		i++;

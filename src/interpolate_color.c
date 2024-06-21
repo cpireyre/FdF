@@ -6,7 +6,7 @@
 /*   By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 12:15:50 by copireyr          #+#    #+#             */
-/*   Updated: 2024/06/21 10:36:31 by copireyr         ###   ########.fr       */
+/*   Updated: 2024/06/21 12:39:28 by copireyr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,8 @@ static uint8_t	interpolate_component(uint8_t s, uint8_t e, int cur, int steps)
 	int	fcur;
 	int	fsteps;
 
+	if (steps == 0)
+		return (s);
 	fcur = to_fixed_point(cur);
 	fsteps = to_fixed_point(steps);
 	ret = to_fixed_point(s) + fixed_point_divide(fcur, fsteps) * (e - s);
