@@ -16,7 +16,7 @@
 # include <stddef.h>
 # include <sys/types.h>
 # include "arena.h"
-# include "fixed_point.h"
+# include "ft_math.h"
 
 /* Mem */
 
@@ -56,9 +56,5 @@ ssize_t	ft_gnl(int fd, char **line);
 int		ft_error(void *data, const char *msg);
 int		ft_printf(const char *format, ...);
 int		ft_dprintf(int fd, const char *format, ...);
-
-/* Math */
-
-int		ft_abs(int a);
 
 #endif

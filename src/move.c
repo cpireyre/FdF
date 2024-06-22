@@ -16,18 +16,18 @@ void	move(mlx_t *m, t_projection *param)
 {
 	if (mlx_is_key_down(m, MLX_KEY_RIGHT_SHIFT))
 	{
-		param->scale -= 4 * (mlx_is_key_down(m, MLX_KEY_W));
+		param->scale -= 1 * (mlx_is_key_down(m, MLX_KEY_W));
 		param->angle -= 0.1F * (mlx_is_key_down(m, MLX_KEY_A));
-		param->scale += 4 * (mlx_is_key_down(m, MLX_KEY_S));
+		param->scale += 1 * (mlx_is_key_down(m, MLX_KEY_S));
 		param->angle += 0.1F * (mlx_is_key_down(m, MLX_KEY_D));
 		if (param->scale < 0)
 			param->scale = 0;
 	}
 	else
 	{
-		param->offset_y -= 50 * (mlx_is_key_down(m, MLX_KEY_W));
-		param->offset_x -= 50 * (mlx_is_key_down(m, MLX_KEY_A));
-		param->offset_y += 50 * (mlx_is_key_down(m, MLX_KEY_S));
-		param->offset_x += 50 * (mlx_is_key_down(m, MLX_KEY_D));
+		param->offset_y -= 5 * (mlx_is_key_down(m, MLX_KEY_W));
+		param->offset_x -= 5 * (mlx_is_key_down(m, MLX_KEY_A));
+		param->offset_y += 5 * (mlx_is_key_down(m, MLX_KEY_S));
+		param->offset_x += 5 * (mlx_is_key_down(m, MLX_KEY_D));
 	}
 }

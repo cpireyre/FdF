@@ -16,8 +16,16 @@
 # include "libft.h"
 # include "t_map.h"
 # include "assign_colors.h"
+#include "config.h"
 
+void	render(mlx_t *mlx, mlx_image_t *img, t_map *map);
 int		build_map_from_file(const char *path, t_map *map, t_arena a);
-int		render(t_map *map, const char *name);
+
+struct s_mlx_with_img
+{
+	int			instance;
+	mlx_t		*mlx;
+	mlx_image_t	*img;
+};
 
 #endif

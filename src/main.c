@@ -12,11 +12,14 @@
 
 #include "fdf.h"
 
+static struct s_mlx_with_img	initialize_mlx(const char *name);
+
 int	main(int argc, char **argv)
 {
-	t_arena	a;
-	int		err;
-	t_map	map;
+	int						err;
+	t_map					map;
+	t_arena					a;
+	struct s_mlx_with_img	m;
 
 	if (argc == 2)
 	{
@@ -24,14 +27,34 @@ int	main(int argc, char **argv)
 		if (!a)
 			return (1);
 		err = build_map_from_file(argv[1], &map, a);
-		if (!err)
+		m = initialize_mlx(argv[1]);
+		if (!err && m.instance != -1)
 		{
 			assign_colors(&map, 0xa6e36dff, 0xdb762eff);
-			render(&map, argv[1]);
+			render(m.mlx, m.img, &map);
 		}
+		if (m.mlx)
+			mlx_terminate(m.mlx);
 		arena_dispose(&a);
 	}
 	else
 		ft_printf("Usage: ./fdf map.fdf\n");
 	return (0);
+}
+
+static struct s_mlx_with_img	initialize_mlx(const char *name)
+{
+	struct s_mlx_with_img	m;
+
+	m.mlx = NULL;
+	m.img = NULL;
+	m.instance = -1;
+	m.mlx = mlx_init(WIN_WIDTH, WIN_HEIGHT, name, false);
+	if (!m.mlx)
+		return (m);
+	m.img = mlx_new_image(m.mlx, WIN_WIDTH, WIN_HEIGHT);
+	if (!m.img)
+		return (m);
+	m.instance = mlx_image_to_window(m.mlx, m.img, 0, 0);
+	return (m);
 }

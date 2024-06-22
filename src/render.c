@@ -19,19 +19,10 @@ void		move(mlx_t *m, t_projection *param);
 void		draw(mlx_image_t *img, t_map *map);
 void		paint_background(mlx_image_t *img, uint32_t bgcolor);
 
-int	render(t_map *map, const char *name)
+void	render(mlx_t *mlx, mlx_image_t *img, t_map *map)
 {
-	mlx_t			*mlx;
-	mlx_image_t		*img;
 	struct s_ptr	p;
 
-	mlx_set_setting(MLX_HEADLESS, false);
-	mlx = mlx_init(WIN_WIDTH, WIN_HEIGHT, name, false);
-	if (!mlx)
-		return (1);
-	img = mlx_new_image(mlx, WIN_WIDTH, WIN_HEIGHT);
-	if (mlx_image_to_window(mlx, img, 0, 0) < 0)
-		return (1);
 	p.mlx = mlx;
 	p.img = img;
 	p.map = map;
@@ -41,50 +32,6 @@ int	render(t_map *map, const char *name)
 	p.param.offset_y = WIN_HEIGHT / 2;
 	mlx_loop_hook(mlx, &loop_hook, &p);
 	mlx_loop(mlx);
-	mlx_terminate(mlx);
-	return (MLX_SUCCESS);
-}
-
-void	flatten(t_map *map)
-{
-	int				i;
-	int				j;
-
-	i = 0;
-	while (i < map->rows)
-	{
-		j = 0;
-		while (j < map->cols)
-		{
-			if (map->points[i][j].elevation)
-			{
-				map->points[i][j].elevation -= 1;
-				if (map->points[i][j].elevation < 1)
-					map->points[i][j].elevation = 1;
-			}
-			j++;
-		}
-		i++;
-	}
-}
-
-void	grow(t_map *map)
-{
-	int				i;
-	int				j;
-
-	i = 0;
-	while (i < map->rows)
-	{
-		j = 0;
-		while (j < map->cols)
-		{
-			if (map->points[i][j].elevation)
-				map->points[i][j].elevation += 1;
-			j++;
-		}
-		i++;
-	}
 }
 
 static void	loop_hook(void *ctx)
@@ -93,10 +40,6 @@ static void	loop_hook(void *ctx)
 
 	p = (struct s_ptr *)ctx;
 	paint_background(p->img, 0x40463aff);
-	if (mlx_is_key_down(p->mlx, MLX_KEY_DOWN))
-		flatten(p->map);
-	if (mlx_is_key_down(p->mlx, MLX_KEY_UP))
-		grow(p->map);
 	move(p->mlx, &p->param);
 	project(p->map, &p->param);
 	draw(p->img, p->map);

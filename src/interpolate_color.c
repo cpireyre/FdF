@@ -12,6 +12,7 @@
 
 #include "interpolate_color.h"
 #include "libft.h"
+#include <math.h>
 
 static uint32_t	color_to_int(t_color c);
 static t_color	int_to_color(uint32_t i);
@@ -54,13 +55,15 @@ static uint32_t	color_to_int(t_color c)
 static uint8_t	interpolate_component(uint8_t s, uint8_t e, int cur, int steps)
 {
 	int	ret;
-	int	fcur;
-	int	fsteps;
+	/* int	fcur; */
+	/* int	fsteps; */
 
 	if (steps == 0)
 		return (s);
-	fcur = to_fixed_point(cur);
-	fsteps = to_fixed_point(steps);
-	ret = to_fixed_point(s) + fixed_point_divide(fcur, fsteps) * (e - s);
-	return ((uint8_t)to_integer(ret));
+	ret = s + (int)round((double)cur / (double)steps * (e - s));
+	/* fcur = to_fixed_point(cur); */
+	/* fsteps = to_fixed_point(steps); */
+	/* ret = to_fixed_point(s) + fixed_point_divide(fcur, fsteps) * (e - s); */
+	/* return ((uint8_t)to_integer(ret)); */
+	return ((uint8_t)ret);
 }

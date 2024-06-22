@@ -28,7 +28,7 @@ libft		:= $(libft_dir)/libft.a
 libmlx 		:= $(libmlx_dir)/build/libmlx42.a
 
 CC			:= clang
-CFLAGS		:= -Wconversion -O3
+CFLAGS		:= -Wconversion -O2
 CFLAGS		+= -Wall -Wextra -Werror -MMD -MP -pedantic
 LDFLAGS		:= -L$(libft_dir) -lft -L$(libmlx_dir)/build -lmlx42
 ifeq ($(UNAME_S), Darwin)
@@ -37,7 +37,6 @@ endif
 LDFLAGS += -Iinclude -ldl -lglfw -pthread -lm
 CPPFLAGS	:= -I$(inc_dir) -I$(libft_dir)/include -I$(libmlx_dir)/include
 cmakeflags	:= -DCMAKE_C_FLAGS="-Wno-int-to-void-pointer-cast"
-
 
 $(obj_dir)/%.o: $(src_dir)/%.c Makefile
 	@mkdir -p $(@D)
@@ -50,17 +49,17 @@ $(libmlx):
 	cmake $(cmakeflags) $(libmlx_dir) -B $(libmlx_dir)/build > /dev/null
 	$(MAKE) -C $(libmlx_dir)/build > /dev/null
 
-ifeq ($(UNAME_S), Darwin)
-	glfw_path := $(shell brew --prefix glfw)/lib
-endif
+# ifeq ($(UNAME_S), Darwin)
+glfw_path := $(shell brew --prefix glfw)/lib
+# endif
 $(bin): $(libmlx) $(libft) $(objects)
 	LIBRARY_PATH=$(glfw_path) $(CC) $(objects) $(LDFLAGS) -o $@
 
 .PHONY: all
-all: $(bin) | norm tags
+all: $(bin) | norm #tags
 
-tags: $(addprefix $(src_dir)/, $(sources))
-	ctags --recurse
+#tags: $(addprefix $(src_dir)/, $(sources))
+	#ctags --recurse
 
 .PHONY: bonus
 bonus: $(bin)
@@ -81,38 +80,11 @@ fclean: clean
 .PHONY: re
 re: fclean all
 
-debug_flags := -g3 -fsanitize=address -fsanitize=undefined
-.PHONY: debug
-target debug: CFLAGS  += $(debug_flags)
-target debug: LDFLAGS += $(debug_flags)
-debug: re
-
 .PHONY: run
 run: $(bin)
-	./$(bin) ./test_maps/42.fdf
+	./$(bin) ./test_maps/julia.fdf
 .PHONY: r
 r: run
-
-leaks_flags := -g3
-.PHONY: leaks
-target leaks: CFLAGS  += $(leaks_flags)
-target leaks: LDFLAGS += $(leaks_flags)
-leaks: fclean all
-	leaks -atExit -quiet -- ./$(bin) test_maps/basictest.fdf
-
-test_flags := -g3
-.PHONY: test
-target test: CFLAGS  += $(test_flags)
-target test: LDFLAGS += $(test_flags)
-test: fclean all
-	leaks -atExit -quiet -- ./$(bin) test_maps/2x1.fdf
-	# leaks -atExit -quiet -- ./$(bin) test_maps/space_after.fdf
-	leaks -atExit -quiet -- ./$(bin) test_maps/missing_last.fdf
-	leaks -atExit -quiet -- ./$(bin) test_maps/wrong_cols.fdf
-	leaks -atExit -quiet -- ./$(bin) nonexistentmap
-	leaks -atExit -quiet -- ./$(bin) test_maps/empty_map
-	# leaks -atExit -quiet -- ./$(bin) test_maps/basictest.fdf
-	# leaks -atExit -quiet -- ./$(bin) test_maps/just_one.fdf
 
 .PHONY: norm
 ifeq ($(shell command -v norminette),)

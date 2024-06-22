@@ -39,7 +39,7 @@ src := ./io/ft_gnl.c      ./ctype/ft_atoi.c    ./str/ft_split.c \
 	   ./str/ft_strndup.c ./str/ft_strjoin.c   ./str/ft_strlcat.c     \
 	   ./str/ft_strtrim.c ./ctype/ft_isdigit.c ./mem/ft_memdel.c       \
 	   ./io/ft_error.c	  ./ctype/ft_isspace.c ./arena/arena.c 			\
-	   ./math/ft_abs.c 	  ./math/fixed_point.c
+	   ./math/ft_abs.c 	  ./math/fixed_point.c ./math/ft_max.c ./math/ft_min.c ./math/ft_sign.c
 
 obj_dir := ./obj
 $(obj_dir)/%.o: %.c

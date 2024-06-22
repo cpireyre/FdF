@@ -27,18 +27,19 @@ void	plot(mlx_image_t *img, t_point p, uint32_t color)
 
 void	bresenham(mlx_image_t *img, t_point begin, t_point end)
 {
+	int		i;
 	int		err;
 	int		steps;
 	t_tuple	delta;
 	t_tuple	slope;
 
-	delta.x = ft_abs(end.pixel_x - begin.pixel_x);
 	delta.y = -ft_abs(end.pixel_y - begin.pixel_y);
+	delta.x = ft_abs(end.pixel_x - begin.pixel_x);
+	slope.x = ft_sign(begin.pixel_x, end.pixel_x);
+	slope.y = ft_sign(begin.pixel_y, end.pixel_y);
+	steps = ft_max(delta.x, -delta.y);
 	err = delta.x + delta.y;
-	steps = delta.x * (delta.x > -delta.y) - delta.y * (-delta.y >= delta.x);
-	slope.x = (begin.pixel_x < end.pixel_x) - (begin.pixel_x >= end.pixel_x);
-	slope.y = (begin.pixel_y < end.pixel_y) - (begin.pixel_y >= end.pixel_y);
-	int i = 0;
+	i = 0;
 	while (begin.pixel_x != end.pixel_x || begin.pixel_y != end.pixel_y)
 	{
 		plot(img, begin, interpolate_color(begin.color, end.color, i, steps));

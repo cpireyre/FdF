@@ -13,7 +13,7 @@
 #ifndef CONFIG_H
 # define CONFIG_H
 
-# define WIN_WIDTH 3000
-# define WIN_HEIGHT 2000
+# define WIN_WIDTH 2000
+# define WIN_HEIGHT 1000
 
 #endif /* CONFIG_H */
