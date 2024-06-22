@@ -11,18 +11,18 @@
 /* ************************************************************************** */
 
 #include "config.h"
-#include "clip_line.h"
+#include "draw.h"
 
 static t_outcode	compute_outcode(int x, int y);
 
 /* Cohen–Sutherland, wip */
-int	clip_line(int *x0, int *y0, int *x1, int *y1)
+int	clip(t_line *line)
 {
 	t_outcode	outcode0;
 	t_outcode	outcode1;
 
-	outcode0 = compute_outcode(*x0, *y0);
-	outcode1 = compute_outcode(*x1, *y1);
+	outcode0 = compute_outcode(line->x0, line->y0);
+	outcode1 = compute_outcode(line->x1, line->y1);
 	if (outcode0 & outcode1)
 		return (0);
 	return (1);

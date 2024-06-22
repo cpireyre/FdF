@@ -14,18 +14,11 @@
 #include "t_map.h"
 #include "config.h"
 #include "t_tuple.h"
+#include "draw.h"
+#include "render.h"
 #include "interpolate_color.h"
 
-static int		point_is_in_window(t_point p, int width, int height);
-static t_point	move_to_next(t_point p, int *err, t_tuple delta, t_tuple slope);
-
-void	plot(mlx_image_t *img, t_point p, uint32_t color)
-{
-	if (point_is_in_window(p, WIN_WIDTH, WIN_HEIGHT))
-		mlx_put_pixel(img, (uint32_t)p.pixel_x, (uint32_t)p.pixel_y, color);
-}
-
-void	bresenham(mlx_image_t *img, t_point begin, t_point end)
+void	bresenham(t_render_context *ctx, t_line line, t_gradient colors)
 {
 	int		i;
 	int		err;
@@ -33,42 +26,30 @@ void	bresenham(mlx_image_t *img, t_point begin, t_point end)
 	t_tuple	delta;
 	t_tuple	slope;
 
-	delta.y = -ft_abs(end.pixel_y - begin.pixel_y);
-	delta.x = ft_abs(end.pixel_x - begin.pixel_x);
-	slope.x = ft_sign(begin.pixel_x, end.pixel_x);
-	slope.y = ft_sign(begin.pixel_y, end.pixel_y);
+	delta.x = ft_abs(line.x1 - line.x0);
+	delta.y = -ft_abs(line.y1 - line.y0);
+	slope.x = ft_sign(line.x0, line.x1);
+	slope.y = ft_sign(line.y0, line.y1);
 	steps = ft_max(delta.x, -delta.y);
 	err = delta.x + delta.y;
 	i = 0;
-	while (begin.pixel_x != end.pixel_x || begin.pixel_y != end.pixel_y)
+	while (line.x0 != line.x1 || line.y0 != line.y1)
 	{
-		plot(img, begin, interpolate_color(begin.color, end.color, i, steps));
+		ctx->plot(ctx->img, line.x0, line.y0, interpolate_color(colors.start, colors.end, i, steps));
 		i++;
-		begin = move_to_next(begin, &err, delta, slope);
-	}
-	plot(img, end, end.color);
-}
+		int	double_err;
 
-static t_point	move_to_next(t_point p, int *err, t_tuple delta, t_tuple slope)
-{
-	int	double_err;
-
-	double_err = *err * 2;
-	if (double_err > delta.y)
-	{
-		p.pixel_x += slope.x;
-		*err += delta.y;
+		double_err = err * 2;
+		if (double_err > delta.y)
+		{
+			line.x0 += slope.x;
+			err += delta.y;
+		}
+		if (double_err < delta.x)
+		{
+			line.y0 += slope.y;
+			err += delta.x;
+		}
 	}
-	if (double_err < delta.x)
-	{
-		p.pixel_y += slope.y;
-		*err += delta.x;
-	}
-	return (p);
-}
-
-static int	point_is_in_window(t_point p, int width, int height)
-{
-	return (0 <= p.pixel_x && p.pixel_x < width
-		&& 0 <= p.pixel_y && p.pixel_y < height);
+	ctx->plot(ctx->img, line.x1, line.y1, colors.end);
 }

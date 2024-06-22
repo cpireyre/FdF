@@ -14,28 +14,11 @@
 #include <math.h>
 #include "t_map.h"
 #include "config.h"
-#include "clip_line.h"
+#include "draw.h"
+#include "render.h"
 
-int			point_is_in_window(t_point p, int width, int height);
-void		bresenham(mlx_image_t *img, t_point bgn, t_point end);
-static void	draw_line(mlx_image_t *img, t_point begin, t_point end);
-
-void	paint_background(mlx_image_t *img, uint32_t bgcolor)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	while ((uint32_t)i < img->width)
-	{
-		j = 0;
-		while ((uint32_t)j < img->height)
-			mlx_put_pixel(img, (uint32_t)i, (uint32_t)j++, bgcolor);
-		i++;
-	}
-}
-
-void	draw(mlx_image_t *img, t_map *map)
+void	draw_line(t_render_context *ctx, t_point begin, t_point end);
+void	draw(t_render_context *ctx, t_map *map)
 {
 	int		i;
 	int		j;
@@ -49,17 +32,27 @@ void	draw(mlx_image_t *img, t_map *map)
 		{
 			curr = map->points[i][j];
 			if (i + 1 < map->rows)
-				draw_line(img, curr, map->points[i + 1][j]);
+				draw_line(ctx, curr, map->points[i + 1][j]);
 			if (j + 1 < map->cols)
-				draw_line(img, curr, map->points[i][j + 1]);
+				draw_line(ctx, curr, map->points[i][j + 1]);
 			j++;
 		}
 		i++;
 	}
 }
 
-static void	draw_line(mlx_image_t *img, t_point begin, t_point end)
+void	bresenham(t_render_context *ctx, t_line line, t_gradient colors);
+void	draw_line(t_render_context *ctx, t_point begin, t_point end)
 {
-	if (clip_line(&begin.pixel_x, &begin.pixel_y, &end.pixel_x, &end.pixel_y))
-		bresenham(img, begin, end);
+	t_line		line;
+	t_gradient	colors;
+
+	line.x0 = begin.pixel_x;
+	line.y0 = begin.pixel_y;
+	line.x1 = end.pixel_x;
+	line.y1 = end.pixel_y;
+	colors.start = begin.color;
+	colors.end = end.color;
+	if (clip(&line))
+		bresenham(ctx, line, colors);
 }
