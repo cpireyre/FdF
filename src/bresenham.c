@@ -18,11 +18,13 @@
 #include "render.h"
 #include "interpolate_color.h"
 
-void	bresenham(t_render_context *ctx, t_line line, t_gradient colors)
+static void increment_gradient(t_gradient *g);
+static void	move_point_along_line(\
+		t_line *line, int *err, t_tuple delta, t_tuple slope);
+
+void	bresenham(t_render_context *ctx, t_line line, t_gradient gradient)
 {
-	int		i;
 	int		err;
-	int		steps;
 	t_tuple	delta;
 	t_tuple	slope;
 
@@ -30,26 +32,38 @@ void	bresenham(t_render_context *ctx, t_line line, t_gradient colors)
 	delta.y = -ft_abs(line.y1 - line.y0);
 	slope.x = ft_sign(line.x0, line.x1);
 	slope.y = ft_sign(line.y0, line.y1);
-	steps = ft_max(delta.x, -delta.y);
 	err = delta.x + delta.y;
-	i = 0;
+	gradient.offset = 0;
+	gradient.span = ft_max(delta.x, -delta.y);
 	while (line.x0 != line.x1 || line.y0 != line.y1)
 	{
-		ctx->plot(ctx->img, line.x0, line.y0, interpolate_color(colors.start, colors.end, i, steps));
-		i++;
-		int	double_err;
-
-		double_err = err * 2;
-		if (double_err > delta.y)
-		{
-			line.x0 += slope.x;
-			err += delta.y;
-		}
-		if (double_err < delta.x)
-		{
-			line.y0 += slope.y;
-			err += delta.x;
-		}
+		ctx->plot(ctx->img, line.x0, line.y0, gradient.curr);
+		increment_gradient(&gradient);
+		move_point_along_line(&line, &err, delta, slope);
 	}
-	ctx->plot(ctx->img, line.x1, line.y1, colors.end);
+	ctx->plot(ctx->img, line.x1, line.y1, gradient.end);
+}
+
+static void increment_gradient(t_gradient *g)
+{
+	g->curr = interpolate_color(g->start, g->end, g->offset, g->span);
+	g->offset++;
+}
+
+static void	move_point_along_line(\
+		t_line *line, int *err, t_tuple delta, t_tuple slope)
+{
+	int	double_err;
+
+	double_err = *err * 2;
+	if (double_err > delta.y)
+	{
+		line->x0 += slope.x;
+		*err += delta.y;
+	}
+	if (double_err < delta.x)
+	{
+		line->y0 += slope.y;
+		*err += delta.x;
+	}
 }

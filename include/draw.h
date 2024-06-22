@@ -16,7 +16,10 @@ typedef int	t_outcode;
 typedef struct	s_gradient
 {
 	uint32_t	start;
+	uint32_t	curr;
 	uint32_t	end;
+	int			span;
+	int			offset;
 }				t_gradient;
 
 enum e_outcode

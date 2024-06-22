@@ -24,6 +24,8 @@ uint32_t	interpolate_color(uint32_t start, uint32_t end, int curr, int steps)
 	t_color	e;
 	t_color	ret;
 
+	if (steps == 0 || start == end)
+		return (start);
 	s = int_to_color(start);
 	e = int_to_color(end);
 	ret.r = interpolate_component(s.r, e.r, curr, steps);
