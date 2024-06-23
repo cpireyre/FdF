@@ -7,4 +7,6 @@
 extern void rasterize(mlx_image_t *img, t_map *map);
 extern void	paint_background(mlx_image_t *image, uint32_t bgcolor);
 
+void	bresenham(mlx_image_t *img, t_line line);
+
 #endif /* RASTERIZE_H */

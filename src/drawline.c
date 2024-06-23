@@ -1,73 +1,32 @@
 #include "drawline.h"
 
-void	bresenham(mlx_image_t *img, t_line line, t_gradient gradient);
-int clip(t_line *line);
-void	drawline(mlx_image_t *img, t_vec2 begin, t_vec2 end, t_vec2 colors)
+void	bresenham(mlx_image_t *img, t_line line)
 {
-	t_line		line;
-	t_gradient	color_gradient;
+	int			i;
+	int			err;
+	uint32_t	color;
+	int			double_err;
 
-	color_gradient.start = (uint32_t)colors.x;
-	color_gradient.curr = (uint32_t)colors.x;
-	color_gradient.end = (uint32_t)colors.y;
-	line.x0 = begin.x;
-	line.y0 = begin.y;
-	line.x1 = end.x;
-	line.y1 = end.y;
-	if (clip(&line))
-		bresenham(img, line, color_gradient);
-}
-
-static void increment_gradient(t_gradient *g);
-static void	move_point_along_line(\
-		t_line *line, int *err, t_tuple delta, t_tuple slope);
-
-void	bresenham(mlx_image_t *img, t_line line, t_gradient gradient)
-{
-	int		err;
-	t_tuple	delta;
-	t_tuple	slope;
-
-	delta.x = ft_abs(line.x1 - line.x0);
-	delta.y = -ft_abs(line.y1 - line.y0);
-	slope.x = ft_sign(line.x0, line.x1);
-	slope.y = ft_sign(line.y0, line.y1);
-	err = delta.x + delta.y;
-	gradient.offset = 0;
-	gradient.span = ft_max(delta.x, -delta.y);
-	while (line.x0 != line.x1 || line.y0 != line.y1)
+	err = line.delta_x + line.delta_y;
+	i = 0;
+	color = line.color0;
+	while (i < line.length)
 	{
-		mlx_put_pixel(img,\
-				(uint32_t)line.x0, (uint32_t)line.y0, gradient.curr);
-		increment_gradient(&gradient);
-		move_point_along_line(&line, &err, delta, slope);
+		mlx_put_pixel(img, (uint32_t)line.x0, (uint32_t)line.y0, color);
+		color = interpolate_color(line.color0, line.color1, ++i, line.length);
+		double_err = err * 2;
+		if (double_err > line.delta_y)
+		{
+			line.x0 += line.slope_x;
+			err += line.delta_y;
+		}
+		if (double_err < line.delta_x)
+		{
+			line.y0 += line.slope_y;
+			err += line.delta_x;
+		}
 	}
-		mlx_put_pixel(img,\
-				(uint32_t)line.x1, (uint32_t)line.y1, gradient.end);
-}
-
-static void increment_gradient(t_gradient *g)
-{
-	g->curr = interpolate_color(g->start, g->end, g->offset, g->span);
-	g->offset++;
-}
-
-static void	move_point_along_line(\
-		t_line *line, int *err, t_tuple delta, t_tuple slope)
-{
-	int	double_err;
-
-	double_err = *err * 2;
-	if (double_err > delta.y)
-	{
-		line->x0 += slope.x;
-		*err += delta.y;
-	}
-	if (double_err < delta.x)
-	{
-		line->y0 += slope.y;
-		*err += delta.x;
-	}
+	mlx_put_pixel(img, (uint32_t)line.x1, (uint32_t)line.y1, line.color1);
 }
 
 static t_outcode	compute_outcode(int x, int y);

@@ -1,6 +1,6 @@
 #include "rasterize.h"
 
-static void	connect(mlx_image_t *img, t_point a, t_point b);
+static void	draw_line(mlx_image_t *img, t_point a, t_point b);
 
 void rasterize(mlx_image_t *img, t_map *map)
 {
@@ -16,28 +16,34 @@ void rasterize(mlx_image_t *img, t_map *map)
 		{
 			curr = map->points[i][j];
 			if (i + 1 < map->rows)
-				connect(img, curr, map->points[i + 1][j]);
+				draw_line(img, curr, map->points[i + 1][j]);
 			if (j + 1 < map->cols)
-				connect(img, curr, map->points[i][j + 1]);
+				draw_line(img, curr, map->points[i][j + 1]);
 			j++;
 		}
 		i++;
 	}
 }
 
-static void	connect(mlx_image_t *img, t_point a, t_point b)
+static void	draw_line(mlx_image_t *img, t_point a, t_point b)
 {
-	t_vec2	u;
-	t_vec2	v;
-	t_vec2	colors;
+	t_line		line;
 
-	u.x = a.pixel_x;
-	u.y = a.pixel_y;
-	v.x = b.pixel_x;
-	v.y = b.pixel_y;
-	colors.x = (int)a.color;
-	colors.y = (int)b.color;
-	drawline(img, u, v, colors);
+	line.x0 = a.pixel_x;
+	line.y0 = a.pixel_y;
+	line.x1 = b.pixel_x;
+	line.y1 = b.pixel_y;
+	line.color0 = a.color;
+	line.color1 = b.color;
+	if (clip(&line))
+	{
+		line.delta_x = ft_abs(line.x1 - line.x0);
+		line.delta_y = -ft_abs(line.y1 - line.y0);
+		line.slope_x = ft_sign(line.x0, line.x1);
+		line.slope_y = ft_sign(line.y0, line.y1);
+		line.length = ft_max(line.delta_x, -line.delta_y);
+		bresenham(img, line);
+	}
 }
 
 void	paint_background(mlx_image_t *image, uint32_t bgcolor)
