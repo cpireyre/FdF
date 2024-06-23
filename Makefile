@@ -90,6 +90,10 @@ r: run
 j: $(bin)
 	./$(bin) ./test_maps/julia.fdf
 
+.PHONY: m
+m: $(bin)
+	./$(bin) ./test_maps/mars.fdf
+
 .PHONY: norm
 ifeq ($(shell command -v norminette),)
 norm:

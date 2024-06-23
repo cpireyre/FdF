@@ -37,12 +37,14 @@ void	bresenham(t_render_context *ctx, t_line line, t_gradient gradient)
 	gradient.span = ft_max(delta.x, -delta.y);
 	while (line.x0 != line.x1 || line.y0 != line.y1)
 	{
-		ctx->plot(ctx->img, line.x0, line.y0, gradient.curr);
+		mlx_put_pixel(ctx->img,\
+				(uint32_t)line.x0, (uint32_t)line.y0, gradient.curr);
 		if (ctx->quality == MEDIUM)
 			increment_gradient(&gradient);
 		move_point_along_line(&line, &err, delta, slope);
 	}
-	ctx->plot(ctx->img, line.x1, line.y1, gradient.end);
+		mlx_put_pixel(ctx->img,\
+				(uint32_t)line.x1, (uint32_t)line.y1, gradient.end);
 }
 
 static void increment_gradient(t_gradient *g)
