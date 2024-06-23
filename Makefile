@@ -20,7 +20,7 @@ src_dir 	:= ./src
 obj_dir 	:= ./obj
 inc_dir		:= ./include
 sources 	:= main.c render.c build_map.c project.c move.c draw.c bresenham.c \
-			   interpolate_color.c assign_colors.c line_clip.c
+			   interpolate_color.c assign_colors.c clip.c
 objects 	:= $(sources:%.c=$(obj_dir)/%.o)
 libft_dir	:= ./libft
 libmlx_dir	:= ./MLX42
@@ -85,6 +85,10 @@ run: $(bin)
 	./$(bin) ./test_maps/42.fdf
 .PHONY: r
 r: run
+
+.PHONY: j
+j: $(bin)
+	./$(bin) ./test_maps/julia.fdf
 
 .PHONY: norm
 ifeq ($(shell command -v norminette),)
