@@ -1,0 +1,191 @@
+#include "drawline.h"
+
+void	bresenham(t_render_context *ctx, t_line line, t_gradient gradient);
+int clip(t_line *line);
+void	drawline(t_render_context *ctx, t_vec2 begin, t_vec2 end, t_vec2 colors)
+{
+	t_line		line;
+	t_gradient	color_gradient;
+
+	color_gradient.start = (uint32_t)colors.x;
+	color_gradient.curr = (uint32_t)colors.x;
+	color_gradient.end = (uint32_t)colors.y;
+	line.x0 = begin.x;
+	line.y0 = begin.y;
+	line.x1 = end.x;
+	line.y1 = end.y;
+	if (clip(&line))
+		bresenham(ctx, line, color_gradient);
+}
+
+static void increment_gradient(t_gradient *g);
+static void	move_point_along_line(\
+		t_line *line, int *err, t_tuple delta, t_tuple slope);
+
+void	bresenham(t_render_context *ctx, t_line line, t_gradient gradient)
+{
+	int		err;
+	t_tuple	delta;
+	t_tuple	slope;
+
+	delta.x = ft_abs(line.x1 - line.x0);
+	delta.y = -ft_abs(line.y1 - line.y0);
+	slope.x = ft_sign(line.x0, line.x1);
+	slope.y = ft_sign(line.y0, line.y1);
+	err = delta.x + delta.y;
+	gradient.offset = 0;
+	gradient.span = ft_max(delta.x, -delta.y);
+	while (line.x0 != line.x1 || line.y0 != line.y1)
+	{
+		ctx->plot(ctx->img, line.x0, line.y0, gradient.curr);
+		if (ctx->quality == MEDIUM)
+			increment_gradient(&gradient);
+		move_point_along_line(&line, &err, delta, slope);
+	}
+	ctx->plot(ctx->img, line.x1, line.y1, gradient.end);
+}
+
+static void increment_gradient(t_gradient *g)
+{
+	g->curr = interpolate_color(g->start, g->end, g->offset, g->span);
+	g->offset++;
+}
+
+static void	move_point_along_line(\
+		t_line *line, int *err, t_tuple delta, t_tuple slope)
+{
+	int	double_err;
+
+	double_err = *err * 2;
+	if (double_err > delta.y)
+	{
+		line->x0 += slope.x;
+		*err += delta.y;
+	}
+	if (double_err < delta.x)
+	{
+		line->y0 += slope.y;
+		*err += delta.x;
+	}
+}
+
+static t_outcode	compute_outcode(int x, int y);
+static void			clamp(t_line *l, int *x0, int *y0, t_outcode code);
+
+/* Cohen–Sutherland line clip */
+/* https://en.wikipedia.org/wiki/Cohen–Sutherland_algorithm */
+
+int clip(t_line *line)
+{
+	t_outcode code0;
+	t_outcode code1;
+
+	code0 = compute_outcode(line->x0, line->y0);
+	code1 = compute_outcode(line->x1, line->y1);
+	if (!(code0 | code1))
+		return (1);
+	else if (code0 & code1)
+		return (0);
+	if (code0 > code1)
+		clamp(line, &line->x0, &line->y0, code0);
+	else
+		clamp(line, &line->x1, &line->y1, code1);
+	return (clip(line));
+}
+
+static t_outcode	compute_outcode(int x, int y)
+{
+	t_outcode	code;
+
+	code = INSIDE;
+	if (x < 0)
+		code |= LEFT;
+	else if (x >= WIN_WIDTH)
+		code |= RIGHT;
+	if (y < 0)
+		code |= TOP;
+	else if (y >= WIN_HEIGHT)
+		code |= BOTTOM;
+	return (code);
+}
+
+static void	clamp(t_line *l, int *x0, int *y0, t_outcode code)
+{
+	double	slope;
+
+	slope = (double)(l->y1 - l->y0) / (double)(l->x1 - l->x0);
+	if (code & TOP)
+	{
+		*x0 = l->x0 - (int)round(l->y0 / slope);
+		*y0 = 0;
+	}
+	else if (code & BOTTOM)
+	{
+		*x0 = l->x0 + (int)round((WIN_HEIGHT - l->y0) / slope);
+		*y0 = WIN_HEIGHT - 1;
+	}
+	else if (code & RIGHT)
+	{
+		*y0 = l->y0 + (int)round(slope * (WIN_WIDTH - l->x0));
+		*x0 = WIN_WIDTH - 1;
+	}
+	else if (code & LEFT)
+	{
+		*y0 = l->y0 - (int)round(slope * l->x0);
+		*x0 = 0;
+	}
+}
+
+#include "interpolate_color.h"
+#include "libft.h"
+#include <math.h>
+
+static uint32_t	color_to_int(t_color c);
+static t_color	int_to_color(uint32_t i);
+static uint8_t	interpolate_component(uint8_t s, uint8_t e, int cur, int steps);
+
+uint32_t	interpolate_color(uint32_t start, uint32_t end, int curr, int steps)
+{
+	t_color	s;
+	t_color	e;
+	t_color	ret;
+
+	if (steps == 0 || start == end)
+		return (start);
+	s = int_to_color(start);
+	e = int_to_color(end);
+	ret.r = interpolate_component(s.r, e.r, curr, steps);
+	ret.g = interpolate_component(s.g, e.g, curr, steps);
+	ret.b = interpolate_component(s.b, e.b, curr, steps);
+	ret.a = interpolate_component(s.a, e.a, curr, steps);
+	return (color_to_int(ret));
+}
+
+static t_color	int_to_color(uint32_t i)
+{
+	t_color	c;
+
+	c.r = (i >> 24) & 0xff;
+	c.g = (i >> 16) & 0xff;
+	c.b = (i >> 8) & 0xff;
+	c.a = i & 0xff;
+	return (c);
+}
+
+static uint32_t	color_to_int(t_color c)
+{
+	uint32_t	i;
+
+	i = (uint32_t)(c.r << 24 | c.g << 16 | c.b << 8 | c.a);
+	return (i);
+}
+
+static uint8_t	interpolate_component(uint8_t s, uint8_t e, int cur, int steps)
+{
+	int	ret;
+
+	if (steps == 0)
+		return (s);
+	ret = s + (int)round((double)cur / (double)steps * (e - s));
+	return ((uint8_t)ret);
+}
