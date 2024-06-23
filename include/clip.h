@@ -1,6 +1,7 @@
 #ifndef CLIP_H
 # define CLIP_H
 
+# include <math.h>
 # include "line.h"
 # include "config.h"
 
@@ -15,16 +16,6 @@ enum e_outcode
 	RIGHT = 2,
 	BOTTOM = 4,
 	TOP = 8
-};
-
-int	clip(t_line *line);
-
-struct s_line_d
-{
-	double x0;
-	double y0;
-	double x1;
-	double y1;
 };
 
 #endif /* CLIP_H */

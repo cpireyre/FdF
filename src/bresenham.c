@@ -38,7 +38,8 @@ void	bresenham(t_render_context *ctx, t_line line, t_gradient gradient)
 	while (line.x0 != line.x1 || line.y0 != line.y1)
 	{
 		ctx->plot(ctx->img, line.x0, line.y0, gradient.curr);
-		increment_gradient(&gradient);
+		if (ctx->quality == MEDIUM)
+			increment_gradient(&gradient);
 		move_point_along_line(&line, &err, delta, slope);
 	}
 	ctx->plot(ctx->img, line.x1, line.y1, gradient.end);

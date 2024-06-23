@@ -33,19 +33,11 @@ typedef struct s_map
 
 typedef struct s_projection
 {
-	float	scale;
-	float	angle;
+	double	scale;
+	double	angle;
 	int		offset_x;
 	int		offset_y;
 }	t_projection;
-
-struct s_ptr
-{
-	mlx_t			*mlx;
-	mlx_image_t		*img;
-	t_map			*map;
-	t_projection	param;
-};
 
 void	project(t_map *map, t_projection *param);
 

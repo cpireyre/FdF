@@ -7,10 +7,16 @@ typedef void (*plot_func_t)(void *img, int x, int y, uint32_t color);
 
 typedef struct s_render_context
 {
-	void		*img;
-	plot_func_t	plot;
-	int			width;
-	int			height;
+	mlx_t			*mlx;
+	t_projection	param;
+	void			*img;
+	t_map			*map;
+	plot_func_t		plot;
+	int				quality;
 }				t_render_context;
+
+# define LOW 0
+# define MEDIUM 1
+# define HIGH 2
 
 #endif /* RENDER_H */

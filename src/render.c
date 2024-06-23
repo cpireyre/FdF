@@ -20,36 +20,49 @@ void		move(mlx_t *m, t_projection *param);
 void		draw(t_render_context *ctx, t_map *map);
 void		paint_background(mlx_image_t *img, uint32_t bgcolor);
 void	plot(void *img, int x, int y, uint32_t color);
+static void	key_hook(mlx_key_data_t keydata, void *param);
 
 void	render(mlx_t *mlx, mlx_image_t *img, t_map *map)
 {
-	struct s_ptr	p;
+	struct s_render_context	ctx;
 
-	p.mlx = mlx;
-	p.img = img;
-	p.map = map;
-	p.param.scale = 100;
-	p.param.angle = 44.3F;
-	p.param.offset_x = WIN_WIDTH / 3;
-	p.param.offset_y = WIN_HEIGHT / 2;
-	mlx_loop_hook(mlx, &loop_hook, &p);
+	ctx.mlx = mlx;
+	ctx.plot = &plot;
+	ctx.quality = MEDIUM;
+	ctx.img = img;
+	ctx.map = map;
+	ctx.param.scale = 100;
+	ctx.param.angle = 45;
+	ctx.param.offset_x = WIN_WIDTH / 3;
+	ctx.param.offset_y = WIN_HEIGHT / 2;
+	mlx_key_hook(mlx, &key_hook, &ctx);
+	mlx_loop_hook(mlx, &loop_hook, &ctx);
 	mlx_loop(mlx);
 }
 
-static void	loop_hook(void *ctx)
+static void	key_hook(mlx_key_data_t keydata, void *param)
 {
-	struct s_ptr		*p;
-	t_render_context	render_context;
+	struct s_render_context	*ctx;
 
-	p = (struct s_ptr *)ctx;
-	render_context.img = p->img;
-	render_context.plot = &plot;
-	paint_background(p->img, 0x40463aff);
-	move(p->mlx, &p->param);
-	project(p->map, &p->param);
-	draw(&render_context, p->map);
-	if (mlx_is_key_down(p->mlx, MLX_KEY_ESCAPE))
-		mlx_close_window(p->mlx);
+	ctx = (struct s_render_context*)param;
+	if (keydata.key == MLX_KEY_Q && keydata.action == MLX_PRESS)
+	{
+		ctx->quality = (ctx->quality + 1) % 2;
+		ft_dprintf(2, "inc. qual is now: %d\n", ctx->quality);
+	}
+}
+
+static void	loop_hook(void *render_context)
+{
+	t_render_context	*ctx;
+
+	ctx = (t_render_context *)render_context;
+	paint_background(ctx->img, 0x40463aff);
+	move(ctx->mlx, &ctx->param);
+	project(ctx->map, &ctx->param);
+	draw(ctx, ctx->map);
+	if (mlx_is_key_down(ctx->mlx, MLX_KEY_ESCAPE))
+		mlx_close_window(ctx->mlx);
 }
 
 void	paint_background(mlx_image_t *img, uint32_t bgcolor)
@@ -67,16 +80,12 @@ void	paint_background(mlx_image_t *img, uint32_t bgcolor)
 	}
 }
 
-static int		point_is_in_window(int x, int y, int width, int height);
-
-static int	point_is_in_window(int x, int y, int width, int height)
-{
-	return (0 <= x && x < width && 0 <= y && y < height);
-}
-
 void	plot(void *img, int x, int y, uint32_t color)
 {
-	if (point_is_in_window(x, y, WIN_WIDTH, WIN_HEIGHT))
+	int	point_is_in_window;
+
+	point_is_in_window = 0 <= x && x < WIN_WIDTH && 0 <= y && y < WIN_HEIGHT;
+	if (point_is_in_window)
 		mlx_put_pixel((mlx_image_t*)img, (uint32_t)x, (uint32_t)y, color);
 }
 

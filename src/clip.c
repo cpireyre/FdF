@@ -12,96 +12,31 @@
 
 #include "clip.h"
 
-static t_outcode	compute_outcode(double x, double y);
-static int	clip_recur(struct s_line_d *l);
-static void	clamp(struct s_line_d *l, double *x0, double *y0, t_outcode code);
+static t_outcode	compute_outcode(int x, int y);
+static void			clamp(t_line *l, int *x0, int *y0, t_outcode code);
 
-struct s_line_d	lift_to_double(t_line line)
-{
-	struct s_line_d	l;
+/* Cohen–Sutherland line clip */
+/* https://en.wikipedia.org/wiki/Cohen–Sutherland_algorithm */
 
-	l.x0 = (double)line.x0;
-	l.y0 = (double)line.y0;
-	l.x1 = (double)line.x1;
-	l.y1 = (double)line.y1;
-	return (l);
-}
-
-t_line	lower_to_int(struct s_line_d l)
-{
-	t_line	line;
-
-	line.x0 = (int)l.x0;
-	line.y0 = (int)l.y0;
-	line.x1 = (int)l.x1;
-	line.y1 = (int)l.y1;
-	return (line);
-}
-
-/* Recursive Cohen–Sutherland */
 int clip(t_line *line)
-{
-	int				ret;
-	struct s_line_d	l;
-
-	l = lift_to_double(*line);
-	ret = clip_recur(&l);
-	*line = lower_to_int(l);
-	return (ret);
-}
-
-static int	clip_recur(struct s_line_d *l)
 {
 	t_outcode code0;
 	t_outcode code1;
 
-	code0 = compute_outcode(l->x0, l->y0);
-	code1 = compute_outcode(l->x1, l->y1);
+	code0 = compute_outcode(line->x0, line->y0);
+	code1 = compute_outcode(line->x1, line->y1);
 	if (!(code0 | code1))
 		return (1);
-	if (code0 & code1)
+	else if (code0 & code1)
 		return (0);
 	if (code0 > code1)
-		clamp(l, &l->x0, &l->y0, code0);
+		clamp(line, &line->x0, &line->y0, code0);
 	else
-		clamp(l, &l->x1, &l->y1, code1);
-	return (clip_recur(l));
+		clamp(line, &line->x1, &line->y1, code1);
+	return (clip(line));
 }
 
-static void	clamp(struct s_line_d *l, double *x0, double *y0, t_outcode code)
-{
-	double	x;
-	double	y;
-	double	slope;
-
-	x = -1;
-	y = -1;
-	slope = (l->y1 - l->y0) / (l->x1 - l->x0);
-	if (code & TOP)
-	{
-		x = l->x0 - (l->y0 / slope);
-		y = 0;
-	}
-	else if (code & BOTTOM)
-	{
-		x = l->x0 + (WIN_HEIGHT - l->y0) / slope;
-		y = WIN_HEIGHT - 1;
-	}
-	else if (code & RIGHT)
-	{
-		y = l->y0 + slope * (WIN_WIDTH - l->x0);
-		x = WIN_WIDTH - 1;
-	}
-	else if (code & LEFT)
-	{
-		y = l->y0 - slope * l->x0;
-		x = 0;
-	}
-	*x0 = x;
-	*y0 = y;
-}
-
-static t_outcode	compute_outcode(double x, double y)
+static t_outcode	compute_outcode(int x, int y)
 {
 	t_outcode	code;
 
@@ -115,4 +50,31 @@ static t_outcode	compute_outcode(double x, double y)
 	else if (y >= WIN_HEIGHT)
 		code |= BOTTOM;
 	return (code);
+}
+
+static void	clamp(t_line *l, int *x0, int *y0, t_outcode code)
+{
+	double	slope;
+
+	slope = (double)(l->y1 - l->y0) / (double)(l->x1 - l->x0);
+	if (code & TOP)
+	{
+		*x0 = l->x0 - (int)round(l->y0 / slope);
+		*y0 = 0;
+	}
+	else if (code & BOTTOM)
+	{
+		*x0 = l->x0 + (int)round((WIN_HEIGHT - l->y0) / slope);
+		*y0 = WIN_HEIGHT - 1;
+	}
+	else if (code & RIGHT)
+	{
+		*y0 = l->y0 + (int)round(slope * (WIN_WIDTH - l->x0));
+		*x0 = WIN_WIDTH - 1;
+	}
+	else if (code & LEFT)
+	{
+		*y0 = l->y0 - (int)round(slope * l->x0);
+		*x0 = 0;
+	}
 }
