@@ -1,8 +1,8 @@
 #include "drawline.h"
 
-void	bresenham(t_render_context *ctx, t_line line, t_gradient gradient);
+void	bresenham(mlx_image_t *img, t_line line, t_gradient gradient);
 int clip(t_line *line);
-void	drawline(t_render_context *ctx, t_vec2 begin, t_vec2 end, t_vec2 colors)
+void	drawline(mlx_image_t *img, t_vec2 begin, t_vec2 end, t_vec2 colors)
 {
 	t_line		line;
 	t_gradient	color_gradient;
@@ -15,14 +15,14 @@ void	drawline(t_render_context *ctx, t_vec2 begin, t_vec2 end, t_vec2 colors)
 	line.x1 = end.x;
 	line.y1 = end.y;
 	if (clip(&line))
-		bresenham(ctx, line, color_gradient);
+		bresenham(img, line, color_gradient);
 }
 
 static void increment_gradient(t_gradient *g);
 static void	move_point_along_line(\
 		t_line *line, int *err, t_tuple delta, t_tuple slope);
 
-void	bresenham(t_render_context *ctx, t_line line, t_gradient gradient)
+void	bresenham(mlx_image_t *img, t_line line, t_gradient gradient)
 {
 	int		err;
 	t_tuple	delta;
@@ -37,13 +37,12 @@ void	bresenham(t_render_context *ctx, t_line line, t_gradient gradient)
 	gradient.span = ft_max(delta.x, -delta.y);
 	while (line.x0 != line.x1 || line.y0 != line.y1)
 	{
-		mlx_put_pixel(ctx->img,\
+		mlx_put_pixel(img,\
 				(uint32_t)line.x0, (uint32_t)line.y0, gradient.curr);
-		if (ctx->quality == MEDIUM)
-			increment_gradient(&gradient);
+		increment_gradient(&gradient);
 		move_point_along_line(&line, &err, delta, slope);
 	}
-		mlx_put_pixel(ctx->img,\
+		mlx_put_pixel(img,\
 				(uint32_t)line.x1, (uint32_t)line.y1, gradient.end);
 }
 

@@ -10,6 +10,6 @@
 #include "render.h"
 #include "interpolate_color.h"
 
-extern void	drawline(t_render_context *ctx, t_vec2 u, t_vec2 v, t_vec2 colors);
+extern void	drawline(mlx_image_t *img, t_vec2 u, t_vec2 v, t_vec2 colors);
 
 #endif /* DRAWLINE_H */

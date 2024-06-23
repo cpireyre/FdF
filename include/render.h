@@ -11,10 +11,6 @@ typedef struct s_render_context
 	t_projection	param;
 	void			*img;
 	t_map			*map;
-	int				quality;
 }				t_render_context;
 
-# define LOW 0
-# define MEDIUM 1
-# define HIGH 2
 #endif /* RENDER_H */
