@@ -1,8 +1,8 @@
 #include "rasterize.h"
+#include "libft.h"
 
 static t_clip_outcode	compute_outcode(int x, int y, int xmax, int ymax);
-static t_vec2	clamp(t_line *l, int xmax, int ymax, t_clip_outcode code);
-static t_vec2	to_vec(int x, int y);
+static t_vector	clamp(t_line *l, int xmax, int ymax, t_clip_outcode code);
 
 /* https://en.wikipedia.org/wiki/Cohen–Sutherland_algorithm */
 
@@ -10,7 +10,7 @@ int clip(t_line *line, int xmax, int ymax)
 {
 	t_clip_outcode	code0;
 	t_clip_outcode	code1;
-	t_vec2		clamped;
+	t_vector		clamped;
 
 	while (1)
 	{
@@ -51,29 +51,20 @@ static t_clip_outcode	compute_outcode(int x, int y, int xmax, int ymax)
 	return (code);
 }
 
-static t_vec2	clamp(t_line *l, int xmax, int ymax, t_clip_outcode code)
+static t_vector	clamp(t_line *l, int xmax, int ymax, t_clip_outcode code)
 {
 	double	slope;
-	t_vec2	clamped;
+	t_vector	clamped;
 
 	slope = (double)(l->y1 - l->y0) / (double)(l->x1 - l->x0);
-	clamped = to_vec(0, 0);
+	clamped = to_vec2(0, 0);
 	if (code & TOP)
-		clamped = to_vec(l->x0 - (int)round(l->y0 / slope), 0);
+		clamped = to_vec2(l->x0 - (int)round(l->y0 / slope), 0);
 	else if (code & BOTTOM)
-		clamped = to_vec(l->x0 + (int)round((ymax - l->y0) / slope), ymax - 1);
+		clamped = to_vec2(l->x0 + (int)round((ymax - l->y0) / slope), ymax - 1);
 	else if (code & RIGHT)
-		clamped = to_vec(xmax - 1, l->y0 + (int)round(slope * (xmax - l->x0)));
+		clamped = to_vec2(xmax - 1, l->y0 + (int)round(slope * (xmax - l->x0)));
 	else if (code & LEFT)
-		clamped = to_vec(0, l->y0 - (int)round(slope * l->x0));
+		clamped = to_vec2(0, l->y0 - (int)round(slope * l->x0));
 	return (clamped);
-}
-
-static t_vec2	to_vec(int x, int y)
-{
-	t_vec2	v;
-
-	v.x = x;
-	v.y = y;
-	return (v);
 }

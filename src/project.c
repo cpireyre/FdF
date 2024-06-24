@@ -13,13 +13,13 @@
 #include "t_map.h"
 #include <math.h>
 
-static t_point	project_point(t_point p, t_projection *s, int x, int y);
+static t_vector	project_point(t_vector p, t_projection *s, int x, int y);
 
 void	project(t_map *map, t_projection *param)
 {
 	int		i;
 	int		j;
-	t_point	curr;
+	t_vector	curr;
 
 	i = 0;
 	while (i < map->rows)
@@ -36,7 +36,7 @@ void	project(t_map *map, t_projection *param)
 }
 
 /* TODO: benchmark using floats and precomputing sin and cos */
-static t_point	project_point(t_point p, t_projection *s, int x, int y)
+static t_vector	project_point(t_vector p, t_projection *s, int x, int y)
 {
 	double	iso_x;
 	double	iso_y;
@@ -44,10 +44,10 @@ static t_point	project_point(t_point p, t_projection *s, int x, int y)
 	double	scaled_iso_y;
 
 	iso_x = (x - y) * cos(s->angle);
-	iso_y = (x + y) * sin(s->angle) - p.elevation;
+	iso_y = (x + y) * sin(s->angle) - p.z;
 	scaled_iso_x = s->scale * iso_x;
 	scaled_iso_y = s->scale * iso_y;
-	p.pixel_x = s->offset_x + (int)round(scaled_iso_x);
-	p.pixel_y = s->offset_y + (int)round(scaled_iso_y);
+	p.x = s->offset_x + (int)round(scaled_iso_x);
+	p.y = s->offset_y + (int)round(scaled_iso_y);
 	return (p);
 }

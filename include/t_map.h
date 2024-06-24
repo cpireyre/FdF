@@ -15,20 +15,13 @@
 
 # include "MLX42/MLX42.h"
 # include <stddef.h>
-
-typedef struct s_point
-{
-	int			pixel_x;
-	int			pixel_y;
-	int			elevation;
-	uint32_t	color;
-}					t_point;
+# include "libft.h"
 
 typedef struct s_map
 {
-	t_point	**points;
-	int		rows;
-	int		cols;
+	t_vector	**points;
+	int			rows;
+	int			cols;
 }	t_map;
 
 typedef struct s_projection

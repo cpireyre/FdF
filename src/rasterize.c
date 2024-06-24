@@ -1,14 +1,14 @@
 #include "rasterize.h"
 #include "libft.h"
 
-static void	connect(mlx_image_t *img, t_point a, t_point b);
+static void	connect(mlx_image_t *img, t_vector a, t_vector b);
 static void	bresenham(mlx_image_t *img, t_line line);
 
-void rasterize(mlx_image_t *img, t_map *map)
+void rasterize(mlx_image_t *image, t_map *map)
 {
 	int		i;
 	int		j;
-	t_point	curr;
+	t_vector	curr;
 
 	i = 0;
 	while (i < map->rows)
@@ -18,25 +18,25 @@ void rasterize(mlx_image_t *img, t_map *map)
 		{
 			curr = map->points[i][j];
 			if (i + 1 < map->rows)
-				connect(img, curr, map->points[i + 1][j]);
+				connect(image, curr, map->points[i + 1][j]);
 			if (j + 1 < map->cols)
-				connect(img, curr, map->points[i][j + 1]);
+				connect(image, curr, map->points[i][j + 1]);
 			j++;
 		}
 		i++;
 	}
 }
 
-static void	connect(mlx_image_t *img, t_point a, t_point b)
+static void	connect(mlx_image_t *img, t_vector a, t_vector b)
 {
 	t_line		line;
 
-	line.x0 = a.pixel_x;
-	line.y0 = a.pixel_y;
-	line.x1 = b.pixel_x;
-	line.y1 = b.pixel_y;
-	line.color0 = a.color;
-	line.color1 = b.color;
+	line.x0 = a.x;
+	line.y0 = a.y;
+	line.x1 = b.x;
+	line.y1 = b.y;
+	line.color0 = (uint32_t)a.c;
+	line.color1 = (uint32_t)b.c;
 	if (clip(&line, (int)img->width, (int)img->height))
 	{
 		line.delta_x = ft_abs(line.x1 - line.x0);

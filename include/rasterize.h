@@ -5,6 +5,7 @@
 # include "MLX42/MLX42.h"
 # include "t_map.h"
 # include "color_lerp.h"
+# include "libft.h"
 
 extern void rasterize(mlx_image_t *image, t_map *map);
 
@@ -22,12 +23,6 @@ typedef struct s_line
 	uint32_t	color0;
 	uint32_t	color1;
 }				t_line;
-
-typedef struct s_vec2
-{
-	int	x;
-	int	y;
-}				t_vec2;
 
 int	clip(t_line *line, int xmax, int ymax);
 

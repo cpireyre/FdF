@@ -17,8 +17,8 @@
 #include "libft.h"
 
 static int		count_lines_in_file(const char *path);
-static t_point	**parse_file(int fd, t_map *map, t_arena a);
-static t_point	*tokenize(int fd, t_map *map, t_arena a);
+static t_vector	**parse_file(int fd, t_map *map, t_arena a);
+static t_vector	*tokenize(int fd, t_map *map, t_arena a);
 static int		count_words_in_line(const char *line);
 
 int	build_map_from_file(const char *path, t_map *map, t_arena a)
@@ -40,12 +40,12 @@ int	build_map_from_file(const char *path, t_map *map, t_arena a)
 	return (0);
 }
 
-static t_point	**parse_file(int fd, t_map *map, t_arena a)
+static t_vector	**parse_file(int fd, t_map *map, t_arena a)
 {
 	int	i;
 	int	cols;
 
-	map->points = arena_calloc(a, (size_t)map->rows, sizeof(t_point *));
+	map->points = arena_calloc(a, (size_t)map->rows, sizeof(t_vector *));
 	if (!map->points)
 		return (NULL);
 	i = 0;
@@ -62,17 +62,17 @@ static t_point	**parse_file(int fd, t_map *map, t_arena a)
 	return (map->points);
 }
 
-static t_point	*tokenize(int fd, t_map *map, t_arena a)
+static t_vector	*tokenize(int fd, t_map *map, t_arena a)
 {
 	int		i;
 	char	*line;
 	char	*token;
-	t_point	*points;
+	t_vector	*points;
 
 	if (ft_gnl(fd, &line) == -1)
 		return (NULL);
 	map->cols = count_words_in_line(line);
-	points = arena_calloc(a, (size_t)map->cols, sizeof(t_point));
+	points = arena_calloc(a, (size_t)map->cols, sizeof(t_vector));
 	if (!points)
 	{
 		ft_memdel((void **)&line);
@@ -82,7 +82,7 @@ static t_point	*tokenize(int fd, t_map *map, t_arena a)
 	token = strtok((char *)line, " \n");
 	while (i < map->cols)
 	{
-		points[i].elevation = ft_atoi(token);
+		points[i].z = ft_atoi(token);
 		i++;
 		token = strtok(NULL, " \n");
 	}

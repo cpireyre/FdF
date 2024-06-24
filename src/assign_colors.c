@@ -29,9 +29,9 @@ void	assign_colors(t_map *map, uint32_t low_color, uint32_t high_color)
 		j = 0;
 		while (j < map->cols)
 		{
-			map->points[i][j].color = color_lerp( 
+			map->points[i][j].c = (int)color_lerp( 
 					(uint32_t)low_color, (uint32_t)high_color,
-					(double)map->points[i][j].elevation/ (double)(max - min));
+					(double)map->points[i][j].z/ (double)(max - min));
 			j++;
 		}
 		i++;
@@ -44,17 +44,17 @@ static void	find_min_max_elevation(t_map *map, int *min, int *max)
 	int	j;
 
 	i = 0;
-	*min = map->points[0][0].elevation;
+	*min = map->points[0][0].z;
 	*max = *min;
 	while (i < map->rows)
 	{
 		j = 0;
 		while (j < map->cols)
 		{
-			if (*min > map->points[i][j].elevation)
-				*min = map->points[i][j].elevation;
-			if (*max < map->points[i][j].elevation)
-				*max = map->points[i][j].elevation;
+			if (*min > map->points[i][j].z)
+				*min = map->points[i][j].z;
+			if (*max < map->points[i][j].z)
+				*max = map->points[i][j].z;
 			j++;
 		}
 		i++;
