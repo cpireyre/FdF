@@ -2,6 +2,7 @@
 #include "libft.h"
 
 static void	connect(mlx_image_t *img, t_point a, t_point b);
+static void	bresenham(mlx_image_t *img, t_line line);
 
 void rasterize(mlx_image_t *img, t_map *map)
 {
@@ -47,21 +48,32 @@ static void	connect(mlx_image_t *img, t_point a, t_point b)
 	}
 }
 
-void	paint_background(mlx_image_t *image, uint32_t bgcolor)
+static void	bresenham(mlx_image_t *img, t_line line)
 {
-	int	i;
-	int	j;
+	int			i;
+	int			err;
+	uint32_t	color;
+	int			double_err;
 
 	i = 0;
-	while ((uint32_t)i < image->width)
+	color = line.color0;
+	err = line.delta_x + line.delta_y;
+	while (i < line.length)
 	{
-		j = 0;
-		while ((uint32_t)j < image->height)
+		double_err = err * 2;
+		mlx_put_pixel(img, (uint32_t)line.x0, (uint32_t)line.y0, color);
+		color = color_lerp(line.color0, line.color1, (double)i/(double)line.length);
+		if (double_err > line.delta_y)
 		{
-			mlx_put_pixel(image, (uint32_t)i, (uint32_t)j, bgcolor);
-			j++;
+			err += line.delta_y;
+			line.x0 += line.slope_x;
+		}
+		if (double_err < line.delta_x)
+		{
+			err += line.delta_x;
+			line.y0 += line.slope_y;
 		}
 		i++;
 	}
+	mlx_put_pixel(img, (uint32_t)line.x1, (uint32_t)line.y1, line.color1);
 }
-

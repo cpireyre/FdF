@@ -1,15 +1,15 @@
-#include "line.h"
+#include "rasterize.h"
 
-static t_outcode	compute_outcode(int x, int y, int xmax, int ymax);
-static t_vec2	clamp(t_line *l, int xmax, int ymax, t_outcode code);
+static t_clip_outcode	compute_outcode(int x, int y, int xmax, int ymax);
+static t_vec2	clamp(t_line *l, int xmax, int ymax, t_clip_outcode code);
 static t_vec2	to_vec(int x, int y);
 
 /* https://en.wikipedia.org/wiki/Cohen–Sutherland_algorithm */
 
 int clip(t_line *line, int xmax, int ymax)
 {
-	t_outcode	code0;
-	t_outcode	code1;
+	t_clip_outcode	code0;
+	t_clip_outcode	code1;
 	t_vec2		clamped;
 
 	while (1)
@@ -35,9 +35,9 @@ int clip(t_line *line, int xmax, int ymax)
 	}
 }
 
-static t_outcode	compute_outcode(int x, int y, int xmax, int ymax)
+static t_clip_outcode	compute_outcode(int x, int y, int xmax, int ymax)
 {
-	t_outcode	code;
+	t_clip_outcode	code;
 
 	code = INSIDE;
 	if (x < 0)
@@ -51,7 +51,7 @@ static t_outcode	compute_outcode(int x, int y, int xmax, int ymax)
 	return (code);
 }
 
-static t_vec2	clamp(t_line *l, int xmax, int ymax, t_outcode code)
+static t_vec2	clamp(t_line *l, int xmax, int ymax, t_clip_outcode code)
 {
 	double	slope;
 	t_vec2	clamped;

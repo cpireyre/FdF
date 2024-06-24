@@ -1,24 +1,45 @@
 #ifndef RASTERIZE_H
 # define RASTERIZE_H
 
+# include <math.h>
 # include "MLX42/MLX42.h"
 # include "t_map.h"
-# include "line.h"
+# include "color_lerp.h"
 
 extern void rasterize(mlx_image_t *image, t_map *map);
-extern void	paint_background(mlx_image_t *image, uint32_t bgcolor);
-extern uint32_t	interpolate_color(uint32_t start, uint32_t end, int curr, int steps);
 
-typedef union u_color {
-    struct {
-        uint8_t r;
-        uint8_t g;
-        uint8_t b;
-        uint8_t a;
-    } ch;
-    uint32_t value;
-} t_color;
+typedef struct s_line
+{
+	int			x0;
+	int			y0;
+	int			x1;
+	int			y1;
+	int			length;
+	int			delta_x;
+	int			delta_y;
+	int			slope_x;
+	int			slope_y;
+	uint32_t	color0;
+	uint32_t	color1;
+}				t_line;
 
-void	bresenham(mlx_image_t *image, t_line line);
+typedef struct s_vec2
+{
+	int	x;
+	int	y;
+}				t_vec2;
+
+int	clip(t_line *line, int xmax, int ymax);
+
+typedef int	t_clip_outcode;
+
+enum e_clip_outcode
+{
+	INSIDE = 0,
+	LEFT = 1,
+	RIGHT = 2,
+	BOTTOM = 4,
+	TOP = 8
+};
 
 #endif /* RASTERIZE_H */

@@ -49,9 +49,9 @@ $(libmlx):
 	cmake $(cmakeflags) $(libmlx_dir) -B $(libmlx_dir)/build > /dev/null
 	$(MAKE) -C $(libmlx_dir)/build > /dev/null
 
-# ifeq ($(UNAME_S), Darwin)
-glfw_path := $(shell brew --prefix glfw)/lib
-# endif
+ifeq ($(UNAME_S), Darwin)
+glfw_path += $(shell brew --prefix glfw)/lib
+endif
 $(bin): $(libmlx) $(libft) $(objects)
 	LIBRARY_PATH=$(glfw_path) $(CC) $(objects) $(LDFLAGS) -o $@
 

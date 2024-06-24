@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "t_map.h"
-#include "rasterize.h"
+#include "color_lerp.h"
 
 static void	find_min_max_elevation(t_map *map, int *min, int *max);
 
@@ -29,9 +29,9 @@ void	assign_colors(t_map *map, uint32_t low_color, uint32_t high_color)
 		j = 0;
 		while (j < map->cols)
 		{
-			map->points[i][j].color = interpolate_color( 
+			map->points[i][j].color = color_lerp( 
 					(uint32_t)low_color, (uint32_t)high_color,
-					map->points[i][j].elevation, max - min);
+					(double)map->points[i][j].elevation/ (double)(max - min));
 			j++;
 		}
 		i++;
