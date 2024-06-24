@@ -12,14 +12,14 @@
 
 #include "fdf.h"
 
-static struct s_mlx_with_img	initialize_mlx(const char *name, int width, int height);
+static t_render_context	initialize_mlx(const char *name, int width, int height);
 
 int	main(int argc, char **argv)
 {
 	int						err;
 	t_map					map;
 	t_arena					a;
-	struct s_mlx_with_img	m;
+	t_render_context		ctx;
 
 	if (argc == 2)
 	{
@@ -27,14 +27,14 @@ int	main(int argc, char **argv)
 		if (!a)
 			return (1);
 		err = build_map_from_file(argv[1], &map, a);
-		m = initialize_mlx(argv[1], WIN_WIDTH, WIN_HEIGHT);
-		if (!err && m.init_success)
+		ctx = initialize_mlx(argv[1], WIN_WIDTH, WIN_HEIGHT);
+		if (!err && ctx.init_success)
 		{
 			assign_colors(&map, 0xa6e36dff, 0xdb762eff);
-			render(m.mlx, m.img, &map);
+			render(ctx.mlx, ctx.img, &map);
 		}
-		if (m.mlx)
-			mlx_terminate(m.mlx);
+		if (ctx.mlx)
+			mlx_terminate(ctx.mlx);
 		arena_dispose(&a);
 	}
 	else
@@ -42,15 +42,14 @@ int	main(int argc, char **argv)
 	return (0);
 }
 
-static struct s_mlx_with_img	initialize_mlx(const char *name, int width, int height)
+static t_render_context	initialize_mlx(const char *name, int width, int height)
 {
-	struct s_mlx_with_img	m;
+	t_render_context	m;
 
 	mlx_set_setting(MLX_FULLSCREEN, true);
 	mlx_set_setting(MLX_STRETCH_IMAGE, true);
 	m.mlx = NULL;
 	m.img = NULL;
-	m.init_success = 0;
 	m.mlx = mlx_init(width, height, name, true);
 	if (!m.mlx)
 		return (m);
