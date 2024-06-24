@@ -1,7 +1,8 @@
 #ifndef LINE_H
 # define LINE_H
 
-#include <stdint.h>
+# include <stdint.h>
+# include <math.h>
 
 typedef struct s_line
 {
@@ -18,13 +19,23 @@ typedef struct s_line
 	uint32_t	color1;
 }				t_line;
 
-typedef struct	s_gradient
+typedef struct s_vec2
 {
-	uint32_t	start;
-	uint32_t	curr;
-	uint32_t	end;
-	int			span;
-	int			offset;
-}				t_gradient;
+	int	x;
+	int	y;
+}				t_vec2;
+
+extern int	clip(t_line *line, int xmax, int ymax);
+
+typedef int	t_outcode;
+
+enum e_outcode
+{
+	INSIDE = 0,
+	LEFT = 1,
+	RIGHT = 2,
+	BOTTOM = 4,
+	TOP = 8
+};
 
 #endif /* LINE_H */

@@ -12,7 +12,6 @@
 
 #include <fcntl.h>
 #include <unistd.h>
-#include <stdlib.h>
 #include <string.h> /* TODO: delete this */
 #include "t_map.h"
 #include "libft.h"

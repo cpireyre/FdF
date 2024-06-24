@@ -12,7 +12,7 @@
 
 #include "fdf.h"
 
-static struct s_mlx_with_img	initialize_mlx(const char *name);
+static struct s_mlx_with_img	initialize_mlx(const char *name, int width, int height);
 
 int	main(int argc, char **argv)
 {
@@ -27,8 +27,8 @@ int	main(int argc, char **argv)
 		if (!a)
 			return (1);
 		err = build_map_from_file(argv[1], &map, a);
-		m = initialize_mlx(argv[1]);
-		if (!err && m.instance != -1)
+		m = initialize_mlx(argv[1], WIN_WIDTH, WIN_HEIGHT);
+		if (!err && m.init_success)
 		{
 			assign_colors(&map, 0xa6e36dff, 0xdb762eff);
 			render(m.mlx, m.img, &map);
@@ -42,19 +42,22 @@ int	main(int argc, char **argv)
 	return (0);
 }
 
-static struct s_mlx_with_img	initialize_mlx(const char *name)
+static struct s_mlx_with_img	initialize_mlx(const char *name, int width, int height)
 {
 	struct s_mlx_with_img	m;
 
+	mlx_set_setting(MLX_FULLSCREEN, true);
+	mlx_set_setting(MLX_STRETCH_IMAGE, true);
 	m.mlx = NULL;
 	m.img = NULL;
-	m.instance = -1;
-	m.mlx = mlx_init(WIN_WIDTH, WIN_HEIGHT, name, false);
+	m.init_success = 0;
+	m.mlx = mlx_init(width, height, name, true);
 	if (!m.mlx)
 		return (m);
-	m.img = mlx_new_image(m.mlx, WIN_WIDTH, WIN_HEIGHT);
+	m.img = mlx_new_image(m.mlx, (uint32_t)m.mlx->width, (uint32_t)m.mlx->height);
 	if (!m.img)
 		return (m);
-	m.instance = mlx_image_to_window(m.mlx, m.img, 0, 0);
+	if (mlx_image_to_window(m.mlx, m.img, 0, 0) != -1)
+		m.init_success = 1;
 	return (m);
 }

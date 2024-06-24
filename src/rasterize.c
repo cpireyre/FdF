@@ -1,6 +1,7 @@
 #include "rasterize.h"
+#include "libft.h"
 
-static void	draw_line(mlx_image_t *img, t_point a, t_point b);
+static void	connect(mlx_image_t *img, t_point a, t_point b);
 
 void rasterize(mlx_image_t *img, t_map *map)
 {
@@ -16,16 +17,16 @@ void rasterize(mlx_image_t *img, t_map *map)
 		{
 			curr = map->points[i][j];
 			if (i + 1 < map->rows)
-				draw_line(img, curr, map->points[i + 1][j]);
+				connect(img, curr, map->points[i + 1][j]);
 			if (j + 1 < map->cols)
-				draw_line(img, curr, map->points[i][j + 1]);
+				connect(img, curr, map->points[i][j + 1]);
 			j++;
 		}
 		i++;
 	}
 }
 
-static void	draw_line(mlx_image_t *img, t_point a, t_point b)
+static void	connect(mlx_image_t *img, t_point a, t_point b)
 {
 	t_line		line;
 
@@ -35,7 +36,7 @@ static void	draw_line(mlx_image_t *img, t_point a, t_point b)
 	line.y1 = b.pixel_y;
 	line.color0 = a.color;
 	line.color1 = b.color;
-	if (clip(&line))
+	if (clip(&line, (int)img->width, (int)img->height))
 	{
 		line.delta_x = ft_abs(line.x1 - line.x0);
 		line.delta_y = -ft_abs(line.y1 - line.y0);

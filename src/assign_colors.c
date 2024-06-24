@@ -10,7 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "assign_colors.h"
+#include "t_map.h"
+#include "rasterize.h"
 
 static void	find_min_max_elevation(t_map *map, int *min, int *max);
 
