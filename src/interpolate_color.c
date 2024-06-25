@@ -1,6 +1,6 @@
 #include "rasterize.h"
 
-uint32_t	color_lerp(uint32_t start, uint32_t end, double lerp)
+uint32_t	interpolate_color(uint32_t start, uint32_t end, double lerp)
 {
 	t_color	s;
 	t_color	e;

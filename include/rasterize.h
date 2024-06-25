@@ -4,7 +4,7 @@
 # include <math.h>
 # include "MLX42/MLX42.h"
 # include "t_map.h"
-# include "color_lerp.h"
+# include "interpolate_color.h"
 # include "libft.h"
 # include "line.h"
 

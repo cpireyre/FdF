@@ -57,14 +57,14 @@ static t_vector	clamp(t_line *l, int xmax, int ymax, t_clip_outcode code)
 	t_vector	clamped;
 
 	slope = (double)(l->y1 - l->y0) / (double)(l->x1 - l->x0);
-	clamped = to_vec2(0, 0);
+	clamped = ft_vec2(0, 0);
 	if (code & TOP)
-		clamped = to_vec2(l->x0 - (int)round(l->y0 / slope), 0);
+		clamped = ft_vec2(l->x0 - (int)round(l->y0 / slope), 0);
 	else if (code & BOTTOM)
-		clamped = to_vec2(l->x0 + (int)round((ymax - l->y0) / slope), ymax - 1);
+		clamped = ft_vec2(l->x0 + (int)round((ymax - l->y0) / slope), ymax - 1);
 	else if (code & RIGHT)
-		clamped = to_vec2(xmax - 1, l->y0 + (int)round(slope * (xmax - l->x0)));
+		clamped = ft_vec2(xmax - 1, l->y0 + (int)round(slope * (xmax - l->x0)));
 	else if (code & LEFT)
-		clamped = to_vec2(0, l->y0 - (int)round(slope * l->x0));
+		clamped = ft_vec2(0, l->y0 - (int)round(slope * l->x0));
 	return (clamped);
 }

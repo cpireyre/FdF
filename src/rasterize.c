@@ -39,17 +39,17 @@ static void connect(mlx_image_t *img, t_vector a, t_vector b)
     line.color1 = (uint32_t)b.c;
 
     // Original line length
-    double original_length = sqrt((a.x - b.x) * (a.x - b.x) + (a.y - b.y) * (a.y - b.y));
+    double original_length = ft_distance(a.x, a.y, b.x, b.y);
 
     if (clip(&line, (int)img->width, (int)img->height)) {
 
         // Calculate the proportions
-        double start_proportion = sqrt((a.x - line.x0) * (a.x - line.x0) + (a.y - line.y0) * (a.y - line.y0)) / original_length;
-        double end_proportion = sqrt((a.x - line.x1) * (a.x - line.x1) + (a.y - line.y1) * (a.y - line.y1)) / original_length;
+        double start_proportion = ft_distance(a.x, a.y, line.x0, line.y0) / original_length;
+        double end_proportion = ft_distance(a.x, a.y, line.x1, line.y1) / original_length;
 
         // Interpolate the colors
-        line.color0 = color_lerp((uint32_t)a.c, (uint32_t)b.c, start_proportion);
-        line.color1 = color_lerp((uint32_t)a.c, (uint32_t)b.c, end_proportion);
+        line.color0 = interpolate_color((uint32_t)a.c, (uint32_t)b.c, start_proportion);
+        line.color1 = interpolate_color((uint32_t)a.c, (uint32_t)b.c, end_proportion);
 
         line.delta_x = ft_abs(line.x1 - line.x0);
         line.delta_y = -ft_abs(line.y1 - line.y0);
@@ -74,7 +74,7 @@ static void	bresenham(mlx_image_t *img, t_line line)
 	{
 		double_err = err * 2;
 		mlx_put_pixel(img, (uint32_t)line.x0, (uint32_t)line.y0, color);
-		color = color_lerp(line.color0, line.color1, (double)i/(double)line.length);
+		color = interpolate_color(line.color0, line.color1, (double)i/(double)line.length);
 		if (double_err > line.delta_y)
 		{
 			err += line.delta_y;

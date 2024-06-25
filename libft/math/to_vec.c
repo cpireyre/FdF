@@ -1,6 +1,6 @@
 #include "ft_math.h"
 
-t_vector	to_vec2(int x, int y)
+t_vector	ft_vec2(int x, int y)
 {
 	t_vector	v;
 

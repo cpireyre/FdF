@@ -9,7 +9,8 @@ typedef struct s_vector
 	int	c;
 }		t_vector;
 
-t_vector	to_vec2(int x, int y);
+t_vector	ft_vec2(int x, int y);
+double		ft_distance(int x0, int y0, int x1, int y1);
 
 int	ft_abs(int a);
 int	ft_min(int a, int b);
