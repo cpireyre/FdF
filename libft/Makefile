@@ -40,7 +40,7 @@ src := ./io/ft_gnl.c      ./ctype/ft_atoi.c    ./str/ft_split.c \
 	   ./str/ft_strtrim.c ./ctype/ft_isdigit.c ./mem/ft_memdel.c       \
 	   ./io/ft_error.c	  ./ctype/ft_isspace.c ./arena/arena.c 			\
 	   ./math/ft_abs.c 	  ./math/ft_max.c ./math/ft_min.c ./math/ft_sign.c ./math/to_vec.c \
-	   ./math/ft_distance.c
+	   ./math/ft_distance.c ./mem/ft_memset_32.c
 
 obj_dir := ./obj
 $(obj_dir)/%.o: %.c

@@ -6,8 +6,8 @@ static void	bresenham(mlx_image_t *img, t_line line);
 
 void rasterize(mlx_image_t *image, t_map *map)
 {
-	int		i;
-	int		j;
+	int	i;
+	int	j;
 	t_vector	curr;
 
 	i = 0;

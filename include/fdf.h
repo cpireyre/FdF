@@ -14,7 +14,6 @@
 # define FDF_H
 
 # include "libft.h"
-# include "render.h"
 # include "rasterize.h"
 # include "t_map.h"
 
@@ -22,7 +21,20 @@
 # define WIN_HEIGHT	800
 # define LOW_COLOR	0xa6e36dff
 # define HIGH_COLOR	0xdb762eff
-# define BG_COLOR	0x40463aff
+/* BG_COLOR needs different endianness because we write it to memory directly */
+# define BG_COLOR	0xff3a4640
+
+typedef struct s_render_context
+{
+	mlx_t			*mlx;
+	mlx_image_t		*img;
+	t_map			*map;
+	t_projection	param;
+	uint32_t		bg_color;
+	int				init_success;
+}				t_render_context;
+
+typedef	void (*t_hook)(void*);
 
 int		build_map_from_file(const char *path, t_map *map, t_arena a);
 void	assign_colors(t_map *map, uint32_t low_color, uint32_t high_color);

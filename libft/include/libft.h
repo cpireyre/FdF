@@ -14,6 +14,7 @@
 # define LIBFT_H
 
 # include <stddef.h>
+# include <stdint.h>
 # include <sys/types.h>
 # include "arena.h"
 # include "ft_math.h"
@@ -27,6 +28,7 @@ void	*ft_memcpy(void *dst, const void *src, size_t n);
 void	*ft_memmove(void *dst, const void *src, size_t len);
 int		ft_memcmp(const void *s1, const void *s2, size_t n);
 void	ft_memdel(void **ptr);
+void	*ft_memset_32(void *b, uint32_t c, size_t len);
 
 /* Str */
 
