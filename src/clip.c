@@ -53,18 +53,18 @@ static t_clip_outcode	compute_outcode(int x, int y, int xmax, int ymax)
 
 static t_vector	clamp(t_line *l, int xmax, int ymax, t_clip_outcode code)
 {
-	double	slope;
-	t_vector	clamped;
+	t_vector	ret;
+	double		slope;
 
+	ret = ft_vec2(0, 0);
 	slope = (double)(l->y1 - l->y0) / (double)(l->x1 - l->x0);
-	clamped = ft_vec2(0, 0);
 	if (code & TOP)
-		clamped = ft_vec2(l->x0 - (int)round(l->y0 / slope), 0);
+		ret = ft_vec2(l->x0 - (int)lrint(l->y0 / slope), 0);
 	else if (code & BOTTOM)
-		clamped = ft_vec2(l->x0 + (int)round((ymax - l->y0) / slope), ymax - 1);
+		ret = ft_vec2(l->x0 + (int)lrint((ymax - l->y0) / slope), ymax - 1);
 	else if (code & RIGHT)
-		clamped = ft_vec2(xmax - 1, l->y0 + (int)round(slope * (xmax - l->x0)));
+		ret = ft_vec2(xmax - 1, l->y0 + (int)lrint(fma(slope, xmax - l->x0, 0)));
 	else if (code & LEFT)
-		clamped = ft_vec2(0, l->y0 - (int)round(slope * l->x0));
-	return (clamped);
+		ret = ft_vec2(0, l->y0 - (int)lrint(fma(slope, l->x0, 0)));
+	return (ret);
 }

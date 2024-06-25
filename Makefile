@@ -19,7 +19,7 @@ bin 		:= fdf
 src_dir 	:= ./src
 obj_dir 	:= ./obj
 inc_dir		:= ./include
-sources 	:= main.c build_map.c project.c  \
+sources 	:= main.c build_map.c transform.c  \
 			   assign_colors.c rasterize.c clip.c interpolate_color.c
 objects 	:= $(sources:%.c=$(obj_dir)/%.o)
 libft_dir	:= ./libft
@@ -28,7 +28,7 @@ libft		:= $(libft_dir)/libft.a
 libmlx 		:= $(libmlx_dir)/build/libmlx42.a
 
 CC			:= clang
-DEBUG		:= -fsanitize=address -g3
+DEBUG		:= -fsanitize=undefined -fsanitize=address -g3
 CFLAGS		:= -Wconversion $(DEBUG) # -O2
 CFLAGS		+= -Wall -Wextra -Werror -MMD -MP -pedantic
 LDFLAGS		:= -L$(libft_dir) -lft -L$(libmlx_dir)/build -lmlx42 $(DEBUG)

@@ -7,6 +7,7 @@
 
 # define WIN_WIDTH	1280
 # define WIN_HEIGHT	800
+
 # define LOW_COLOR	0xa6e36dff
 # define HIGH_COLOR	0xdb762eff
 /* BG_COLOR needs different endianness because we write it to memory directly */

@@ -12,6 +12,8 @@
 
 #include "t_map.h"
 #include <math.h>
+#define COS45 0.7071067812
+#define SIN45 0.7071067812
 
 static t_vector	project_point(t_vector p, t_projection *s, int x, int y);
 
@@ -35,7 +37,6 @@ void	project(t_map *map, t_projection *param)
 	}
 }
 
-/* TODO: benchmark using floats and precomputing sin and cos */
 static t_vector	project_point(t_vector p, t_projection *s, int x, int y)
 {
 	double	iso_x;
@@ -43,8 +44,8 @@ static t_vector	project_point(t_vector p, t_projection *s, int x, int y)
 	double	scaled_iso_x;
 	double	scaled_iso_y;
 
-	iso_x = (x - y) * cos(s->angle);
-	iso_y = (x + y) * sin(s->angle) - p.z;
+	iso_x = (x - y) * COS45;
+	iso_y = (x + y) * SIN45 - p.z;
 	scaled_iso_x = s->scale * iso_x;
 	scaled_iso_y = s->scale * iso_y;
 	p.x = s->offset_x + (int)round(scaled_iso_x);
