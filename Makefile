@@ -94,6 +94,10 @@ j: $(bin)
 m: $(bin)
 	./$(bin) ./test_maps/mars.fdf
 
+.PHONY: l
+l: $(bin)
+	./$(bin) ./test_maps/line.fdf
+
 .PHONY: norm
 ifeq ($(shell command -v norminette),)
 norm:

@@ -27,25 +27,37 @@ void rasterize(mlx_image_t *image, t_map *map)
 	}
 }
 
-static void	connect(mlx_image_t *img, t_vector a, t_vector b)
+static void connect(mlx_image_t *img, t_vector a, t_vector b)
 {
-	t_line		line;
+    t_line line;
 
-	line.x0 = a.x;
-	line.y0 = a.y;
-	line.x1 = b.x;
-	line.y1 = b.y;
-	line.color0 = (uint32_t)a.c;
-	line.color1 = (uint32_t)b.c;
-	if (clip(&line, (int)img->width, (int)img->height))
-	{
-		line.delta_x = ft_abs(line.x1 - line.x0);
-		line.delta_y = -ft_abs(line.y1 - line.y0);
-		line.slope_x = ft_sign(line.x0, line.x1);
-		line.slope_y = ft_sign(line.y0, line.y1);
-		line.length = ft_max(line.delta_x, -line.delta_y);
-		bresenham(img, line);
-	}
+    line.x0 = a.x;
+    line.y0 = a.y;
+    line.x1 = b.x;
+    line.y1 = b.y;
+    line.color0 = (uint32_t)a.c;
+    line.color1 = (uint32_t)b.c;
+
+    // Original line length
+    double original_length = sqrt((a.x - b.x) * (a.x - b.x) + (a.y - b.y) * (a.y - b.y));
+
+    if (clip(&line, (int)img->width, (int)img->height)) {
+
+        // Calculate the proportions
+        double start_proportion = sqrt((a.x - line.x0) * (a.x - line.x0) + (a.y - line.y0) * (a.y - line.y0)) / original_length;
+        double end_proportion = sqrt((a.x - line.x1) * (a.x - line.x1) + (a.y - line.y1) * (a.y - line.y1)) / original_length;
+
+        // Interpolate the colors
+        line.color0 = color_lerp((uint32_t)a.c, (uint32_t)b.c, start_proportion);
+        line.color1 = color_lerp((uint32_t)a.c, (uint32_t)b.c, end_proportion);
+
+        line.delta_x = ft_abs(line.x1 - line.x0);
+        line.delta_y = -ft_abs(line.y1 - line.y0);
+        line.slope_x = ft_sign(line.x0, line.x1);
+        line.slope_y = ft_sign(line.y0, line.y1);
+        line.length = ft_max(line.delta_x, -line.delta_y);
+        bresenham(img, line);
+    }
 }
 
 static void	bresenham(mlx_image_t *img, t_line line)
@@ -58,7 +70,7 @@ static void	bresenham(mlx_image_t *img, t_line line)
 	i = 0;
 	color = line.color0;
 	err = line.delta_x + line.delta_y;
-	while (i < line.length)
+	while (line.x0 != line.x1 || line.y0 != line.y1)
 	{
 		double_err = err * 2;
 		mlx_put_pixel(img, (uint32_t)line.x0, (uint32_t)line.y0, color);
