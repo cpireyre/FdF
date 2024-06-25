@@ -13,8 +13,8 @@
 #include "main.h"
 
 static t_render_context	initialize_ctx(const char *name, int width, int height);
-static void	render_frame(t_render_context *ctx);
-void		move(mlx_t *m, t_projection *param);
+static void				render_frame(t_render_context *ctx);
+static void				move(mlx_t *m, t_projection *param);
 
 int	main(int argc, char **argv)
 {
@@ -81,4 +81,24 @@ static void	render_frame(t_render_context *ctx)
 	rasterize(ctx->img, ctx->map);
 	if (mlx_is_key_down(ctx->mlx, MLX_KEY_ESCAPE))
 		mlx_close_window(ctx->mlx);
+}
+
+static void	move(mlx_t *m, t_projection *param)
+{
+	if (mlx_is_key_down(m, MLX_KEY_RIGHT_SHIFT))
+	{
+		param->scale -= 1 * (mlx_is_key_down(m, MLX_KEY_W));
+		param->angle -= 0.1F * (mlx_is_key_down(m, MLX_KEY_A));
+		param->scale += 1 * (mlx_is_key_down(m, MLX_KEY_S));
+		param->angle += 0.1F * (mlx_is_key_down(m, MLX_KEY_D));
+		if (param->scale < 0)
+			param->scale = 0;
+	}
+	else
+	{
+		param->offset_y -= 5 * (mlx_is_key_down(m, MLX_KEY_W));
+		param->offset_x -= 5 * (mlx_is_key_down(m, MLX_KEY_A));
+		param->offset_y += 5 * (mlx_is_key_down(m, MLX_KEY_S));
+		param->offset_x += 5 * (mlx_is_key_down(m, MLX_KEY_D));
+	}
 }

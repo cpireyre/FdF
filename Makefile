@@ -19,7 +19,7 @@ bin 		:= fdf
 src_dir 	:= ./src
 obj_dir 	:= ./obj
 inc_dir		:= ./include
-sources 	:= main.c build_map.c project.c move.c  \
+sources 	:= main.c build_map.c project.c  \
 			   assign_colors.c rasterize.c clip.c interpolate_color.c
 objects 	:= $(sources:%.c=$(obj_dir)/%.o)
 libft_dir	:= ./libft
