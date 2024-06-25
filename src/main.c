@@ -53,7 +53,7 @@ static t_render_context	initialize_ctx(const char *name, int width, int height)
 	ctx.init_success = 0;
 	ctx.bg_color = BG_COLOR;
 	ctx.param.scale = 100;
-	ctx.param.angle = 45;
+	ctx.param.angle = 0;
 	ctx.param.offset_x = width / 3;
 	ctx.param.offset_y = height / 2;
 	mlx_set_setting(MLX_FULLSCREEN, true);
@@ -88,9 +88,9 @@ static void	move(mlx_t *m, t_projection *param)
 	if (mlx_is_key_down(m, MLX_KEY_RIGHT_SHIFT))
 	{
 		param->scale -= 1 * (mlx_is_key_down(m, MLX_KEY_W));
-		param->angle -= 0.1F * (mlx_is_key_down(m, MLX_KEY_A));
+		param->angle -= 0.01F * (mlx_is_key_down(m, MLX_KEY_A));
 		param->scale += 1 * (mlx_is_key_down(m, MLX_KEY_S));
-		param->angle += 0.1F * (mlx_is_key_down(m, MLX_KEY_D));
+		param->angle += 0.01F * (mlx_is_key_down(m, MLX_KEY_D));
 		if (param->scale < 0)
 			param->scale = 0;
 	}

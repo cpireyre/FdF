@@ -28,10 +28,11 @@ libft		:= $(libft_dir)/libft.a
 libmlx 		:= $(libmlx_dir)/build/libmlx42.a
 
 CC			:= clang
-DEBUG		:= -fsanitize=undefined -fsanitize=address -g3
-CFLAGS		:= -Wconversion $(DEBUG) # -O2
+# debug		:= -fsanitize=undefined -fsanitize=address -g3
+optimization := -O2
+CFLAGS		:= -Wconversion $(debug) $(optimization)
 CFLAGS		+= -Wall -Wextra -Werror -MMD -MP -pedantic
-LDFLAGS		:= -L$(libft_dir) -lft -L$(libmlx_dir)/build -lmlx42 $(DEBUG)
+LDFLAGS		:= -L$(libft_dir) -lft -L$(libmlx_dir)/build -lmlx42 $(debug)
 ifeq ($(UNAME_S), Darwin)
 LDFLAGS		+= -framework Cocoa -framework OpenGL -framework IOKit
 endif

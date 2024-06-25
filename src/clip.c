@@ -59,12 +59,12 @@ static t_vector	clamp(t_line *l, int xmax, int ymax, t_clip_outcode code)
 	ret = ft_vec2(0, 0);
 	slope = (double)(l->y1 - l->y0) / (double)(l->x1 - l->x0);
 	if (code & TOP)
-		ret = ft_vec2(l->x0 - (int)lrint(l->y0 / slope), 0);
+		ret = ft_vec2(l->x0 - (int)round(l->y0 / slope), 0);
 	else if (code & BOTTOM)
-		ret = ft_vec2(l->x0 + (int)lrint((ymax - l->y0) / slope), ymax - 1);
+		ret = ft_vec2(l->x0 + (int)round((ymax - l->y0) / slope), ymax - 1);
 	else if (code & RIGHT)
-		ret = ft_vec2(xmax - 1, l->y0 + (int)lrint(fma(slope, xmax - l->x0, 0)));
+		ret = ft_vec2(xmax - 1, l->y0 + (int)round(fma(slope, xmax - l->x0, 0)));
 	else if (code & LEFT)
-		ret = ft_vec2(0, l->y0 - (int)lrint(fma(slope, l->x0, 0)));
+		ret = ft_vec2(0, l->y0 - (int)round(fma(slope, l->x0, 0)));
 	return (ret);
 }
