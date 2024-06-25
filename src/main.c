@@ -67,6 +67,7 @@ static t_render_context	initialize_ctx(const char *name, int width, int height)
 			(uint32_t)width, (uint32_t)height);
 	if (!ctx.img)
 		return (ctx);
+	ctx.image_size_in_bytes = ctx.img->width * ctx.img->height * 4;
 	if (mlx_image_to_window(ctx.mlx, ctx.img, 0, 0) != -1)
 		ctx.init_success = 1;
 	return (ctx);
@@ -74,8 +75,7 @@ static t_render_context	initialize_ctx(const char *name, int width, int height)
 
 static void	render_frame(t_render_context *ctx)
 {
-    ft_memset_32(ctx->img->pixels, ctx->bg_color,
-			ctx->img->width * ctx->img->height * 4);
+    ft_memset_32(ctx->img->pixels, ctx->bg_color, ctx->image_size_in_bytes);
 	move(ctx->mlx, &ctx->param);
 	project(ctx->map, &ctx->param);
 	rasterize(ctx->img, ctx->map);

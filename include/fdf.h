@@ -32,6 +32,7 @@ typedef struct s_render_context
 	t_projection	param;
 	uint32_t		bg_color;
 	int				init_success;
+	size_t			image_size_in_bytes;
 }				t_render_context;
 
 typedef	void (*t_hook)(void*);
