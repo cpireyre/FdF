@@ -67,7 +67,7 @@ static t_render_context	initialize_ctx(const char *name, int width, int height)
 			(uint32_t)width, (uint32_t)height);
 	if (!ctx.img)
 		return (ctx);
-	ctx.image_size_in_bytes = ctx.img->width * ctx.img->height * 4;
+	ctx.image_size_in_bytes = ctx.img->width * ctx.img->height;
 	if (mlx_image_to_window(ctx.mlx, ctx.img, 0, 0) != -1)
 		ctx.init_success = 1;
 	return (ctx);

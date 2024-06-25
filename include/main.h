@@ -15,12 +15,12 @@
 typedef struct s_render_context
 {
 	mlx_t			*mlx;
-	mlx_image_t		*img;
 	t_map			*map;
 	t_projection	param;
 	uint32_t		bg_color;
 	int				init_success;
 	size_t			image_size_in_bytes;
+	mlx_image_t		*img;
 }				t_render_context;
 
 typedef	void (*t_hook)(void*);
