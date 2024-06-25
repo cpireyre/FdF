@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
+#include "main.h"
 
 static t_render_context	initialize_ctx(const char *name, int width, int height);
 static void	render_frame(t_render_context *ctx);
