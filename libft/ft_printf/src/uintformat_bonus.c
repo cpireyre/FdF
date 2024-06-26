@@ -6,7 +6,7 @@
 /*   By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 15:22:05 by copireyr          #+#    #+#             */
-/*   Updated: 2024/05/27 13:30:38 by copireyr         ###   ########.fr       */
+/*   Updated: 2024/06/26 15:57:19 by copireyr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,7 @@ t_format_output	format_unsigned(t_spec s, unsigned long n, char *base)
 	t_format_output	o;
 
 	ft_bzero(&o, sizeof(o));
-	if (n < 0)
-		o.sign = '-';
-	else if (s.flags.add_blank)
+	if (s.flags.add_blank)
 		o.sign = ' ';
 	else if (s.flags.show_sign)
 		o.sign = '+';

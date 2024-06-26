@@ -6,7 +6,7 @@
 /*   By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 10:04:44 by copireyr          #+#    #+#             */
-/*   Updated: 2024/05/28 11:24:53 by copireyr         ###   ########.fr       */
+/*   Updated: 2024/06/26 15:49:59 by copireyr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	*arena_alloc(t_arena arena, size_t nbytes)
 	char	*limit;
 	size_t	m;
 
-	if (nbytes < 0)
+	if ((int)nbytes < 0)
 		return (NULL);
 	nbytes = ((nbytes + sizeof(union u_align) - 1)
 			/ (sizeof(union u_align))) * (sizeof(union u_align));
@@ -65,7 +65,7 @@ void	*arena_calloc(t_arena arena, size_t count, size_t nbytes)
 {
 	void	*ptr;
 
-	if (count < 0)
+	if ((int)count < 0)
 		return (NULL);
 	ptr = arena_alloc(arena, count * nbytes);
 	if (ptr)

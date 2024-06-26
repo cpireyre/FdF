@@ -6,7 +6,7 @@
 #    By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/23 09:17:29 by copireyr          #+#    #+#              #
-#    Updated: 2024/06/26 13:37:46 by copireyr         ###   ########.fr        #
+#    Updated: 2024/06/26 15:48:00 by copireyr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,9 +27,9 @@ libmlx_dir	:= ./MLX42
 libft		:= $(libft_dir)/libft.a
 libmlx 		:= $(libmlx_dir)/build/libmlx42.a
 
-CC			:= clang
+CC			:= cc
 # debug		:= -fsanitize=undefined -fsanitize=address -g3
-optimization := -O2
+# optimization := -O2
 CFLAGS		:= -Wconversion $(debug) $(optimization)
 CFLAGS		+= -Wall -Wextra -Werror -MMD -MP -pedantic
 LDFLAGS		:= -L$(libft_dir) -lft -L$(libmlx_dir)/build -lmlx42 $(debug)
@@ -39,6 +39,9 @@ endif
 LDFLAGS += -Iinclude -ldl -lglfw -pthread -lm
 CPPFLAGS	:= -I$(inc_dir) -I$(libft_dir)/include -I$(libmlx_dir)/include
 cmakeflags	:= -DCMAKE_C_FLAGS="-Wno-int-to-void-pointer-cast"
+
+export CC
+export CFLAGS
 
 $(obj_dir)/%.o: $(src_dir)/%.c Makefile
 	@mkdir -p $(@D)

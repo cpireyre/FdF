@@ -6,7 +6,7 @@
 /*   By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 14:55:30 by copireyr          #+#    #+#             */
-/*   Updated: 2024/06/14 09:47:20 by copireyr         ###   ########.fr       */
+/*   Updated: 2024/06/26 15:58:06 by copireyr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,20 +28,21 @@ static t_conversion	read_conversion(const char *format);
 
 t_spec	parse_format(const char *format)
 {
-	t_spec	spec;
-	t_flags	flags;
-	int		conversion_is_numeric;
+	t_spec			spec;
+	t_flags			flags;
+	unsigned char	conversion_is_numeric;
 
 	ft_bzero(&spec, sizeof(spec));
 	flags = read_flags(format);
 	spec.field_width = read_field_width(format);
 	spec.precision = read_precision(format);
 	spec.conversion = read_conversion(format);
-	conversion_is_numeric = spec.conversion == INTEGER
-		| spec.conversion == UNSIGNED_INTEGER
-		| spec.conversion == LOWER_HEXADECIMAL
-		| spec.conversion == UPPER_HEXADECIMAL;
-	flags.pad_with_zeros &= ~(conversion_is_numeric & flags.has_precision);
+	conversion_is_numeric = (spec.conversion == INTEGER)
+		| (spec.conversion == UNSIGNED_INTEGER)
+		| (spec.conversion == LOWER_HEXADECIMAL)
+		| (spec.conversion == UPPER_HEXADECIMAL);
+	if (conversion_is_numeric && flags.has_precision)
+		flags.pad_with_zeros = 0;
 	flags.pad_with_zeros &= ~flags.pad_right;
 	flags.add_blank &= ~flags.show_sign;
 	spec.flags = flags;

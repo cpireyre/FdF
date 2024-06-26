@@ -6,7 +6,7 @@
 #    By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/23 15:14:47 by copireyr          #+#    #+#              #
-#    Updated: 2024/06/20 14:12:31 by copireyr         ###   ########.fr        #
+#    Updated: 2024/06/26 15:48:53 by copireyr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,8 +14,12 @@
 .DELETE_ON_ERROR:
 .SUFFIXES:
 
-CC		 := clang
+ifeq ($(CC), )
+CC		 := cc
+endif
+ifeq ($(CFLAGS), )
 CFLAGS	 += -Wall -Wextra -Werror -Wsign-conversion
+endif
 CPPFLAGS := -I./include
 
 libft := libft.a
