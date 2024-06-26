@@ -2,11 +2,11 @@
 #include "libft.h"
 
 static t_clip_outcode	compute_outcode(int x, int y, int xmax, int ymax);
-static t_vector	clamp(t_line *l, int xmax, int ymax, t_clip_outcode code);
+static t_vector			clamp(t_line *l, int xmax, int ymax, t_clip_outcode code);
 
 /* https://en.wikipedia.org/wiki/Cohen–Sutherland_algorithm */
 
-int clip(t_line *line, int xmax, int ymax)
+int	clip(t_line *line, int xmax, int ymax)
 {
 	t_clip_outcode	code0;
 	t_clip_outcode	code1;
@@ -63,8 +63,8 @@ static t_vector	clamp(t_line *l, int xmax, int ymax, t_clip_outcode code)
 	else if (code & BOTTOM)
 		ret = ft_vec2(l->x0 + (int)round((ymax - l->y0) / slope), ymax - 1);
 	else if (code & RIGHT)
-		ret = ft_vec2(xmax - 1, l->y0 + (int)round(fma(slope, xmax - l->x0, 0)));
+		ret = ft_vec2(xmax - 1, l->y0 + (int)fma(slope, xmax - l->x0, 0));
 	else if (code & LEFT)
-		ret = ft_vec2(0, l->y0 - (int)round(fma(slope, l->x0, 0)));
+		ret = ft_vec2(0, l->y0 - (int)fma(slope, l->x0, 0));
 	return (ret);
 }
