@@ -6,7 +6,7 @@
 /*   By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 09:45:09 by copireyr          #+#    #+#             */
-/*   Updated: 2024/06/21 11:30:45 by copireyr         ###   ########.fr       */
+/*   Updated: 2024/06/26 10:35:54 by copireyr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ static t_render_context	initialize_ctx(const char *name, int width, int height)
 			(uint32_t)width, (uint32_t)height);
 	if (!ctx.img)
 		return (ctx);
-	ctx.image_size_in_bytes = ctx.img->width * ctx.img->height;
+	ctx.image_size_in_pixels = ctx.img->width * ctx.img->height;
 	if (mlx_image_to_window(ctx.mlx, ctx.img, 0, 0) != -1)
 		ctx.init_success = 1;
 	return (ctx);
@@ -75,7 +75,7 @@ static t_render_context	initialize_ctx(const char *name, int width, int height)
 
 static void	render_frame(t_render_context *ctx)
 {
-    ft_memset_32(ctx->img->pixels, ctx->bg_color, ctx->image_size_in_bytes);
+    ft_memset_32(ctx->img->pixels, ctx->bg_color, ctx->image_size_in_pixels);
 	move(ctx->mlx, &ctx->param);
 	project(ctx->map, &ctx->param);
 	rasterize(ctx->img, ctx->map);

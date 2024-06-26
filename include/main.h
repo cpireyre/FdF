@@ -6,7 +6,7 @@
 # include "t_map.h"
 
 # define WIN_WIDTH	1280
-# define WIN_HEIGHT	800
+# define WIN_HEIGHT	720
 
 # define LOW_COLOR	0xa6e36dff
 # define HIGH_COLOR	0xdb762eff
@@ -20,7 +20,7 @@ typedef struct s_render_context
 	t_projection	param;
 	uint32_t		bg_color;
 	int				init_success;
-	size_t			image_size_in_bytes;
+	size_t			image_size_in_pixels;
 	mlx_image_t		*img;
 }				t_render_context;
 
