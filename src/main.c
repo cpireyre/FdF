@@ -6,7 +6,7 @@
 /*   By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 09:45:09 by copireyr          #+#    #+#             */
-/*   Updated: 2024/06/26 10:35:54 by copireyr         ###   ########.fr       */
+/*   Updated: 2024/06/26 13:18:32 by copireyr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ static void				move(mlx_t *m, t_projection *param);
 int	main(int argc, char **argv)
 {
 	int						err;
-	t_map					map;
 	t_arena					a;
 	t_render_context		ctx;
 
@@ -28,12 +27,11 @@ int	main(int argc, char **argv)
 		a = arena_new();
 		if (!a)
 			return (1);
-		err = build_map_from_file(argv[1], &map, a);
 		ctx = initialize_ctx(argv[1], WIN_WIDTH, WIN_HEIGHT);
+		err = build_map_from_file(argv[1], &(ctx.map), a);
 		if (!err && ctx.init_success)
 		{
-			assign_colors(&map, LOW_COLOR, HIGH_COLOR);
-			ctx.map = &map;
+			assign_colors(&(ctx.map), LOW_COLOR, HIGH_COLOR);
 			mlx_loop_hook(ctx.mlx, (t_hook)render_frame, &ctx);
 			mlx_loop(ctx.mlx);
 		}
@@ -77,8 +75,8 @@ static void	render_frame(t_render_context *ctx)
 {
     ft_memset_32(ctx->img->pixels, ctx->bg_color, ctx->image_size_in_pixels);
 	move(ctx->mlx, &ctx->param);
-	project(ctx->map, &ctx->param);
-	rasterize(ctx->img, ctx->map);
+	project(&ctx->map, &ctx->param);
+	rasterize(ctx->img, &ctx->map);
 	if (mlx_is_key_down(ctx->mlx, MLX_KEY_ESCAPE))
 		mlx_close_window(ctx->mlx);
 }

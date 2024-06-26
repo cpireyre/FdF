@@ -5,8 +5,8 @@
 # include "rasterize.h"
 # include "t_map.h"
 
-# define WIN_WIDTH	1280
-# define WIN_HEIGHT	720
+# define WIN_WIDTH	3840
+# define WIN_HEIGHT	2160
 
 # define LOW_COLOR	0xa6e36dff
 # define HIGH_COLOR	0xdb762eff
@@ -16,7 +16,7 @@
 typedef struct s_render_context
 {
 	mlx_t			*mlx;
-	t_map			*map;
+	t_map			map;
 	t_projection	param;
 	uint32_t		bg_color;
 	int				init_success;
