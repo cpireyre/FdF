@@ -6,7 +6,7 @@
 /*   By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 13:16:52 by copireyr          #+#    #+#             */
-/*   Updated: 2024/06/21 12:17:58 by copireyr         ###   ########.fr       */
+/*   Updated: 2024/06/26 13:30:45 by copireyr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,9 +64,9 @@ static t_vector	**parse_file(int fd, t_map *map, t_arena a)
 
 static t_vector	*tokenize(int fd, t_map *map, t_arena a)
 {
-	int		i;
-	char	*line;
-	char	*token;
+	int			i;
+	char		*line;
+	char		*token;
 	t_vector	*points;
 
 	if (ft_gnl(fd, &line) == -1)

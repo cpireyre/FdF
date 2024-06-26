@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   rasterize.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/06/26 13:33:32 by copireyr          #+#    #+#             */
+/*   Updated: 2024/06/26 13:34:42 by copireyr         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef RASTERIZE_H
 # define RASTERIZE_H
 
@@ -8,13 +20,13 @@
 # include "libft.h"
 # include "line.h"
 
-extern void rasterize(mlx_image_t *image, t_map *map);
+extern void	rasterize(mlx_image_t *image, t_map *map);
 
-int	clip(t_line *line, int xmax, int ymax);
+int			clip(t_line *line, int xmax, int ymax);
 
-typedef int	t_clip_outcode;
+typedef int	t_clip_code;
 
-enum e_clip_outcode
+enum e_clip_code
 {
 	INSIDE = 0,
 	LEFT = 1,

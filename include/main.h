@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.h                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/06/26 13:33:18 by copireyr          #+#    #+#             */
+/*   Updated: 2024/06/26 13:33:19 by copireyr         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MAIN_H
 # define MAIN_H
 
@@ -24,7 +36,7 @@ typedef struct s_render_context
 	mlx_image_t		*img;
 }				t_render_context;
 
-typedef	void (*t_hook)(void*);
+typedef void	(*t_hook)(void*);
 
 int		build_map_from_file(const char *path, t_map *map, t_arena a);
 void	assign_colors(t_map *map, uint32_t low_color, uint32_t high_color);

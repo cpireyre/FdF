@@ -6,7 +6,7 @@
 /*   By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 09:45:09 by copireyr          #+#    #+#             */
-/*   Updated: 2024/06/26 13:18:32 by copireyr         ###   ########.fr       */
+/*   Updated: 2024/06/26 13:20:14 by copireyr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ static t_render_context	initialize_ctx(const char *name, int width, int height)
 
 static void	render_frame(t_render_context *ctx)
 {
-    ft_memset_32(ctx->img->pixels, ctx->bg_color, ctx->image_size_in_pixels);
+	ft_memset_32(ctx->img->pixels, ctx->bg_color, ctx->image_size_in_pixels);
 	move(ctx->mlx, &ctx->param);
 	project(&ctx->map, &ctx->param);
 	rasterize(ctx->img, &ctx->map);

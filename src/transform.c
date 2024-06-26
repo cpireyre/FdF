@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   project.c                                          :+:      :+:    :+:   */
+/*   transform.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 13:21:31 by copireyr          #+#    #+#             */
-/*   Updated: 2024/06/20 13:58:21 by copireyr         ###   ########.fr       */
+/*   Updated: 2024/06/26 13:30:56 by copireyr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ static t_vector	project_point(t_vector p, t_projection *s, int x, int y);
 
 void	project(t_map *map, t_projection *param)
 {
-	int		i;
-	int		j;
+	int			i;
+	int			j;
 	t_vector	curr;
 
 	i = 0;

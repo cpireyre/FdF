@@ -1,21 +1,33 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   clip.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/06/26 13:26:41 by copireyr          #+#    #+#             */
+/*   Updated: 2024/06/26 13:28:40 by copireyr         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "rasterize.h"
 #include "libft.h"
 
-static t_clip_outcode	compute_outcode(int x, int y, int xmax, int ymax);
-static t_vector			clamp(t_line *l, int xmax, int ymax, t_clip_outcode code);
+static t_clip_code		compute_code(int x, int y, int xmax, int ymax);
+static t_vector			clamp(t_line *l, int xmax, int ymax, t_clip_code code);
 
 /* https://en.wikipedia.org/wiki/Cohen–Sutherland_algorithm */
 
 int	clip(t_line *line, int xmax, int ymax)
 {
-	t_clip_outcode	code0;
-	t_clip_outcode	code1;
-	t_vector		clamped;
+	t_clip_code	code0;
+	t_clip_code	code1;
+	t_vector	clamped;
 
 	while (1)
 	{
-		code0 = compute_outcode(line->x0, line->y0, xmax, ymax);
-		code1 = compute_outcode(line->x1, line->y1, xmax, ymax);
+		code0 = compute_code(line->x0, line->y0, xmax, ymax);
+		code1 = compute_code(line->x1, line->y1, xmax, ymax);
 		if (!(code0 | code1))
 			return (1);
 		else if (code0 & code1)
@@ -35,9 +47,9 @@ int	clip(t_line *line, int xmax, int ymax)
 	}
 }
 
-static t_clip_outcode	compute_outcode(int x, int y, int xmax, int ymax)
+static t_clip_code	compute_code(int x, int y, int xmax, int ymax)
 {
-	t_clip_outcode	code;
+	t_clip_code	code;
 
 	code = INSIDE;
 	if (x < 0)
@@ -51,7 +63,7 @@ static t_clip_outcode	compute_outcode(int x, int y, int xmax, int ymax)
 	return (code);
 }
 
-static t_vector	clamp(t_line *l, int xmax, int ymax, t_clip_outcode code)
+static t_vector	clamp(t_line *l, int xmax, int ymax, t_clip_code code)
 {
 	t_vector	ret;
 	double		slope;
