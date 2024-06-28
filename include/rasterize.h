@@ -6,7 +6,7 @@
 /*   By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 13:33:32 by copireyr          #+#    #+#             */
-/*   Updated: 2024/06/26 13:34:42 by copireyr         ###   ########.fr       */
+/*   Updated: 2024/06/28 11:30:01 by copireyr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # include "libft.h"
 # include "line.h"
 
-extern void	rasterize(mlx_image_t *image, t_map *map);
+extern void	rasterize(mlx_image_t *image, t_line line);
 
 int			clip(t_line *line, int xmax, int ymax);
 

@@ -6,7 +6,7 @@
 /*   By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 13:33:18 by copireyr          #+#    #+#             */
-/*   Updated: 2024/06/28 10:33:10 by copireyr         ###   ########.fr       */
+/*   Updated: 2024/06/28 11:00:03 by copireyr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ typedef struct s_render_context
 {
 	mlx_t			*mlx;
 	t_map			map;
+	t_line			*lines;
+	int				num_lines;
 	t_projection	param;
 	uint32_t		bg_color;
 	int				init_success;

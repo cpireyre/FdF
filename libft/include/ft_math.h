@@ -6,7 +6,7 @@
 /*   By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 13:31:05 by copireyr          #+#    #+#             */
-/*   Updated: 2024/06/26 13:31:16 by copireyr         ###   ########.fr       */
+/*   Updated: 2024/06/28 11:18:48 by copireyr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ typedef struct s_vector
 }		t_vector;
 
 t_vector	ft_vec2(int x, int y);
+t_vector	ft_vec3(int x, int y, int z);
 double		ft_distance(int x0, int y0, int x1, int y1);
 
 int			ft_abs(int a);

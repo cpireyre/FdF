@@ -3,9 +3,9 @@
 #include "line.h"
 #include <stdlib.h>
 
-static t_line	to_line(t_vector a, int x1, int y1);
+static t_line	to_line(t_vector a, t_vector b);
 
-int	to_lines(t_map *map, t_line **l)
+int	to_lines(t_map *map, t_line **l, t_arena a)
 {
 	int			i;
 	int			j;
@@ -15,7 +15,7 @@ int	to_lines(t_map *map, t_line **l)
 	t_line		*lines;
 
 	num_lines = (map->rows - 1) * map->cols + (map->cols - 1) * map->rows;
-	lines = malloc(sizeof(t_line) * (size_t)num_lines);
+	lines = arena_calloc(a, (size_t)num_lines, sizeof(t_line));
 	if (!lines)
 		return (-1);
 	i = 0;
@@ -25,14 +25,14 @@ int	to_lines(t_map *map, t_line **l)
 		j = 0;
 		while (j < map->cols)
 		{
-			curr = ft_vec2(i, j);
+			curr = map->points[i][j];
 			if (i + 1 < map->rows)
 			{
-				lines[k++] = to_line(curr, i + 1, j);
+				lines[k++] = to_line(curr, map->points[i + 1][j]);
 			}
 			if (j + 1 < map->cols)
 			{
-				lines[k++] = to_line(curr, i, j + 1);
+				lines[k++] = to_line(curr, map->points[i][j + 1]);
 			}
 			j++;
 		}
@@ -42,15 +42,24 @@ int	to_lines(t_map *map, t_line **l)
 	return (num_lines);
 }
 
-static t_line	to_line(t_vector a, int x1, int y1)
+static t_line	to_line(t_vector a, t_vector b)
 {
 	t_line	line;
 
 	line.x0 = a.x;
 	line.y0 = a.y;
-	line.x1 = x1;
-	line.y1 = y1;
+	line.x1 = b.x;
+	line.y1 = b.y;
+	line.z0 = a.z;
+	line.z1 = b.z;
+	line.color0 = (uint32_t)a.c;
+	line.color1 = (uint32_t)b.c;
 	return (line);
+}
+
+void	print_line(t_line line)
+{
+	ft_printf("(%d, %d, %d) -> (%d, %d, %d), ", line.x0, line.y0, line.z0, line.x1, line.y1, line.z1);
 }
 
 void	print_lines(t_line *lines, int num_lines)
@@ -60,7 +69,7 @@ void	print_lines(t_line *lines, int num_lines)
 	i = 0;
 	while (i < num_lines)
 	{
-		ft_printf("(%d, %d) -> (%d, %d), ", lines[i].x0, lines[i].y0, lines[i].x1, lines[i].y1);
+		print_line(lines[i]);
 		i++;
 	}
 }

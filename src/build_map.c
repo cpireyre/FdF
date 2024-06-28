@@ -6,7 +6,7 @@
 /*   By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 13:16:52 by copireyr          #+#    #+#             */
-/*   Updated: 2024/06/28 10:50:00 by copireyr         ###   ########.fr       */
+/*   Updated: 2024/06/28 11:05:18 by copireyr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,10 @@
 #include "libft.h"
 #include "line.h"
 
-void	print_lines(t_line *lines, int num_lines);
-int	to_lines(t_map *map, t_line **lines);
 
 static int		count_lines_in_file(const char *path);
 static t_vector	**parse_file(int fd, t_map *map, t_arena a);
-static t_vector	*tokenize(int fd, t_map *map, t_arena a);
+static t_vector	*tokenize(int fd, int row, t_map *map, t_arena a);
 static int		count_words_in_line(const char *line);
 
 int	build_map_from_file(const char *path, t_map *map, t_arena a)
@@ -42,11 +40,6 @@ int	build_map_from_file(const char *path, t_map *map, t_arena a)
 	if (!map->points)
 		return (ft_error(NULL, "Bad map"));
 	close(fd);
-	t_line	*lines;
-	lines = NULL;
-	num_lines = to_lines(map, &lines);
-	print_lines(lines, num_lines);
-	free(lines);
 	return (0);
 }
 
@@ -62,7 +55,7 @@ static t_vector	**parse_file(int fd, t_map *map, t_arena a)
 	cols = 0;
 	while (i < map->rows)
 	{
-		map->points[i] = tokenize(fd, map, a);
+		map->points[i] = tokenize(fd, i, map, a);
 		if (!cols)
 			cols = map->cols;
 		if (cols != map->cols || !map->points[i])
@@ -72,7 +65,7 @@ static t_vector	**parse_file(int fd, t_map *map, t_arena a)
 	return (map->points);
 }
 
-static t_vector	*tokenize(int fd, t_map *map, t_arena a)
+static t_vector	*tokenize(int fd, int row, t_map *map, t_arena a)
 {
 	int			i;
 	char		*line;
@@ -92,6 +85,8 @@ static t_vector	*tokenize(int fd, t_map *map, t_arena a)
 	token = strtok((char *)line, " \n");
 	while (i < map->cols)
 	{
+		points[i].x = i;
+		points[i].y = row;
 		points[i].z = ft_atoi(token);
 		i++;
 		token = strtok(NULL, " \n");

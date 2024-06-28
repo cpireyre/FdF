@@ -6,12 +6,15 @@
 /*   By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 09:45:09 by copireyr          #+#    #+#             */
-/*   Updated: 2024/06/28 10:30:34 by copireyr         ###   ########.fr       */
+/*   Updated: 2024/06/28 11:38:04 by copireyr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
 #include "libft.h"
+
+void	print_lines(t_line *lines, int num_lines);
+int	to_lines(t_map *map, t_line **lines, t_arena a);
 
 static t_render_context	initialize_ctx(const char *name, int width, int height);
 static void				render_frame(t_render_context *ctx);
@@ -33,6 +36,8 @@ int	main(int argc, char **argv)
 		if (!err && ctx.init_success)
 		{
 			assign_colors(&(ctx.map), LOW_COLOR, HIGH_COLOR);
+			ctx.num_lines = to_lines(&ctx.map, &ctx.lines, a);
+			ft_dprintf(2, "Done printing lines\n");
 			mlx_loop_hook(ctx.mlx, (t_hook)render_frame, &ctx);
 			mlx_loop(ctx.mlx);
 		}
@@ -72,12 +77,22 @@ static t_render_context	initialize_ctx(const char *name, int width, int height)
 	return (ctx);
 }
 
+t_line	project_line(t_line line, t_projection *s);
+void	print_line(t_line line);
 static void	render_frame(t_render_context *ctx)
 {
+	int	i;
+	t_line current_line;
+
 	ft_memset_32(ctx->img->pixels, ctx->bg_color, ctx->image_size_in_pixels);
 	move(ctx->mlx, &ctx->param);
-	project(&ctx->map, &ctx->param);
-	rasterize(ctx->img, &ctx->map);
+	i = 0;
+	while (i < ctx->num_lines)
+	{
+		current_line = project_line(ctx->lines[i], &ctx->param);
+		rasterize(ctx->img, current_line);
+		i++;
+	}
 	if (mlx_is_key_down(ctx->mlx, MLX_KEY_ESCAPE))
 		mlx_close_window(ctx->mlx);
 }
