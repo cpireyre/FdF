@@ -1,21 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   t_map.h                                            :+:      :+:    :+:   */
+/*   parse.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/27 13:31:32 by copireyr          #+#    #+#             */
-/*   Updated: 2024/06/20 12:25:55 by copireyr         ###   ########.fr       */
+/*   Created: 2024/06/28 13:18:24 by copireyr          #+#    #+#             */
+/*   Updated: 2024/06/28 13:37:06 by copireyr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef T_MAP_H
-# define T_MAP_H
+#ifndef PARSE_H
+# define PARSE_H
 
-# include "MLX42/MLX42.h"
-# include <stddef.h>
+# include <fcntl.h>
+# include <unistd.h>
+# include <string.h> /* TODO: delete this */
 # include "libft.h"
+# include "t_line.h"
+# include "interpolate_color.h"
 
 typedef struct s_map
 {
@@ -24,14 +27,7 @@ typedef struct s_map
 	int			cols;
 }	t_map;
 
-typedef struct s_projection
-{
-	double	scale;
-	double	angle;
-	int		offset_x;
-	int		offset_y;
-}	t_projection;
+int	parse(const char *path, t_line **lines, t_arena a);
+extern void		assign_colors(t_map *map, uint32_t lo_color, uint32_t hi_color);
 
-void	project(t_map *map, t_projection *param);
-
-#endif /* T_MAP_H */
+#endif /* PARSE_H */

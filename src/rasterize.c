@@ -6,39 +6,23 @@
 /*   By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 13:36:06 by copireyr          #+#    #+#             */
-/*   Updated: 2024/06/28 12:03:50 by copireyr         ###   ########.fr       */
+/*   Updated: 2024/06/28 12:57:36 by copireyr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rasterize.h"
-#include "libft.h"
 
 static void		bresenham(mlx_image_t *img, t_line line);
 static uint32_t	lerp(uint32_t color0, uint32_t color1, int i, int steps);
 
 void	rasterize(mlx_image_t *image, t_line line)
 {
-	t_line	orig;
-	double	original_length;
-	double	ratio0;
-	double	ratio1;
-
-	orig= line;
-	original_length = ft_distance(orig.x0, orig.y0, orig.x1, orig.y1);
-	if (clip(&line, (int)image->width, (int)image->height))
-	{
-		ratio0 = ft_distance(orig.x0, orig.y0, line.x0, line.y0) / original_length;
-		ratio1 = ft_distance(orig.x1, orig.y0, line.x0, line.y1) / original_length;
-		line.color0 = interpolate_color((uint32_t)orig.color0, (uint32_t)orig.color1, ratio0);
-		line.color1 = interpolate_color((uint32_t)orig.color0, (uint32_t)orig.color1, ratio1);
-		ft_dprintf(2, "orig color %x %x, clip color %x %x\n", orig.color0, orig.color1, line.color0, line.color1);
-		line.delta_x = ft_abs(line.x1 - line.x0);
-		line.delta_y = -ft_abs(line.y1 - line.y0);
-		line.slope_x = ft_sign(line.x0, line.x1);
-		line.slope_y = ft_sign(line.y0, line.y1);
-		line.length = ft_max(line.delta_x, -line.delta_y);
-		bresenham(image, line);
-	}
+	line.delta_x = ft_abs(line.x1 - line.x0);
+	line.delta_y = -ft_abs(line.y1 - line.y0);
+	line.slope_x = ft_sign(line.x0, line.x1);
+	line.slope_y = ft_sign(line.y0, line.y1);
+	line.length = ft_max(line.delta_x, -line.delta_y);
+	bresenham(image, line);
 }
 
 static void	bresenham(mlx_image_t *img, t_line line)

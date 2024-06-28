@@ -6,7 +6,7 @@
 /*   By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 13:33:18 by copireyr          #+#    #+#             */
-/*   Updated: 2024/06/28 11:42:12 by copireyr         ###   ########.fr       */
+/*   Updated: 2024/06/28 13:38:40 by copireyr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,13 @@
 # define MAIN_H
 
 # include "libft.h"
+# include "parse.h"
+# include "transform.h"
+# include "clip.h"
 # include "rasterize.h"
-# include "t_map.h"
 
-# define WIN_WIDTH	1280
-# define WIN_HEIGHT	720
+# define WIN_WIDTH	3840
+# define WIN_HEIGHT	2160
 
 # define LOW_COLOR	0xa6e36dff
 # define HIGH_COLOR	0xdb762eff
@@ -39,8 +41,5 @@ typedef struct s_render_context
 }				t_render_context;
 
 typedef void	(*t_hook)(void*);
-
-int		build_map_from_file(const char *path, t_map *map, t_arena a);
-void	assign_colors(t_map *map, uint32_t low_color, uint32_t high_color);
 
 #endif /* MAIN_H */

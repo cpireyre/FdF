@@ -6,7 +6,7 @@
 #    By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/23 09:17:29 by copireyr          #+#    #+#              #
-#    Updated: 2024/06/28 10:38:42 by copireyr         ###   ########.fr        #
+#    Updated: 2024/06/28 13:28:34 by copireyr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,8 +19,7 @@ bin 		:= fdf
 src_dir 	:= ./src
 obj_dir 	:= ./obj
 inc_dir		:= ./include
-sources 	:= main.c build_map.c transform.c  \
-			   assign_colors.c rasterize.c clip.c interpolate_color.c to_lines.c
+sources 	:= main.c parse.c transform.c rasterize.c clip.c interpolate_color.c 
 objects 	:= $(sources:%.c=$(obj_dir)/%.o)
 libft_dir	:= ./libft
 libmlx_dir	:= ./MLX42

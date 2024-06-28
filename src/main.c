@@ -6,15 +6,11 @@
 /*   By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 09:45:09 by copireyr          #+#    #+#             */
-/*   Updated: 2024/06/28 11:38:04 by copireyr         ###   ########.fr       */
+/*   Updated: 2024/06/28 13:39:43 by copireyr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
-#include "libft.h"
-
-void	print_lines(t_line *lines, int num_lines);
-int	to_lines(t_map *map, t_line **lines, t_arena a);
 
 static t_render_context	initialize_ctx(const char *name, int width, int height);
 static void				render_frame(t_render_context *ctx);
@@ -22,7 +18,6 @@ static void				move(mlx_t *m, t_projection *param);
 
 int	main(int argc, char **argv)
 {
-	int						err;
 	t_arena					a;
 	t_render_context		ctx;
 
@@ -32,12 +27,9 @@ int	main(int argc, char **argv)
 		if (!a)
 			return (1);
 		ctx = initialize_ctx(argv[1], WIN_WIDTH, WIN_HEIGHT);
-		err = build_map_from_file(argv[1], &(ctx.map), a);
-		if (!err && ctx.init_success)
+		ctx.num_lines = parse(argv[1], &ctx.lines, a);
+		if (ctx.num_lines && ctx.init_success)
 		{
-			assign_colors(&(ctx.map), LOW_COLOR, HIGH_COLOR);
-			ctx.num_lines = to_lines(&ctx.map, &ctx.lines, a);
-			ft_dprintf(2, "Done printing lines\n");
 			mlx_loop_hook(ctx.mlx, (t_hook)render_frame, &ctx);
 			mlx_loop(ctx.mlx);
 		}
@@ -57,7 +49,7 @@ static t_render_context	initialize_ctx(const char *name, int width, int height)
 	ctx.init_success = 0;
 	ctx.bg_color = BG_COLOR;
 	ctx.param.scale = 100;
-	ctx.param.angle = 0;
+	ctx.param.angle = 45;
 	ctx.param.offset_x = width / 3;
 	ctx.param.offset_y = height / 2;
 	mlx_set_setting(MLX_FULLSCREEN, true);
@@ -77,8 +69,6 @@ static t_render_context	initialize_ctx(const char *name, int width, int height)
 	return (ctx);
 }
 
-t_line	project_line(t_line line, t_projection *s);
-void	print_line(t_line line);
 static void	render_frame(t_render_context *ctx)
 {
 	int	i;
@@ -90,7 +80,8 @@ static void	render_frame(t_render_context *ctx)
 	while (i < ctx->num_lines)
 	{
 		current_line = project_line(ctx->lines[i], &ctx->param);
-		rasterize(ctx->img, current_line);
+		if (clip(&current_line, (int)ctx->img->width, (int)ctx->img->height))
+			rasterize(ctx->img, current_line);
 		i++;
 	}
 	if (mlx_is_key_down(ctx->mlx, MLX_KEY_ESCAPE))
@@ -102,9 +93,9 @@ static void	move(mlx_t *m, t_projection *param)
 	if (mlx_is_key_down(m, MLX_KEY_RIGHT_SHIFT))
 	{
 		param->scale -= 1 * (mlx_is_key_down(m, MLX_KEY_W));
-		param->angle -= 0.01F * (mlx_is_key_down(m, MLX_KEY_A));
+		param->angle -= 0.1F * (mlx_is_key_down(m, MLX_KEY_A));
 		param->scale += 1 * (mlx_is_key_down(m, MLX_KEY_S));
-		param->angle += 0.01F * (mlx_is_key_down(m, MLX_KEY_D));
+		param->angle += 0.1F * (mlx_is_key_down(m, MLX_KEY_D));
 		if (param->scale < 0)
 			param->scale = 0;
 	}

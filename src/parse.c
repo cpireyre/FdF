@@ -1,46 +1,46 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   build_map.c                                        :+:      :+:    :+:   */
+/*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 13:16:52 by copireyr          #+#    #+#             */
-/*   Updated: 2024/06/28 11:05:18 by copireyr         ###   ########.fr       */
+/*   Updated: 2024/06/28 13:39:36 by copireyr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <fcntl.h>
-#include <unistd.h>
-#include <string.h> /* TODO: delete this */
-#include <stdlib.h> /* TODO: delete this */
-#include "t_map.h"
-#include "libft.h"
-#include "line.h"
+#include "parse.h"
 
-
+static t_line	to_line(t_vector a, t_vector b);
 static int		count_lines_in_file(const char *path);
 static t_vector	**parse_file(int fd, t_map *map, t_arena a);
 static t_vector	*tokenize(int fd, int row, t_map *map, t_arena a);
 static int		count_words_in_line(const char *line);
+static void	find_min_max_elevation(t_map *map, int *min, int *max);
+static int	to_lines(t_map *map, t_line **l, t_arena a);
 
-int	build_map_from_file(const char *path, t_map *map, t_arena a)
+int	parse(const char *path, t_line **lines, t_arena a)
 {
 	int		fd;
+	int		lines_in_file;
 	int		num_lines;
+	t_map	map;
 
-	num_lines = count_lines_in_file(path);
-	if (num_lines < 1 || num_lines > 1000)
+	lines_in_file = count_lines_in_file(path);
+	if (lines_in_file < 1 || lines_in_file > 1000)
 		return (ft_error(NULL, path));
-	map->rows = num_lines;
+	map.rows = lines_in_file;
 	fd = open(path, O_RDONLY);
 	if (fd == -1)
 		return (ft_error(NULL, path));
-	map->points = parse_file(fd, map, a);
-	if (!map->points)
+	map.points = parse_file(fd, &map, a);
+	if (!map.points)
 		return (ft_error(NULL, "Bad map"));
 	close(fd);
-	return (0);
+	/* assign_colors(&map, LOW_COLOR, HIGH_COLOR); */
+	num_lines = to_lines(&map, lines, a);
+	return (num_lines);
 }
 
 static t_vector	**parse_file(int fd, t_map *map, t_arena a)
@@ -135,4 +135,102 @@ static int	count_words_in_line(const char *line)
 			line++;
 	}
 	return (words);
+}
+
+static int	to_lines(t_map *map, t_line **l, t_arena a)
+{
+	int			i;
+	int			j;
+	t_vector	curr;
+	int			num_lines;
+	int			k;
+	t_line		*lines;
+
+	num_lines = (map->rows - 1) * map->cols + (map->cols - 1) * map->rows;
+	lines = arena_calloc(a, (size_t)num_lines, sizeof(t_line));
+	if (!lines)
+		return (0);
+	i = 0;
+	k = 0;
+	while (i < map->rows)
+	{
+		j = 0;
+		while (j < map->cols)
+		{
+			curr = map->points[i][j];
+			if (i + 1 < map->rows)
+			{
+				lines[k++] = to_line(curr, map->points[i + 1][j]);
+			}
+			if (j + 1 < map->cols)
+			{
+				lines[k++] = to_line(curr, map->points[i][j + 1]);
+			}
+			j++;
+		}
+		i++;
+	}
+	*l = lines;
+	return (num_lines);
+}
+
+static t_line	to_line(t_vector a, t_vector b)
+{
+	t_line	line;
+
+	line.x0 = a.x;
+	line.y0 = a.y;
+	line.x1 = b.x;
+	line.y1 = b.y;
+	line.z0 = a.z;
+	line.z1 = b.z;
+	line.color0 = (uint32_t)a.c;
+	line.color1 = (uint32_t)b.c;
+	return (line);
+}
+
+void	assign_colors(t_map *map, uint32_t low_color, uint32_t high_color)
+{
+	int		i;
+	int		j;
+	int		min;
+	int		max;
+
+	i = 0;
+	find_min_max_elevation(map, &min, &max);
+	while (i < map->rows)
+	{
+		j = 0;
+		while (j < map->cols)
+		{
+			map->points[i][j].c = (int)interpolate_color(
+					(uint32_t)low_color, (uint32_t)high_color,
+					(double)map->points[i][j].z / (double)(max - min));
+			j++;
+		}
+		i++;
+	}
+}
+
+static void	find_min_max_elevation(t_map *map, int *min, int *max)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	*min = map->points[0][0].z;
+	*max = *min;
+	while (i < map->rows)
+	{
+		j = 0;
+		while (j < map->cols)
+		{
+			if (*min > map->points[i][j].z)
+				*min = map->points[i][j].z;
+			if (*max < map->points[i][j].z)
+				*max = map->points[i][j].z;
+			j++;
+		}
+		i++;
+	}
 }

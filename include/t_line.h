@@ -6,12 +6,14 @@
 /*   By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 13:32:59 by copireyr          #+#    #+#             */
-/*   Updated: 2024/06/28 11:07:36 by copireyr         ###   ########.fr       */
+/*   Updated: 2024/06/28 12:48:53 by copireyr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LINE_H
 # define LINE_H
+
+# include <stdint.h>
 
 typedef struct s_line
 {
