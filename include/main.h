@@ -6,7 +6,7 @@
 /*   By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 13:33:18 by copireyr          #+#    #+#             */
-/*   Updated: 2024/06/26 14:46:58 by copireyr         ###   ########.fr       */
+/*   Updated: 2024/06/28 10:33:10 by copireyr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@
 # include "rasterize.h"
 # include "t_map.h"
 
-# define WIN_WIDTH	1280
-# define WIN_HEIGHT	720
+# define WIN_WIDTH	3840
+# define WIN_HEIGHT	2160
 
 # define LOW_COLOR	0xa6e36dff
 # define HIGH_COLOR	0xdb762eff

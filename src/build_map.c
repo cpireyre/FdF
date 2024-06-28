@@ -6,15 +6,20 @@
 /*   By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 13:16:52 by copireyr          #+#    #+#             */
-/*   Updated: 2024/06/26 13:30:45 by copireyr         ###   ########.fr       */
+/*   Updated: 2024/06/28 10:50:00 by copireyr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <fcntl.h>
 #include <unistd.h>
 #include <string.h> /* TODO: delete this */
+#include <stdlib.h> /* TODO: delete this */
 #include "t_map.h"
 #include "libft.h"
+#include "line.h"
+
+void	print_lines(t_line *lines, int num_lines);
+int	to_lines(t_map *map, t_line **lines);
 
 static int		count_lines_in_file(const char *path);
 static t_vector	**parse_file(int fd, t_map *map, t_arena a);
@@ -37,6 +42,11 @@ int	build_map_from_file(const char *path, t_map *map, t_arena a)
 	if (!map->points)
 		return (ft_error(NULL, "Bad map"));
 	close(fd);
+	t_line	*lines;
+	lines = NULL;
+	num_lines = to_lines(map, &lines);
+	print_lines(lines, num_lines);
+	free(lines);
 	return (0);
 }
 

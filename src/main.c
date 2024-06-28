@@ -6,11 +6,12 @@
 /*   By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 09:45:09 by copireyr          #+#    #+#             */
-/*   Updated: 2024/06/26 13:20:14 by copireyr         ###   ########.fr       */
+/*   Updated: 2024/06/28 10:30:34 by copireyr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
+#include "libft.h"
 
 static t_render_context	initialize_ctx(const char *name, int width, int height);
 static void				render_frame(t_render_context *ctx);

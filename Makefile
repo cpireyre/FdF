@@ -6,7 +6,7 @@
 #    By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/23 09:17:29 by copireyr          #+#    #+#              #
-#    Updated: 2024/06/26 15:48:00 by copireyr         ###   ########.fr        #
+#    Updated: 2024/06/28 10:38:42 by copireyr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,15 +20,15 @@ src_dir 	:= ./src
 obj_dir 	:= ./obj
 inc_dir		:= ./include
 sources 	:= main.c build_map.c transform.c  \
-			   assign_colors.c rasterize.c clip.c interpolate_color.c
+			   assign_colors.c rasterize.c clip.c interpolate_color.c to_lines.c
 objects 	:= $(sources:%.c=$(obj_dir)/%.o)
 libft_dir	:= ./libft
 libmlx_dir	:= ./MLX42
 libft		:= $(libft_dir)/libft.a
 libmlx 		:= $(libmlx_dir)/build/libmlx42.a
 
-CC			:= cc
-# debug		:= -fsanitize=undefined -fsanitize=address -g3
+CC			:= clang
+debug		:= -fsanitize=undefined -fsanitize=address -g3
 # optimization := -O2
 CFLAGS		:= -Wconversion $(debug) $(optimization)
 CFLAGS		+= -Wall -Wextra -Werror -MMD -MP -pedantic
