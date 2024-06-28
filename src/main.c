@@ -6,7 +6,7 @@
 /*   By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 09:45:09 by copireyr          #+#    #+#             */
-/*   Updated: 2024/06/28 13:39:43 by copireyr         ###   ########.fr       */
+/*   Updated: 2024/06/28 14:30:53 by copireyr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	main(int argc, char **argv)
 		arena_dispose(&a);
 	}
 	else
-		ft_printf("Usage: ./fdf map.fdf\n");
+		ft_dprintf(2, "Usage: ./fdf map.fdf\n");
 	return (0);
 }
 

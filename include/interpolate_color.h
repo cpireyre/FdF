@@ -6,7 +6,7 @@
 /*   By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 14:49:59 by copireyr          #+#    #+#             */
-/*   Updated: 2024/06/26 14:53:21 by copireyr         ###   ########.fr       */
+/*   Updated: 2024/06/28 14:11:18 by copireyr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,11 @@
 
 # include <stdint.h>
 # include <math.h>
+
+# define LOW_COLOR	0xa6e36dff
+# define HIGH_COLOR	0xdb762eff
+/* BG_COLOR needs different endianness because we write it to memory directly */
+# define BG_COLOR	0xff3a4640
 
 extern uint32_t	interpolate_color(uint32_t start, uint32_t end, double lerp);
 

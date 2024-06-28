@@ -6,7 +6,7 @@
 /*   By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 13:18:24 by copireyr          #+#    #+#             */
-/*   Updated: 2024/06/28 13:37:06 by copireyr         ###   ########.fr       */
+/*   Updated: 2024/06/28 14:14:16 by copireyr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ typedef struct s_map
 	int			cols;
 }	t_map;
 
-int	parse(const char *path, t_line **lines, t_arena a);
-extern void		assign_colors(t_map *map, uint32_t lo_color, uint32_t hi_color);
+extern int		parse(const char *path, t_line **lines, t_arena a);
 
 #endif /* PARSE_H */

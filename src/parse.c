@@ -6,7 +6,7 @@
 /*   By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 13:16:52 by copireyr          #+#    #+#             */
-/*   Updated: 2024/06/28 13:39:36 by copireyr         ###   ########.fr       */
+/*   Updated: 2024/06/28 14:15:59 by copireyr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,12 @@ static t_vector	*tokenize(int fd, int row, t_map *map, t_arena a);
 static int		count_words_in_line(const char *line);
 static void	find_min_max_elevation(t_map *map, int *min, int *max);
 static int	to_lines(t_map *map, t_line **l, t_arena a);
+static void	assign_colors(t_map *map, uint32_t low_color, uint32_t high_color);
 
 int	parse(const char *path, t_line **lines, t_arena a)
 {
 	int		fd;
 	int		lines_in_file;
-	int		num_lines;
 	t_map	map;
 
 	lines_in_file = count_lines_in_file(path);
@@ -38,9 +38,8 @@ int	parse(const char *path, t_line **lines, t_arena a)
 	if (!map.points)
 		return (ft_error(NULL, "Bad map"));
 	close(fd);
-	/* assign_colors(&map, LOW_COLOR, HIGH_COLOR); */
-	num_lines = to_lines(&map, lines, a);
-	return (num_lines);
+	assign_colors(&map, LOW_COLOR, HIGH_COLOR);
+	return (to_lines(&map, lines, a));
 }
 
 static t_vector	**parse_file(int fd, t_map *map, t_arena a)
@@ -189,7 +188,7 @@ static t_line	to_line(t_vector a, t_vector b)
 	return (line);
 }
 
-void	assign_colors(t_map *map, uint32_t low_color, uint32_t high_color)
+static void	assign_colors(t_map *map, uint32_t low_color, uint32_t high_color)
 {
 	int		i;
 	int		j;
