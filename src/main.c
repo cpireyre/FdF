@@ -14,7 +14,7 @@
 
 static t_render_context	initialize_ctx(const char *name, int width, int height);
 static void				render_frame(t_render_context *ctx);
-static void				move(mlx_t *m, t_projection *param);
+static void				move(mlx_t *m, t_transform *T);
 
 int	main(int argc, char **argv)
 {
@@ -48,10 +48,12 @@ static t_render_context	initialize_ctx(const char *name, int width, int height)
 
 	ctx.init_success = 0;
 	ctx.bg_color = BG_COLOR;
-	ctx.param.scale = 100;
-	ctx.param.angle = 45;
-	ctx.param.offset_x = width / 3;
-	ctx.param.offset_y = height / 2;
+	ctx.T.scale = 100;
+	ctx.T.offset_x = width / 3;
+	ctx.T.offset_y = height / 2;
+	ctx.T.rotation.x = 0;
+	ctx.T.rotation.y = 0;
+	ctx.T.rotation.z = 0;
 	mlx_set_setting(MLX_FULLSCREEN, true);
 	mlx_set_setting(MLX_STRETCH_IMAGE, true);
 	ctx.mlx = NULL;
@@ -73,13 +75,15 @@ static void	render_frame(t_render_context *ctx)
 {
 	int	i;
 	t_line current_line;
+	t_vecd	center;
 
 	ft_memset_32(ctx->img->pixels, ctx->bg_color, ctx->image_size_in_pixels);
-	move(ctx->mlx, &ctx->param);
+	move(ctx->mlx, &ctx->T);
 	i = 0;
+	center = calculate_center(ctx->lines, ctx->num_lines);
 	while (i < ctx->num_lines)
 	{
-		current_line = project_line(ctx->lines[i], &ctx->param);
+		current_line = transform(ctx->lines[i], &ctx->T, center);
 		if (clip(&current_line, (int)ctx->img->width, (int)ctx->img->height))
 			rasterize(ctx->img, current_line);
 		i++;
@@ -88,22 +92,29 @@ static void	render_frame(t_render_context *ctx)
 		mlx_close_window(ctx->mlx);
 }
 
-static void	move(mlx_t *m, t_projection *param)
+static void	move(mlx_t *m, t_transform *T)
 {
-	if (mlx_is_key_down(m, MLX_KEY_RIGHT_SHIFT))
+	if (mlx_is_key_down(m, MLX_KEY_RIGHT_ALT))
 	{
-		param->scale -= 1 * (mlx_is_key_down(m, MLX_KEY_W));
-		param->angle -= 0.1F * (mlx_is_key_down(m, MLX_KEY_A));
-		param->scale += 1 * (mlx_is_key_down(m, MLX_KEY_S));
-		param->angle += 0.1F * (mlx_is_key_down(m, MLX_KEY_D));
-		if (param->scale < 0)
-			param->scale = 0;
+		T->rotation.y -= 1 * (mlx_is_key_down(m, MLX_KEY_W));
+		T->rotation.y += 1 * (mlx_is_key_down(m, MLX_KEY_S));
+		T->rotation.x -= 1 * (mlx_is_key_down(m, MLX_KEY_A));
+		T->rotation.x += 1 * (mlx_is_key_down(m, MLX_KEY_D));
+		T->rotation.z -= 1 * (mlx_is_key_down(m, MLX_KEY_Q));
+		T->rotation.z += 1 * (mlx_is_key_down(m, MLX_KEY_E));
+	}
+	else if (mlx_is_key_down(m, MLX_KEY_RIGHT_SHIFT))
+	{
+		T->scale += 1 * (mlx_is_key_down(m, MLX_KEY_W));
+		T->scale -= 1 * (mlx_is_key_down(m, MLX_KEY_S));
+		if (T->scale < 3)
+			T->scale = 3;
 	}
 	else
 	{
-		param->offset_y -= 5 * (mlx_is_key_down(m, MLX_KEY_W));
-		param->offset_x -= 5 * (mlx_is_key_down(m, MLX_KEY_A));
-		param->offset_y += 5 * (mlx_is_key_down(m, MLX_KEY_S));
-		param->offset_x += 5 * (mlx_is_key_down(m, MLX_KEY_D));
+		T->offset_y -= 5 * (mlx_is_key_down(m, MLX_KEY_W));
+		T->offset_x -= 5 * (mlx_is_key_down(m, MLX_KEY_A));
+		T->offset_y += 5 * (mlx_is_key_down(m, MLX_KEY_S));
+		T->offset_x += 5 * (mlx_is_key_down(m, MLX_KEY_D));
 	}
 }

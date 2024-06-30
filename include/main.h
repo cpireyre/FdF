@@ -19,15 +19,15 @@
 # include "clip.h"
 # include "rasterize.h"
 
-# define WIN_WIDTH	1280
-# define WIN_HEIGHT	720
+# define WIN_WIDTH	4*320
+# define WIN_HEIGHT	4*200
 
 typedef struct s_render_context
 {
 	mlx_t			*mlx;
 	t_line			*lines;
 	int				num_lines;
-	t_projection	param;
+	t_transform		T;
 	uint32_t		bg_color;
 	int				init_success;
 	size_t			image_size_in_pixels;

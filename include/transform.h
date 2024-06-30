@@ -4,17 +4,23 @@
 #include "t_line.h"
 #include "libft.h"
 #include <math.h>
-#define COS45 0.7071067812
-#define SIN45 0.7071067812
 
-typedef struct s_projection
+typedef struct s_vecd
 {
-	double	scale;
-	double	angle;
-	int		offset_x;
-	int		offset_y;
-}	t_projection;
+    double x;
+    double y;
+    double z;
+} t_vecd;
 
-t_line	project_line(t_line line, t_projection *s);
+typedef struct s_transform
+{
+	t_vecd	rotation;
+    double	scale;
+    int		offset_x;
+    int		offset_y;
+} t_transform;
+
+extern t_vecd	calculate_center(t_line *lines, int num_lines);
+extern t_line transform(t_line line, t_transform *T, t_vecd center);
 
 #endif /* TRANSFORM_H */
