@@ -14,10 +14,10 @@ typedef struct s_vecd
 
 typedef struct s_transform
 {
-	t_vecd	rotation;
-    double	scale;
-    int		offset_x;
-    int		offset_y;
+	t_vector	rotation;
+    int			scale;
+    int			offset_x;
+    int			offset_y;
 } t_transform;
 
 extern t_vecd	calculate_center(t_line *lines, int num_lines);

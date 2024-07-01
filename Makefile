@@ -20,7 +20,7 @@ src_dir 	:= ./src
 obj_dir 	:= ./obj
 inc_dir		:= ./include
 sources 	:= main.c parse.c transform.c rasterize.c clip.c interpolate_color.c  \
-			   abrash.c
+			   abrash.c serialize_bonus.c dvd.c
 objects 	:= $(sources:%.c=$(obj_dir)/%.o)
 libft_dir	:= ./libft
 libmlx_dir	:= ./MLX42

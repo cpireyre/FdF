@@ -19,8 +19,8 @@
 # include "clip.h"
 # include "rasterize.h"
 
-# define WIN_WIDTH	4*320
-# define WIN_HEIGHT	4*200
+# define WIN_WIDTH	2*320
+# define WIN_HEIGHT	2*200
 
 typedef struct s_render_context
 {

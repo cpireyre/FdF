@@ -11,6 +11,8 @@
 /* ************************************************************************** */
 
 #include "main.h"
+void	serialize(t_transform T);
+t_transform	deserialize(int default_width, int default_height);
 
 static t_render_context	initialize_ctx(const char *name, int width, int height);
 static void				render_frame(t_render_context *ctx);
@@ -32,6 +34,7 @@ int	main(int argc, char **argv)
 		{
 			mlx_loop_hook(ctx.mlx, (t_hook)render_frame, &ctx);
 			mlx_loop(ctx.mlx);
+			serialize(ctx.T);
 		}
 		if (ctx.mlx)
 			mlx_terminate(ctx.mlx);
@@ -48,13 +51,8 @@ static t_render_context	initialize_ctx(const char *name, int width, int height)
 
 	ctx.init_success = 0;
 	ctx.bg_color = BG_COLOR;
-	ctx.T.scale = 100;
-	ctx.T.offset_x = width / 3;
-	ctx.T.offset_y = height / 2;
-	ctx.T.rotation.x = 0;
-	ctx.T.rotation.y = 0;
-	ctx.T.rotation.z = 0;
-	mlx_set_setting(MLX_FULLSCREEN, true);
+	ctx.T = deserialize(width, height);
+	mlx_set_setting(MLX_FULLSCREEN, false);
 	mlx_set_setting(MLX_STRETCH_IMAGE, true);
 	ctx.mlx = NULL;
 	ctx.img = NULL;
@@ -71,6 +69,7 @@ static t_render_context	initialize_ctx(const char *name, int width, int height)
 	return (ctx);
 }
 
+void	dvd(t_transform *T, int width, int height);
 static void	render_frame(t_render_context *ctx)
 {
 	int	i;
@@ -79,6 +78,7 @@ static void	render_frame(t_render_context *ctx)
 
 	ft_memset_32(ctx->img->pixels, ctx->bg_color, ctx->image_size_in_pixels);
 	move(ctx->mlx, &ctx->T);
+	dvd(&ctx->T, (int)ctx->img->width, (int)ctx->img->height);
 	i = 0;
 	center = calculate_center(ctx->lines, ctx->num_lines);
 	while (i < ctx->num_lines)

@@ -41,7 +41,7 @@ static t_vecd translate_back(t_vecd v, t_vecd center)
     return v;
 }
 
-static t_vecd rotate(t_vecd vec, t_vecd rotation)
+static t_vecd rotate(t_vecd vec, t_vector rotation)
 {
     double rad_x = rotation.x * M_PI / 180.0;
     double rad_y = rotation.y * M_PI / 180.0;
@@ -69,8 +69,8 @@ static t_vecd project(t_vecd v, t_transform *T)
 
     iso_x = (v.x - v.y) * cos(45 * M_PI / 180.0);
     iso_y = (v.x + v.y) * sin(45 * M_PI / 180.0) - v.z;
-    scaled_iso_x = T->scale * iso_x;
-    scaled_iso_y = T->scale * iso_y;
+    scaled_iso_x = (double)T->scale / (double)10 * iso_x;
+    scaled_iso_y = (double)T->scale / (double)10 * iso_y;
     v.x = T->offset_x + scaled_iso_x;
     v.y = T->offset_y + scaled_iso_y;
     return v;
