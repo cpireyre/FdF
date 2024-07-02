@@ -6,23 +6,15 @@
 /*   By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 09:45:09 by copireyr          #+#    #+#             */
-/*   Updated: 2024/07/02 11:20:30 by copireyr         ###   ########.fr       */
+/*   Updated: 2024/07/02 13:28:30 by copireyr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
-void	serialize(t_transform T);
-t_transform	deserialize(int default_width, int default_height);
 
 static t_render_context	initialize_ctx(const char *name, int width, int height);
 static void				render_frame(t_render_context *ctx);
 static void				move(mlx_t *m, t_transform *T);
-
-void	toggle_dvd_mode(mlx_key_data_t keydata, t_render_context *ctx)
-{
-	if (keydata.key == MLX_KEY_SPACE && keydata.action == MLX_PRESS)
-		ctx->dvd_mode_on ^= 1;
-}
 
 int	main(int argc, char **argv)
 {
@@ -34,7 +26,7 @@ int	main(int argc, char **argv)
 		a = arena_new();
 		if (!a)
 			return (1);
-		ctx = initialize_ctx(argv[1], RES * WIN_WIDTH, RES* WIN_HEIGHT);
+		ctx = initialize_ctx(argv[1], RES * WIN_WIDTH, RES * WIN_HEIGHT);
 		ctx.num_lines = parse(argv[1], &ctx.lines, a);
 		if (ctx.num_lines && ctx.init_success)
 		{
@@ -77,11 +69,10 @@ static t_render_context	initialize_ctx(const char *name, int width, int height)
 	return (ctx);
 }
 
-void	dvd(t_transform *T, int width, int height);
 static void	render_frame(t_render_context *ctx)
 {
-	int	i;
-	t_line current_line;
+	int		i;
+	t_line	current_line;
 	t_vecd	center;
 
 	ft_memset_32(ctx->img->pixels, ctx->bg_color, ctx->image_size_in_pixels);
@@ -112,19 +103,19 @@ static void	move(mlx_t *m, t_transform *T)
 		T->rotation.z -= 1 * (mlx_is_key_down(m, MLX_KEY_Q));
 		T->rotation.z += 1 * (mlx_is_key_down(m, MLX_KEY_E));
 	}
-	else
-	{
-		T->offset_y -= 5 * (mlx_is_key_down(m, MLX_KEY_W));
-		T->offset_x -= 5 * (mlx_is_key_down(m, MLX_KEY_A));
-		T->offset_y += 5 * (mlx_is_key_down(m, MLX_KEY_S));
-		T->offset_x += 5 * (mlx_is_key_down(m, MLX_KEY_D));
-	}
 	if (mlx_is_key_down(m, MLX_KEY_RIGHT_SHIFT))
 	{
 		T->scale += 1 * (mlx_is_key_down(m, MLX_KEY_W));
 		T->scale -= 1 * (mlx_is_key_down(m, MLX_KEY_S));
 		if (T->scale < 3)
 			T->scale = 3;
+	}
+	if (!mlx_is_key_down(m, MLX_KEY_RIGHT_SHIFT))
+	{
+		T->offset_y -= 5 * (mlx_is_key_down(m, MLX_KEY_W));
+		T->offset_x -= 5 * (mlx_is_key_down(m, MLX_KEY_A));
+		T->offset_y += 5 * (mlx_is_key_down(m, MLX_KEY_S));
+		T->offset_x += 5 * (mlx_is_key_down(m, MLX_KEY_D));
 	}
 	if (mlx_is_key_down(m, MLX_KEY_R))
 	{

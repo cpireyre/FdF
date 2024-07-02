@@ -6,7 +6,7 @@
 /*   By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 13:33:18 by copireyr          #+#    #+#             */
-/*   Updated: 2024/07/02 12:08:01 by copireyr         ###   ########.fr       */
+/*   Updated: 2024/07/02 13:27:12 by copireyr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,5 +37,10 @@ typedef struct s_render_context
 }				t_render_context;
 
 typedef void	(*t_hook)(void*);
+
+void		serialize(t_transform T);
+t_transform	deserialize(int default_width, int default_height);
+void		dvd(t_transform *T, int width, int height);
+void		toggle_dvd_mode(mlx_key_data_t keydata, t_render_context *ctx);
 
 #endif /* MAIN_H */

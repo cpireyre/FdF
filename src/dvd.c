@@ -6,12 +6,11 @@
 /*   By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 11:08:29 by copireyr          #+#    #+#             */
-/*   Updated: 2024/07/02 11:17:59 by copireyr         ###   ########.fr       */
+/*   Updated: 2024/07/02 13:27:32 by copireyr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-#include "transform.h"
+#include "main.h"
 
 void	dvd(t_transform *T, int width, int height)
 {
@@ -29,4 +28,10 @@ void	dvd(t_transform *T, int width, int height)
 		direction.x *= -1;
 	if (T->offset_y == height || T->offset_y == 0)
 		direction.y *= -1;
+}
+
+void	toggle_dvd_mode(mlx_key_data_t keydata, t_render_context *ctx)
+{
+	if (keydata.key == MLX_KEY_SPACE && keydata.action == MLX_PRESS)
+		ctx->dvd_mode_on ^= 1;
 }

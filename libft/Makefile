@@ -6,7 +6,7 @@
 #    By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/23 15:14:47 by copireyr          #+#    #+#              #
-#    Updated: 2024/06/26 15:48:53 by copireyr         ###   ########.fr        #
+#    Updated: 2024/07/02 13:24:36 by copireyr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,7 +44,8 @@ src := ./io/ft_gnl.c      ./ctype/ft_atoi.c    ./str/ft_split.c \
 	   ./str/ft_strtrim.c ./ctype/ft_isdigit.c ./mem/ft_memdel.c       \
 	   ./io/ft_error.c	  ./ctype/ft_isspace.c ./arena/arena.c 			\
 	   ./math/ft_abs.c 	  ./math/ft_max.c ./math/ft_min.c ./math/ft_sign.c ./math/to_vec.c \
-	   ./math/ft_distance.c ./mem/ft_memset_32.c
+	   ./math/ft_distance.c ./mem/ft_memset_32.c ./math/vector_add.c \
+		./math/ft_vecd_from_int.c
 
 obj_dir := ./obj
 $(obj_dir)/%.o: %.c

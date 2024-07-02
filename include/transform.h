@@ -6,26 +6,19 @@
 /*   By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 11:07:22 by copireyr          #+#    #+#             */
-/*   Updated: 2024/07/02 11:35:47 by copireyr         ###   ########.fr       */
+/*   Updated: 2024/07/02 13:10:21 by copireyr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef TRANSFORM_H
 # define TRANSFORM_H
 
-# include "t_line.h"
 # include "libft.h"
+# include "t_line.h"
 # include <math.h>
 
 # define COS45 0.707107
 # define SIN45 0.707107
-
-typedef struct s_vecd
-{
-	double	x;
-	double	y;
-	double	z;
-}				t_vecd;
 
 typedef struct s_transform
 {
