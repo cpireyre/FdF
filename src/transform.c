@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   transform.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/02 11:32:00 by copireyr          #+#    #+#             */
+/*   Updated: 2024/07/02 11:35:59 by copireyr         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "transform.h"
 
 static t_vecd project(t_vecd v, t_transform *T);
@@ -43,21 +55,8 @@ static t_vecd translate_back(t_vecd v, t_vecd center)
 
 static t_vecd rotate(t_vecd vec, t_vector rotation)
 {
-    double rad_x = rotation.x * M_PI / 180.0;
-    double rad_y = rotation.y * M_PI / 180.0;
-    double rad_z = rotation.z * M_PI / 180.0;
-
-    double sin_x = sin(rad_x), cos_x = cos(rad_x);
-    double sin_y = sin(rad_y), cos_y = cos(rad_y);
-    double sin_z = sin(rad_z), cos_z = cos(rad_z);
-
-    double y1 = vec.y * cos_x - vec.z * sin_x;
-    double z1 = vec.y * sin_x + vec.z * cos_x;
-    double x2 = vec.x * cos_y + z1 * sin_y;
-    double z2 = -vec.x * sin_y + z1 * cos_y;
-    double x3 = x2 * cos_z - y1 * sin_z;
-    double y3 = x2 * sin_z + y1 * cos_z;
-    return (t_vecd){x3, y3, z2};
+	(void)rotation;
+	return (vec);
 }
 
 static t_vecd project(t_vecd v, t_transform *T)
@@ -67,8 +66,8 @@ static t_vecd project(t_vecd v, t_transform *T)
     double scaled_iso_x;
     double scaled_iso_y;
 
-    iso_x = (v.x - v.y) * cos(45 * M_PI / 180.0);
-    iso_y = (v.x + v.y) * sin(45 * M_PI / 180.0) - v.z;
+    iso_x = (v.x - v.y) * COS45;
+    iso_y = (v.x + v.y) * SIN45 - v.z;
     scaled_iso_x = (double)T->scale / (double)10 * iso_x;
     scaled_iso_y = (double)T->scale / (double)10 * iso_y;
     v.x = T->offset_x + scaled_iso_x;

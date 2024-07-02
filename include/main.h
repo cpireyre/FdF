@@ -6,7 +6,7 @@
 /*   By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 13:33:18 by copireyr          #+#    #+#             */
-/*   Updated: 2024/07/02 11:19:13 by copireyr         ###   ########.fr       */
+/*   Updated: 2024/07/02 12:08:01 by copireyr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 # include "clip.h"
 # include "rasterize.h"
 
-# define RES		100
+# define RES		150
 # define WIN_WIDTH	16
 # define WIN_HEIGHT	9
 
