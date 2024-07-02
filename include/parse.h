@@ -15,7 +15,6 @@
 
 # include <fcntl.h>
 # include <unistd.h>
-# include <string.h> /* TODO: delete this */
 # include "libft.h"
 # include "t_line.h"
 # include "interpolate_color.h"

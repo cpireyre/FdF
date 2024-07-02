@@ -1,0 +1,33 @@
+#include <stddef.h>
+
+static int	is_sep(char c, const char *sep);
+
+char	*ft_strtok(char *str, const char *sep)
+{
+	static char	*ptr;
+	char		*ret;
+
+	if (str)
+		ptr = str;
+	if (!*ptr)
+		return (NULL);
+	while (is_sep(*ptr, sep))
+		ptr++;
+	ret = ptr;
+	while (*ptr && !is_sep(*ptr, sep))
+		ptr++;
+	if (*ptr)
+		*ptr++ = '\0';
+	return (ret);
+}
+
+static int	is_sep(char c, const char *sep)
+{
+	while (*sep)
+	{
+		if (c == *sep++)
+			return (1);
+	}
+	return (0);
+}
+
