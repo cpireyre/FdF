@@ -6,20 +6,16 @@
 /*   By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 13:16:52 by copireyr          #+#    #+#             */
-/*   Updated: 2024/07/02 11:28:10 by copireyr         ###   ########.fr       */
+/*   Updated: 2024/07/02 13:37:13 by copireyr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parse.h"
 
-static t_line	to_line(t_vector a, t_vector b);
 static int		count_lines_in_file(const char *path);
 static t_vector	**parse_file(int fd, t_map *map, t_arena a);
 static t_vector	*tokenize(int fd, int row, t_map *map, t_arena a);
 static int		count_words_in_line(const char *line);
-static void		find_min_max_elevation(t_map *map, int *min, int *max);
-static int		to_lines(t_map *map, t_line **l, t_arena a);
-static void		assign_colors(t_map *map, uint32_t locolor, uint32_t hicolor);
 
 int	parse(const char *path, t_line **lines, t_arena a)
 {
@@ -133,94 +129,4 @@ static int	count_words_in_line(const char *line)
 			line++;
 	}
 	return (words);
-}
-
-static int	to_lines(t_map *map, t_line **l, t_arena a)
-{
-	t_vector	curr;
-	int			num_lines;
-	t_line		*lines;
-	t_vector	inc;
-
-	num_lines = (map->rows - 1) * map->cols + (map->cols - 1) * map->rows;
-	lines = arena_calloc(a, (size_t)num_lines, sizeof(t_line));
-	if (!lines)
-		return (0);
-	inc.x = -1;
-	inc.z = 0;
-	while (++inc.x < map->rows)
-	{
-		inc.y = -1;
-		while (++inc.y < map->cols)
-		{
-			curr = map->points[inc.x][inc.y];
-			if (inc.x + 1 < map->rows)
-				lines[inc.z++] = to_line(curr, map->points[inc.x + 1][inc.y]);
-			if (inc.y + 1 < map->cols)
-				lines[inc.z++] = to_line(curr, map->points[inc.x][inc.y + 1]);
-		}
-	}
-	*l = lines;
-	return (num_lines);
-}
-
-static t_line	to_line(t_vector a, t_vector b)
-{
-	t_line	line;
-
-	line.x0 = a.x;
-	line.y0 = a.y;
-	line.x1 = b.x;
-	line.y1 = b.y;
-	line.z0 = a.z;
-	line.z1 = b.z;
-	line.color0 = (uint32_t)a.c;
-	line.color1 = (uint32_t)b.c;
-	return (line);
-}
-
-static void	assign_colors(t_map *map, uint32_t low_color, uint32_t high_color)
-{
-	int		i;
-	int		j;
-	int		min;
-	int		max;
-
-	i = 0;
-	find_min_max_elevation(map, &min, &max);
-	while (i < map->rows)
-	{
-		j = 0;
-		while (j < map->cols)
-		{
-			map->points[i][j].c = (int)interpolate_color(
-					(uint32_t)low_color, (uint32_t)high_color,
-					(double)map->points[i][j].z / (double)(max - min));
-			j++;
-		}
-		i++;
-	}
-}
-
-static void	find_min_max_elevation(t_map *map, int *min, int *max)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	*min = map->points[0][0].z;
-	*max = *min;
-	while (i < map->rows)
-	{
-		j = 0;
-		while (j < map->cols)
-		{
-			if (*min > map->points[i][j].z)
-				*min = map->points[i][j].z;
-			if (*max < map->points[i][j].z)
-				*max = map->points[i][j].z;
-			j++;
-		}
-		i++;
-	}
 }
