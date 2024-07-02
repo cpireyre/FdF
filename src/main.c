@@ -6,7 +6,7 @@
 /*   By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 09:45:09 by copireyr          #+#    #+#             */
-/*   Updated: 2024/06/28 15:05:18 by copireyr         ###   ########.fr       */
+/*   Updated: 2024/07/02 11:20:30 by copireyr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,12 @@ static t_render_context	initialize_ctx(const char *name, int width, int height);
 static void				render_frame(t_render_context *ctx);
 static void				move(mlx_t *m, t_transform *T);
 
+void	toggle_dvd_mode(mlx_key_data_t keydata, t_render_context *ctx)
+{
+	if (keydata.key == MLX_KEY_SPACE && keydata.action == MLX_PRESS)
+		ctx->dvd_mode_on ^= 1;
+}
+
 int	main(int argc, char **argv)
 {
 	t_arena					a;
@@ -28,13 +34,14 @@ int	main(int argc, char **argv)
 		a = arena_new();
 		if (!a)
 			return (1);
-		ctx = initialize_ctx(argv[1], WIN_WIDTH, WIN_HEIGHT);
+		ctx = initialize_ctx(argv[1], RES * WIN_WIDTH, RES* WIN_HEIGHT);
 		ctx.num_lines = parse(argv[1], &ctx.lines, a);
 		if (ctx.num_lines && ctx.init_success)
 		{
 			mlx_loop_hook(ctx.mlx, (t_hook)render_frame, &ctx);
+			mlx_key_hook(ctx.mlx, (mlx_keyfunc)toggle_dvd_mode, &ctx);
 			mlx_loop(ctx.mlx);
-			serialize(ctx.T);
+			serialize(ctx.transform);
 		}
 		if (ctx.mlx)
 			mlx_terminate(ctx.mlx);
@@ -49,9 +56,10 @@ static t_render_context	initialize_ctx(const char *name, int width, int height)
 {
 	t_render_context	ctx;
 
+	ctx.dvd_mode_on = 0;
 	ctx.init_success = 0;
 	ctx.bg_color = BG_COLOR;
-	ctx.T = deserialize(width, height);
+	ctx.transform = deserialize(width, height);
 	mlx_set_setting(MLX_FULLSCREEN, false);
 	mlx_set_setting(MLX_STRETCH_IMAGE, true);
 	ctx.mlx = NULL;
@@ -77,13 +85,14 @@ static void	render_frame(t_render_context *ctx)
 	t_vecd	center;
 
 	ft_memset_32(ctx->img->pixels, ctx->bg_color, ctx->image_size_in_pixels);
-	move(ctx->mlx, &ctx->T);
-	dvd(&ctx->T, (int)ctx->img->width, (int)ctx->img->height);
+	move(ctx->mlx, &ctx->transform);
+	if (ctx->dvd_mode_on)
+		dvd(&ctx->transform, (int)ctx->img->width, (int)ctx->img->height);
 	i = 0;
 	center = calculate_center(ctx->lines, ctx->num_lines);
 	while (i < ctx->num_lines)
 	{
-		current_line = transform(ctx->lines[i], &ctx->T, center);
+		current_line = transform(ctx->lines[i], &ctx->transform, center);
 		if (clip(&current_line, (int)ctx->img->width, (int)ctx->img->height))
 			rasterize(ctx->img, current_line);
 		i++;
@@ -103,18 +112,25 @@ static void	move(mlx_t *m, t_transform *T)
 		T->rotation.z -= 1 * (mlx_is_key_down(m, MLX_KEY_Q));
 		T->rotation.z += 1 * (mlx_is_key_down(m, MLX_KEY_E));
 	}
-	else if (mlx_is_key_down(m, MLX_KEY_RIGHT_SHIFT))
-	{
-		T->scale += 1 * (mlx_is_key_down(m, MLX_KEY_W));
-		T->scale -= 1 * (mlx_is_key_down(m, MLX_KEY_S));
-		if (T->scale < 3)
-			T->scale = 3;
-	}
 	else
 	{
 		T->offset_y -= 5 * (mlx_is_key_down(m, MLX_KEY_W));
 		T->offset_x -= 5 * (mlx_is_key_down(m, MLX_KEY_A));
 		T->offset_y += 5 * (mlx_is_key_down(m, MLX_KEY_S));
 		T->offset_x += 5 * (mlx_is_key_down(m, MLX_KEY_D));
+	}
+	if (mlx_is_key_down(m, MLX_KEY_RIGHT_SHIFT))
+	{
+		T->scale += 1 * (mlx_is_key_down(m, MLX_KEY_W));
+		T->scale -= 1 * (mlx_is_key_down(m, MLX_KEY_S));
+		if (T->scale < 3)
+			T->scale = 3;
+	}
+	if (mlx_is_key_down(m, MLX_KEY_R))
+	{
+		ft_bzero(T, sizeof(*T));
+		T->scale = 100;
+		T->offset_y = m->height / 2;
+		T->offset_x = m->width / 2;
 	}
 }

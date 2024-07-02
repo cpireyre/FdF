@@ -6,7 +6,7 @@
 /*   By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 13:36:06 by copireyr          #+#    #+#             */
-/*   Updated: 2024/06/28 12:57:36 by copireyr         ###   ########.fr       */
+/*   Updated: 2024/07/02 11:23:28 by copireyr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 static void		bresenham(mlx_image_t *img, t_line line);
 static uint32_t	lerp(uint32_t color0, uint32_t color1, int i, int steps);
-void DrawWuLine(mlx_image_t *image, int X0, int Y0, int X1, int Y1, int BaseColor, int NumLevels, unsigned int IntensityBits);
 
 void	rasterize(mlx_image_t *image, t_line line)
 {
@@ -24,8 +23,6 @@ void	rasterize(mlx_image_t *image, t_line line)
 	line.slope_y = ft_sign(line.y0, line.y1);
 	line.length = ft_max(line.delta_x, -line.delta_y);
 	bresenham(image, line);
-	/*(void)bresenham;*/
-	/*DrawWuLine(image, line.x0, line.y0, line.x1, line.x1, (int)0xffffffff, 16, 16);*/
 }
 
 static void	bresenham(mlx_image_t *img, t_line line)

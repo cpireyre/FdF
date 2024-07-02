@@ -1,9 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   clip.h                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/02 10:55:40 by copireyr          #+#    #+#             */
+/*   Updated: 2024/07/02 10:55:45 by copireyr         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef CLIP_H
 # define CLIP_H
 
-#include "t_line.h"
-#include "libft.h"
-#include "interpolate_color.h"
+# include "t_line.h"
+# include "libft.h"
+# include "interpolate_color.h"
 
 extern int	clip(t_line *line, int xmax, int ymax);
 

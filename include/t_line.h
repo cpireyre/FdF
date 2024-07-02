@@ -6,12 +6,12 @@
 /*   By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 13:32:59 by copireyr          #+#    #+#             */
-/*   Updated: 2024/06/28 14:54:04 by copireyr         ###   ########.fr       */
+/*   Updated: 2024/07/02 10:56:07 by copireyr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LINE_H
-# define LINE_H
+#ifndef T_LINE_H
+# define T_LINE_H
 
 # include <stdint.h>
 
@@ -33,4 +33,4 @@ typedef struct s_line
 	int			should_render;
 }				t_line;
 
-#endif /* LINE_H */
+#endif /* T_LINE_H */

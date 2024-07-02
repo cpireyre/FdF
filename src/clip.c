@@ -6,7 +6,7 @@
 /*   By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 13:26:41 by copireyr          #+#    #+#             */
-/*   Updated: 2024/06/28 15:07:13 by copireyr         ###   ########.fr       */
+/*   Updated: 2024/06/28 15:09:37 by copireyr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	clip(t_line *line, int xmax, int ymax)
 	{
 		orig_len = ft_distance(orig.x0, orig.y0, orig.x1, orig.y1);
 		ratio0 = ft_distance(orig.x0, orig.y0, line->x0, line->y0) / orig_len;
-		ratio1 = ft_distance(orig.x1, orig.y0, line->x0, line->y1) / orig_len;
+		ratio1 = ft_distance(orig.x0, orig.y0, line->x1, line->y1) / orig_len;
 		line->color0 = interpolate_color(
 				(uint32_t)orig.color0, (uint32_t)orig.color1, ratio0);
 		line->color1 = interpolate_color(
