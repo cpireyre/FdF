@@ -19,9 +19,10 @@
 # include "clip.h"
 # include "rasterize.h"
 
-# define RES		150
+# define RES		160
 # define WIN_WIDTH	16
-# define WIN_HEIGHT	9
+# define WIN_HEIGHT	10
+# define FULLSCREEN	true
 
 typedef struct s_render_context
 {

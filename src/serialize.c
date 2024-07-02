@@ -24,9 +24,9 @@ void	serialize(t_transform transform)
 	fd = open("./.state", O_RDWR | O_TRUNC | O_CREAT, 0644);
 	if (fd < 0)
 		return ;
-	ft_dprintf(fd, "%d\n", transform.rotation.x);
-	ft_dprintf(fd, "%d\n", transform.rotation.y);
-	ft_dprintf(fd, "%d\n", transform.rotation.z);
+	ft_dprintf(fd, "%d\n", transform.yaw);
+	ft_dprintf(fd, "%d\n", transform.pitch);
+	ft_dprintf(fd, "%d\n", transform.roll);
 	ft_dprintf(fd, "%d\n", transform.scale);
 	ft_dprintf(fd, "%d\n", transform.offset_x);
 	ft_dprintf(fd, "%d\n", transform.offset_y);
@@ -43,9 +43,9 @@ t_transform	deserialize(int default_width, int default_height)
 	transform.scale = 100;
 	transform.offset_x = default_width / 3;
 	transform.offset_y = default_height / 2;
-	transform.rotation.x = 0;
-	transform.rotation.y = 0;
-	transform.rotation.z = 0;
+	transform.yaw = 0;
+	transform.pitch = 0;
+	transform.roll = 0;
 	fd = open("./.state", O_RDONLY);
 	if (fd < 0)
 		return (transform);
@@ -61,11 +61,11 @@ static t_transform	parse_transform(const char *deserialized)
 {
 	t_transform	transform;
 
-	transform.rotation.x = ft_atoi(deserialized);
+	transform.yaw = ft_atoi(deserialized);
 	deserialized = ft_strchr(deserialized, '\n');
-	transform.rotation.y = ft_atoi(++deserialized);
+	transform.pitch = ft_atoi(++deserialized);
 	deserialized = ft_strchr(deserialized, '\n');
-	transform.rotation.z = ft_atoi(++deserialized);
+	transform.roll = ft_atoi(++deserialized);
 	deserialized = ft_strchr(deserialized, '\n');
 	transform.scale = ft_atoi(++deserialized);
 	deserialized = ft_strchr(deserialized, '\n');

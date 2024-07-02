@@ -22,10 +22,18 @@
 
 typedef struct s_transform
 {
-	t_vector	rotation;
+	int			yaw;
+	int			pitch;
+	int			roll;
 	int			scale;
 	int			offset_x;
 	int			offset_y;
+	double		cos_yaw;
+	double		sin_yaw;
+	double		cos_pitch;
+	double		sin_pitch;
+	double		cos_roll;
+	double		sin_roll;
 }				t_transform;
 
 extern t_vecd	calculate_center(t_line *lines, int num_lines);

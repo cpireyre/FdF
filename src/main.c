@@ -52,7 +52,7 @@ static t_render_context	initialize_ctx(const char *name, int width, int height)
 	ctx.init_success = 0;
 	ctx.bg_color = BG_COLOR;
 	ctx.transform = deserialize(width, height);
-	mlx_set_setting(MLX_FULLSCREEN, false);
+	mlx_set_setting(MLX_FULLSCREEN, FULLSCREEN);
 	mlx_set_setting(MLX_STRETCH_IMAGE, true);
 	ctx.mlx = NULL;
 	ctx.img = NULL;
@@ -101,17 +101,17 @@ static void	move(mlx_t *m, t_transform *T)
 {
 	if (mlx_is_key_down(m, MLX_KEY_RIGHT_ALT))
 	{
-		T->rotation.y += check_key_pair(m, MLX_KEY_S, MLX_KEY_W);
-		T->rotation.x += check_key_pair(m, MLX_KEY_D, MLX_KEY_A);
-		T->rotation.z += check_key_pair(m, MLX_KEY_E, MLX_KEY_Q);
+		T->pitch += check_key_pair(m, MLX_KEY_S, MLX_KEY_W);
+		T->yaw += check_key_pair(m, MLX_KEY_D, MLX_KEY_A);
+		T->roll += check_key_pair(m, MLX_KEY_E, MLX_KEY_Q);
 	}
-	if (mlx_is_key_down(m, MLX_KEY_RIGHT_SHIFT))
+	else if (mlx_is_key_down(m, MLX_KEY_RIGHT_SHIFT))
 	{
 		T->scale += check_key_pair(m, MLX_KEY_W, MLX_KEY_S);
 		if (T->scale < 3)
 			T->scale = 3;
 	}
-	if (!mlx_is_key_down(m, MLX_KEY_RIGHT_SHIFT))
+	else if (!mlx_is_key_down(m, MLX_KEY_RIGHT_SHIFT))
 	{
 		T->offset_y += 5 * check_key_pair(m, MLX_KEY_S, MLX_KEY_W);
 		T->offset_x += 5 * check_key_pair(m, MLX_KEY_D, MLX_KEY_A);
@@ -123,4 +123,10 @@ static void	move(mlx_t *m, t_transform *T)
 		T->offset_y = m->height / 2;
 		T->offset_x = m->width / 2;
 	}
+	T->cos_yaw = cos(T->yaw * M_PI / 180.0);
+	T->sin_yaw = sin(T->yaw * M_PI / 180.0);
+	T->cos_pitch = cos(T->pitch * M_PI / 180.0);
+	T->sin_pitch = sin(T->pitch * M_PI / 180.0);
+	T->cos_roll = cos(T->roll * M_PI / 180.0);
+	T->sin_roll = sin(T->roll * M_PI / 180.0);
 }

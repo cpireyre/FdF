@@ -61,10 +61,11 @@ $(bin): $(libmlx) $(libft) $(objects)
 	LIBRARY_PATH=$(glfw_path) $(CC) $(objects) $(LDFLAGS) -o $@
 
 .PHONY: all
-all: $(bin) | norm #tags
+all: $(bin) | norm tags
 
-#tags: $(addprefix $(src_dir)/, $(sources))
-	#ctags --recurse
+tags: $(addprefix $(src_dir)/, $(sources))
+	ctags **/*.c **/*.h
+	# ctags --recurse
 
 .PHONY: bonus
 bonus: $(bin)
