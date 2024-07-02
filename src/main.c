@@ -6,7 +6,7 @@
 /*   By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 09:45:09 by copireyr          #+#    #+#             */
-/*   Updated: 2024/07/02 13:28:30 by copireyr         ###   ########.fr       */
+/*   Updated: 2024/07/02 13:56:46 by copireyr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,30 +92,29 @@ static void	render_frame(t_render_context *ctx)
 		mlx_close_window(ctx->mlx);
 }
 
+int	check_key_pair(mlx_t *m, keys_t key0, keys_t key1)
+{
+	return (mlx_is_key_down(m, key0) - mlx_is_key_down(m, key1));
+}
+
 static void	move(mlx_t *m, t_transform *T)
 {
 	if (mlx_is_key_down(m, MLX_KEY_RIGHT_ALT))
 	{
-		T->rotation.y -= 1 * (mlx_is_key_down(m, MLX_KEY_W));
-		T->rotation.y += 1 * (mlx_is_key_down(m, MLX_KEY_S));
-		T->rotation.x -= 1 * (mlx_is_key_down(m, MLX_KEY_A));
-		T->rotation.x += 1 * (mlx_is_key_down(m, MLX_KEY_D));
-		T->rotation.z -= 1 * (mlx_is_key_down(m, MLX_KEY_Q));
-		T->rotation.z += 1 * (mlx_is_key_down(m, MLX_KEY_E));
+		T->rotation.y += check_key_pair(m, MLX_KEY_S, MLX_KEY_W);
+		T->rotation.x += check_key_pair(m, MLX_KEY_D, MLX_KEY_A);
+		T->rotation.z += check_key_pair(m, MLX_KEY_E, MLX_KEY_Q);
 	}
 	if (mlx_is_key_down(m, MLX_KEY_RIGHT_SHIFT))
 	{
-		T->scale += 1 * (mlx_is_key_down(m, MLX_KEY_W));
-		T->scale -= 1 * (mlx_is_key_down(m, MLX_KEY_S));
+		T->scale += check_key_pair(m, MLX_KEY_W, MLX_KEY_S);
 		if (T->scale < 3)
 			T->scale = 3;
 	}
 	if (!mlx_is_key_down(m, MLX_KEY_RIGHT_SHIFT))
 	{
-		T->offset_y -= 5 * (mlx_is_key_down(m, MLX_KEY_W));
-		T->offset_x -= 5 * (mlx_is_key_down(m, MLX_KEY_A));
-		T->offset_y += 5 * (mlx_is_key_down(m, MLX_KEY_S));
-		T->offset_x += 5 * (mlx_is_key_down(m, MLX_KEY_D));
+		T->offset_y += 5 * check_key_pair(m, MLX_KEY_S, MLX_KEY_W);
+		T->offset_x += 5 * check_key_pair(m, MLX_KEY_D, MLX_KEY_A);
 	}
 	if (mlx_is_key_down(m, MLX_KEY_R))
 	{
