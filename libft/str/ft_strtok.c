@@ -9,10 +9,12 @@ char	*ft_strtok(char *str, const char *sep)
 
 	if (str)
 		ptr = str;
-	if (!*ptr)
+	if (!ptr || !*ptr)
 		return (NULL);
 	while (is_sep(*ptr, sep))
 		ptr++;
+	if (!*ptr)
+		return (NULL);
 	ret = ptr;
 	while (*ptr && !is_sep(*ptr, sep))
 		ptr++;
