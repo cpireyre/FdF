@@ -48,12 +48,12 @@ static t_line	to_line(t_vector a, t_vector b)
 {
 	t_line	line;
 
-	line.x0 = a.x;
-	line.y0 = a.y;
-	line.x1 = b.x;
-	line.y1 = b.y;
-	line.z0 = a.z;
-	line.z1 = b.z;
+	line.world0.x = a.x;
+	line.world0.y = a.y;
+	line.world0.z = a.z;
+	line.world1.x = b.x;
+	line.world1.y = b.y;
+	line.world1.z = b.z;
 	line.color0 = (uint32_t)a.c;
 	line.color1 = (uint32_t)b.c;
 	return (line);

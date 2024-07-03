@@ -18,14 +18,15 @@
 # include "transform.h"
 # include "clip.h"
 # include "rasterize.h"
+# include <limits.h>
 
-# define RES		160
-# define WIN_WIDTH	16
-# define WIN_HEIGHT	10
-# define FULLSCREEN	true
+# define WIN_WIDTH	2*320
+# define WIN_HEIGHT	2*200
+# define FULLSCREEN	false
 
 typedef struct s_render_context
 {
+	int				z_buffer[WIN_HEIGHT * WIN_WIDTH];
 	mlx_t			*mlx;
 	t_line			*lines;
 	int				num_lines;

@@ -13,19 +13,18 @@
 #ifndef T_LINE_H
 # define T_LINE_H
 
-# include <stdint.h>
+# include "libft.h"
 
 typedef struct s_line
 {
-	int			x0;
-	int			y0;
-	int			z0;
-	int			x1;
-	int			y1;
-	int			z1;
+	t_vector	screen0;
+	t_vector	screen1;
+	t_vecd		world0;
+	t_vecd		world1;
 	int			length;
 	int			delta_x;
 	int			delta_y;
+	int			z_dir;
 	int			slope_x;
 	int			slope_y;
 	uint32_t	color0;

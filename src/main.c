@@ -26,7 +26,7 @@ int	main(int argc, char **argv)
 		a = arena_new();
 		if (!a)
 			return (1);
-		ctx = initialize_ctx(argv[1], RES * WIN_WIDTH, RES * WIN_HEIGHT);
+		ctx = initialize_ctx(argv[1], WIN_WIDTH, WIN_HEIGHT);
 		ctx.num_lines = parse(argv[1], &ctx.lines, a);
 		if (ctx.num_lines && ctx.init_success)
 		{
@@ -76,6 +76,9 @@ static void	render_frame(t_render_context *ctx)
 	t_vecd	center;
 
 	ft_memset_32(ctx->img->pixels, ctx->bg_color, ctx->image_size_in_pixels);
+	i = 0;
+	while (i < WIN_WIDTH * WIN_HEIGHT)
+		ctx->z_buffer[i++] = INT_MIN;
 	move(ctx->mlx, &ctx->transform);
 	if (ctx->dvd_mode_on)
 		dvd(&ctx->transform, (int)ctx->img->width, (int)ctx->img->height);
@@ -85,7 +88,7 @@ static void	render_frame(t_render_context *ctx)
 	{
 		current_line = transform(ctx->lines[i], &ctx->transform, center);
 		if (clip(&current_line, (int)ctx->img->width, (int)ctx->img->height))
-			rasterize(ctx->img, current_line);
+			rasterize(ctx->img, (int*)(ctx->z_buffer), current_line);
 		i++;
 	}
 	if (mlx_is_key_down(ctx->mlx, MLX_KEY_ESCAPE))

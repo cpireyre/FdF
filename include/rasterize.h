@@ -18,6 +18,6 @@
 # include "libft.h"
 # include "t_line.h"
 
-extern void	rasterize(mlx_image_t *image, t_line line);
+extern void	rasterize(mlx_image_t *image, int *z_buffer, t_line line);
 
 #endif /* RASTERIZE_H */
