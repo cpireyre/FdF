@@ -6,7 +6,7 @@
 /*   By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 13:36:06 by copireyr          #+#    #+#             */
-/*   Updated: 2024/07/02 11:23:28 by copireyr         ###   ########.fr       */
+/*   Updated: 2024/07/04 11:28:31 by copireyr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,10 @@ void	rasterize(mlx_image_t *image, int *z_buffer, t_line line)
 	line.slope_x = ft_sign(line.screen0.x, line.screen1.x);
 	line.slope_y = ft_sign(line.screen0.y, line.screen1.y);
 	line.length = ft_max(line.delta_x, -line.delta_y);
-	line.z_dir = (int)round((line.world1.z - line.world0.z) /  line.length);
+	if (line.length)
+		line.z_dir = (int)round((line.world1.z - line.world0.z) /  line.length);
+	else
+		line.z_dir = 0;
 	bresenham(image, z_buffer, line);
 }
 

@@ -6,13 +6,13 @@
 /*   By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 09:45:09 by copireyr          #+#    #+#             */
-/*   Updated: 2024/07/02 13:56:46 by copireyr         ###   ########.fr       */
+/*   Updated: 2024/07/04 11:27:17 by copireyr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
 
-static t_render_context	initialize_ctx(const char *name, int width, int height);
+static t_render_context	initialize_ctx(const char *name, t_arena a, int width, int height);
 static void				render_frame(t_render_context *ctx);
 static void				move(mlx_t *m, t_transform *T);
 
@@ -26,7 +26,7 @@ int	main(int argc, char **argv)
 		a = arena_new();
 		if (!a)
 			return (1);
-		ctx = initialize_ctx(argv[1], WIN_WIDTH, WIN_HEIGHT);
+		ctx = initialize_ctx(argv[1], a, WIN_WIDTH, WIN_HEIGHT);
 		ctx.num_lines = parse(argv[1], &ctx.lines, a);
 		if (ctx.num_lines && ctx.init_success)
 		{
@@ -44,11 +44,14 @@ int	main(int argc, char **argv)
 	return (0);
 }
 
-static t_render_context	initialize_ctx(const char *name, int width, int height)
+static t_render_context	initialize_ctx(const char *name, t_arena a, int width, int height)
 {
 	t_render_context	ctx;
 
 	ctx.dvd_mode_on = 0;
+	ctx.z_buffer = arena_alloc(a, WIN_HEIGHT * WIN_WIDTH * sizeof(int));
+	if (!ctx.z_buffer)
+		return (ctx);
 	ctx.init_success = 0;
 	ctx.bg_color = BG_COLOR;
 	ctx.transform = deserialize(width, height);
