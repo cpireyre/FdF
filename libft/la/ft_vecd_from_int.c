@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_vecd_from_int.c                                 :+:      :+:    :+:   */
+/*   ft_v3d_from_int.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,9 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_math.h"
+#include "ft_la.h"
 
-t_vecd	ft_vecd_from_int(int x, int y, int z)
+t_v3d	ft_v3d_from_int(int x, int y, int z)
 {
-	return ((t_vecd){(double)x, (double)y, (double)z});
+	return ((t_v3d){(double)x, (double)y, (double)z});
 }

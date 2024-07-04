@@ -14,7 +14,7 @@
 
 static int				clip_line(t_line *line, int xmax, int ymax);
 static t_clip_code		compute_code(int x, int y, int xmax, int ymax);
-static t_vector			clamp(t_line *l, int xmax, int ymax, t_clip_code code);
+static t_v4i			clamp(t_line *l, int xmax, int ymax, t_clip_code code);
 
 int	clip(t_line *line, int xmax, int ymax)
 {
@@ -44,7 +44,7 @@ static int	clip_line(t_line *line, int xmax, int ymax)
 {
 	t_clip_code	code0;
 	t_clip_code	code1;
-	t_vector	clamped;
+	t_v4i	clamped;
 
 	while (1)
 	{
@@ -85,9 +85,9 @@ static t_clip_code	compute_code(int x, int y, int xmax, int ymax)
 	return (code);
 }
 
-static t_vector	clamp(t_line *l, int xmax, int ymax, t_clip_code code)
+static t_v4i	clamp(t_line *l, int xmax, int ymax, t_clip_code code)
 {
-	t_vector	ret;
+	t_v4i	ret;
 	double		slope;
 
 	ret = ft_vec2(0, 0);

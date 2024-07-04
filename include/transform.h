@@ -36,7 +36,7 @@ typedef struct s_transform
 	double		sin_roll;
 }				t_transform;
 
-extern t_vecd	calculate_center(t_line *lines, int num_lines);
-extern t_line	transform(t_line line, t_transform *T, t_vecd center);
+extern t_v3d	calculate_center(t_line *lines, int num_lines);
+extern t_line	transform(t_line line, t_transform *T, t_v3d center);
 
 #endif /* TRANSFORM_H */

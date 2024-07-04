@@ -14,7 +14,7 @@
 
 void	dvd(t_transform *T, int width, int height)
 {
-	static t_vector	direction;
+	static t_v4i	direction;
 
 	if (!direction.x)
 		direction.x = 1;

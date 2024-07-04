@@ -20,13 +20,12 @@
 # include "rasterize.h"
 # include <limits.h>
 
-# define WIN_WIDTH	50*16
-# define WIN_HEIGHT	50*9
+# define WIN_WIDTH	100*16
+# define WIN_HEIGHT	100*10
 # define FULLSCREEN	false
 
 typedef struct s_render_context
 {
-	/* int				z_buffer[WIN_HEIGHT * WIN_WIDTH]; */
 	int				*z_buffer;
 	mlx_t			*mlx;
 	t_line			*lines;

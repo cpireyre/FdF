@@ -21,7 +21,7 @@
 
 typedef struct s_map
 {
-	t_vector	**points;
+	t_v4i	**points;
 	int			rows;
 	int			cols;
 }	t_map;

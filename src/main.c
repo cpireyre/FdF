@@ -76,7 +76,7 @@ static void	render_frame(t_render_context *ctx)
 {
 	int		i;
 	t_line	current_line;
-	t_vecd	center;
+	t_v3d	center;
 
 	ft_memset_32(ctx->img->pixels, ctx->bg_color, ctx->image_size_in_pixels);
 	i = 0;
