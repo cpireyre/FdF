@@ -15,19 +15,27 @@
 void	dvd(t_transform *T, int width, int height)
 {
 	static t_v4i	direction;
+	static t_v3i	rotation;
 
 	if (!direction.x)
 		direction.x = 1;
 	if (!direction.y)
 		direction.y = 1;
-	if (!direction.z)
-		direction.z = 1;
+	if (!rotation.y)
+		rotation.y = 1;
+	T->rotation = v3i_add(T->rotation, rotation);
 	T->offset.x += direction.x;
 	T->offset.y += direction.y;
-	if (T->offset.x == width || T->offset.x == 0)
+	if (T->offset.x >= width || T->offset.x <= 0)
+	{
 		direction.x *= -1;
-	if (T->offset.y == height || T->offset.y == 0)
+		rotation.y *= -1;
+	}
+	if (T->offset.y >= height || T->offset.y <= 0)
+	{
 		direction.y *= -1;
+		rotation.y *= -1;
+	}
 }
 
 void	toggle_dvd_mode(mlx_key_data_t keydata, t_render_context *ctx)

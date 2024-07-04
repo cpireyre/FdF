@@ -25,7 +25,7 @@ void	rasterize(mlx_image_t *image, int *z_buffer, t_line line)
 	{
 		line.slope.x = ft_sign(line.screen0.x, line.screen1.x);
 		line.slope.y = ft_sign(line.screen0.y, line.screen1.y);
-		line.z_dir = (int)round((line.world1.z - line.world0.z) /  line.length);
+		line.z_dir = (int)(line.world1.z - line.world0.z) / line.length;
 		bresenham(image, z_buffer, line);
 	}
 }
@@ -43,7 +43,7 @@ static void	bresenham(mlx_image_t *img, int *z_buffer, t_line line)
 		double_err = err * 2;
 		double lerp = (double)i / (double)line.length;
 		uint32_t color = interpolate_color(line.color0, line.color1, lerp);
-		if (!occluded(z_buffer, (uint32_t)line.screen0.y * img->width + (uint32_t)line.screen0.x, (int)round(line.world0.z + i * line.z_dir)))
+		if (!occluded(z_buffer, (uint32_t)line.screen0.y * img->width + (uint32_t)line.screen0.x, (int)(line.world0.z + i * line.z_dir)))
 			plot(img, line.screen0, color);
 		if (double_err > line.delta.y)
 		{

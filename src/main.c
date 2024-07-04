@@ -80,6 +80,8 @@ static void	render_frame(t_render_context *ctx)
 	ft_memset_32(ctx->img->pixels, ctx->bg_color, ctx->image_size_in_pixels);
 	ft_memset_32(ctx->z_buffer, (uint32_t)INT_MIN, WIN_WIDTH * WIN_HEIGHT);
 	move(ctx->mlx, &ctx->t);
+	if (ctx->dvd_mode_on)
+		dvd(&ctx->t, WIN_WIDTH, WIN_HEIGHT);
 	ctx->t.center = v3dd(0);
 	line = ctx->lines - 1;
 	while (++line != ctx->lines + ctx->num_lines)

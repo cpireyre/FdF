@@ -95,9 +95,9 @@ static t_v2i	clamp(t_line *l, int xmax, int ymax, t_clip_code code)
 	ret = v2i(0, 0);
 	slope = (double)(l->screen1.y - l->screen0.y) / (double)(l->screen1.x - l->screen0.x);
 	if (code & TOP)
-		ret = v2i(l->screen0.x - (int)round(l->screen0.y / slope), 0);
+		ret = v2i(l->screen0.x - (int)(l->screen0.y / slope), 0);
 	else if (code & BOTTOM)
-		ret = v2i(l->screen0.x + (int)round((ymax - l->screen0.y) / slope), ymax - 1);
+		ret = v2i(l->screen0.x + (int)((ymax - l->screen0.y) / slope), ymax - 1);
 	else if (code & RIGHT)
 		ret = v2i(xmax - 1, l->screen0.y + (int)fma(slope, xmax - l->screen0.x, 0));
 	else if (code & LEFT)

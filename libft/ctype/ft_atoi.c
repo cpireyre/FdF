@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-static int	ft_isspace(int c);
+#include "libft.h"
 
 int	ft_atoi(const char *str)
 {
@@ -26,10 +26,4 @@ int	ft_atoi(const char *str)
 	while ('0' <= *str && *str <= '9')
 		nbr = nbr * 10 + *str++ - '0';
 	return (sign * (int)nbr);
-}
-
-static int	ft_isspace(int c)
-{
-	return (c == '\t' || c == '\n' || c == '\v'
-		|| c == '\f' || c == '\r' || c == ' ');
 }
