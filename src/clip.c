@@ -14,7 +14,7 @@
 
 static int				clip_line(t_line *line, int xmax, int ymax);
 static t_clip_code		compute_code(int x, int y, int xmax, int ymax);
-static t_v4i			clamp(t_line *l, int xmax, int ymax, t_clip_code code);
+static t_v2i			clamp(t_line *l, int xmax, int ymax, t_clip_code code);
 
 int	clip(t_line *line, int xmax, int ymax)
 {
@@ -44,7 +44,7 @@ static int	clip_line(t_line *line, int xmax, int ymax)
 {
 	t_clip_code	code0;
 	t_clip_code	code1;
-	t_v4i	clamped;
+	t_v2i	clamped;
 
 	while (1)
 	{
@@ -85,20 +85,20 @@ static t_clip_code	compute_code(int x, int y, int xmax, int ymax)
 	return (code);
 }
 
-static t_v4i	clamp(t_line *l, int xmax, int ymax, t_clip_code code)
+static t_v2i	clamp(t_line *l, int xmax, int ymax, t_clip_code code)
 {
-	t_v4i	ret;
+	t_v2i	ret;
 	double		slope;
 
-	ret = ft_vec2(0, 0);
+	ret = v2i(0, 0);
 	slope = (double)(l->screen1.y - l->screen0.y) / (double)(l->screen1.x - l->screen0.x);
 	if (code & TOP)
-		ret = ft_vec2(l->screen0.x - (int)round(l->screen0.y / slope), 0);
+		ret = v2i(l->screen0.x - (int)round(l->screen0.y / slope), 0);
 	else if (code & BOTTOM)
-		ret = ft_vec2(l->screen0.x + (int)round((ymax - l->screen0.y) / slope), ymax - 1);
+		ret = v2i(l->screen0.x + (int)round((ymax - l->screen0.y) / slope), ymax - 1);
 	else if (code & RIGHT)
-		ret = ft_vec2(xmax - 1, l->screen0.y + (int)fma(slope, xmax - l->screen0.x, 0));
+		ret = v2i(xmax - 1, l->screen0.y + (int)fma(slope, xmax - l->screen0.x, 0));
 	else if (code & LEFT)
-		ret = ft_vec2(0, l->screen0.y - (int)fma(slope, l->screen0.x, 0));
+		ret = v2i(0, l->screen0.y - (int)fma(slope, l->screen0.x, 0));
 	return (ret);
 }

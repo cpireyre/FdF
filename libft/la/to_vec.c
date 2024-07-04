@@ -20,13 +20,3 @@ t_v2i	v2i(int x, int y)
 	v.y = y;
 	return (v);
 }
-
-t_v3i	v3i(int x, int y, int z)
-{
-	t_v3i	v;
-
-	v.x = x;
-	v.y = y;
-	v.z = z;
-	return (v);
-}

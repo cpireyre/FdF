@@ -29,8 +29,8 @@ libmlx 		:= $(libmlx_dir)/build/libmlx42.a
 
 CC			:= clang
 # debug		:= -fsanitize=undefined -fsanitize=address
-debug		+= -g3
-# optimization := -O2 
+# debug		+= -g3
+optimization := -O2 
 CFLAGS		:= -Wconversion $(debug) $(optimization)
 CFLAGS		+= -Wall -Wextra -Werror -MMD -MP -pedantic
 LDFLAGS		:= -L$(libft_dir) -lft -L$(libmlx_dir)/build -lmlx42 $(debug)

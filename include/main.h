@@ -22,7 +22,7 @@
 
 # define WIN_WIDTH	100*16
 # define WIN_HEIGHT	100*10
-# define FULLSCREEN	false
+# define FULLSCREEN	true
 
 typedef struct s_render_context
 {
