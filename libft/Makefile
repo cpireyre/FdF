@@ -43,9 +43,8 @@ src := ./io/ft_gnl.c      ./ctype/ft_atoi.c    ./str/ft_split.c \
 	   ./str/ft_strndup.c ./str/ft_strjoin.c   ./str/ft_strlcat.c     \
 	   ./str/ft_strtrim.c ./ctype/ft_isdigit.c ./mem/ft_memdel.c       \
 	   ./io/ft_error.c	  ./ctype/ft_isspace.c ./arena/arena.c 			\
-	   ./la/ft_abs.c 	  ./la/ft_max.c ./la/ft_min.c ./la/ft_sign.c ./la/to_vec.c \
-	   ./la/ft_distance.c ./mem/ft_memset_32.c \
-		./la/ft_vecd_from_int.c ./la/ft_vector_add.c \
+	   ./math/ft_abs.c 	  ./math/ft_max.c ./math/ft_min.c ./math/ft_sign.c \
+	   ./math/ft_distance.c ./mem/ft_memset_32.c \
 		./str/ft_strtok.c ./la/v2i.c ./la/v3d.c
 
 obj_dir := ./obj

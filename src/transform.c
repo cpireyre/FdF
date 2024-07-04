@@ -22,7 +22,7 @@ t_v3d	calculate_center(t_line *lines, int num_lines)
 
 	i = 0;
 	count = 0;
-	ft_bzero(&sum, sizeof(sum));
+	sum = v3dd(0);
 	while (i < num_lines)
 	{
 		sum = v3d_add(sum, v3d_add(lines[i].world0, lines[i].world1));
