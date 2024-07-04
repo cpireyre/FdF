@@ -11,10 +11,9 @@
 /* ************************************************************************** */
 
 #include "rasterize.h"
-#include<stdlib.h>
 
 static void		bresenham(mlx_image_t *img, int *z_buffer, t_line line);
-static inline void	plot(mlx_image_t *img, t_v2i a, uint32_t color);
+static void	plot(mlx_image_t *img, t_v2i a, uint32_t color);
 static int	occluded(int *z_buffer, uint32_t z_index, int z);
 
 void	rasterize(mlx_image_t *image, int *z_buffer, t_line line)
@@ -75,7 +74,7 @@ static int	occluded(int *z_buffer, uint32_t z_index, int z)
 	return (1);
 }
 
-static inline void	plot(mlx_image_t *img, t_v2i a, uint32_t color)
+static void	plot(mlx_image_t *img, t_v2i a, uint32_t color)
 {
 	mlx_put_pixel(img, (uint32_t)a.x, (uint32_t)a.y, color);
 }

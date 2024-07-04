@@ -34,6 +34,13 @@ typedef struct s_v2i
 	int	y;
 }				t_v2i;
 
+typedef struct s_v3i
+{
+	int	x;
+	int	y;
+	int	z;
+}				t_v3i;
+
 double		ft_distance(int x0, int y0, int x1, int y1);
 
 int			ft_abs(int a);
@@ -42,10 +49,16 @@ int			ft_max(int a, int b);
 int			ft_sign(int a, int b);
 
 t_v2i	v2i(int x, int y);
-t_v2i v2i3d(t_v3d a);
+t_v2i	v2i3d(t_v3d a);
 t_v2i	v2i_sub(t_v2i a, t_v2i b);
-int	v2i_eq(t_v2i a, t_v2i b);
-int	v2i_sqrlen(t_v2i a);
+t_v2i	v2i_mul(t_v2i a, t_v2i b);
+t_v2i	v2i_div(t_v2i a, t_v2i b);
+t_v2i	v2i_add(t_v2i a, t_v2i b);
+int		v2i_eq(t_v2i a, t_v2i b);
+int		v2i_sqrlen(t_v2i a);
+
+t_v3i	v3i_add(t_v3i a, t_v3i b);
+t_v3i	v3i(int x, int y, int z);
 
 t_v3d	v3d_add(t_v3d a, t_v3d b);
 t_v3d	v3dd(double x);

@@ -30,7 +30,7 @@ typedef struct s_render_context
 	mlx_t			*mlx;
 	t_line			*lines;
 	int				num_lines;
-	t_transform		transform;
+	t_transform		t;
 	uint32_t		bg_color;
 	int				init_success;
 	size_t			image_size_in_pixels;

@@ -20,23 +20,24 @@
 # define COS45 0.707107
 # define SIN45 0.707107
 
+/* rotation.x is yaw */
+/* rotation.y is pitch */
+/* rotation.z is roll */
+
 typedef struct s_transform
 {
-	int			yaw;
-	int			pitch;
-	int			roll;
-	int			scale;
-	int			offset_x;
-	int			offset_y;
+	t_v3d		center;
+	t_v3i		rotation;
+	t_v2i		offset;
 	double		cos_yaw;
 	double		sin_yaw;
 	double		cos_pitch;
 	double		sin_pitch;
 	double		cos_roll;
 	double		sin_roll;
+	int			scale;
 }				t_transform;
 
-extern t_v3d	calculate_center(t_line *lines, int num_lines);
-extern t_line	transform(t_line line, t_transform *T, t_v3d center);
+extern t_line	transform(t_transform *T, t_line line);
 
 #endif /* TRANSFORM_H */

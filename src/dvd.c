@@ -22,11 +22,11 @@ void	dvd(t_transform *T, int width, int height)
 		direction.y = 1;
 	if (!direction.z)
 		direction.z = 1;
-	T->offset_x += direction.x;
-	T->offset_y += direction.y;
-	if (T->offset_x == width || T->offset_x == 0)
+	T->offset.x += direction.x;
+	T->offset.y += direction.y;
+	if (T->offset.x == width || T->offset.x == 0)
 		direction.x *= -1;
-	if (T->offset_y == height || T->offset_y == 0)
+	if (T->offset.y == height || T->offset.y == 0)
 		direction.y *= -1;
 }
 

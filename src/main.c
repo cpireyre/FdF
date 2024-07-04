@@ -12,7 +12,7 @@
 
 #include "main.h"
 
-static t_render_context	initialize_ctx(const char *name, t_arena a, int width, int height);
+static t_render_context	initialize_ctx(const char *name, t_arena a);
 static void				render_frame(t_render_context *ctx);
 static void				move(mlx_t *m, t_transform *T);
 
@@ -26,14 +26,14 @@ int	main(int argc, char **argv)
 		a = arena_new();
 		if (!a)
 			return (1);
-		ctx = initialize_ctx(argv[1], a, WIN_WIDTH, WIN_HEIGHT);
+		ctx = initialize_ctx(argv[1], a);
 		ctx.num_lines = parse(argv[1], &ctx.lines, a);
 		if (ctx.num_lines && ctx.init_success)
 		{
 			mlx_loop_hook(ctx.mlx, (t_hook)render_frame, &ctx);
 			mlx_key_hook(ctx.mlx, (mlx_keyfunc)toggle_dvd_mode, &ctx);
 			mlx_loop(ctx.mlx);
-			serialize(ctx.transform);
+			serialize(ctx.t);
 		}
 		if (ctx.mlx)
 			mlx_terminate(ctx.mlx);
@@ -44,7 +44,7 @@ int	main(int argc, char **argv)
 	return (0);
 }
 
-static t_render_context	initialize_ctx(const char *name, t_arena a, int width, int height)
+static t_render_context	initialize_ctx(const char *name, t_arena a)
 {
 	t_render_context	ctx;
 
@@ -54,16 +54,16 @@ static t_render_context	initialize_ctx(const char *name, t_arena a, int width, i
 		return (ctx);
 	ctx.init_success = 0;
 	ctx.bg_color = BG_COLOR;
-	ctx.transform = deserialize(width, height);
+	ctx.t = deserialize(WIN_WIDTH, WIN_HEIGHT);
 	mlx_set_setting(MLX_FULLSCREEN, FULLSCREEN);
 	mlx_set_setting(MLX_STRETCH_IMAGE, true);
 	ctx.mlx = NULL;
 	ctx.img = NULL;
-	ctx.mlx = mlx_init(width, height, name, true);
+	ctx.mlx = mlx_init(WIN_WIDTH, WIN_HEIGHT, name, true);
 	if (!ctx.mlx)
 		return (ctx);
 	ctx.img = mlx_new_image(ctx.mlx,
-			(uint32_t)width, (uint32_t)height);
+			WIN_WIDTH, WIN_HEIGHT);
 	if (!ctx.img)
 		return (ctx);
 	ctx.image_size_in_pixels = ctx.img->width * ctx.img->height;
@@ -74,31 +74,28 @@ static t_render_context	initialize_ctx(const char *name, t_arena a, int width, i
 
 static void	render_frame(t_render_context *ctx)
 {
-	int		i;
 	t_line	current_line;
-	t_v3d	center;
+	t_line	*line;
 
 	ft_memset_32(ctx->img->pixels, ctx->bg_color, ctx->image_size_in_pixels);
-	i = 0;
-	while (i < WIN_WIDTH * WIN_HEIGHT)
-		ctx->z_buffer[i++] = INT_MIN;
-	move(ctx->mlx, &ctx->transform);
-	if (ctx->dvd_mode_on)
-		dvd(&ctx->transform, (int)ctx->img->width, (int)ctx->img->height);
-	i = 0;
-	center = calculate_center(ctx->lines, ctx->num_lines);
-	while (i < ctx->num_lines)
+	ft_memset_32(ctx->z_buffer, (uint32_t)INT_MIN, WIN_WIDTH * WIN_HEIGHT);
+	move(ctx->mlx, &ctx->t);
+	ctx->t.center = v3dd(0);
+	line = ctx->lines - 1;
+	while (++line != ctx->lines + ctx->num_lines)
+		ctx->t.center = v3d_add(ctx->t.center, v3d_add(line->world0, line->world1));
+	ctx->t.center = v3d_div(ctx->t.center, v3dd(2 * ctx->num_lines));
+	while (line-- != ctx->lines)
 	{
-		current_line = transform(ctx->lines[i], &ctx->transform, center);
+		current_line = transform(&ctx->t, *line);
 		if (clip(&current_line, (int)ctx->img->width, (int)ctx->img->height))
-			rasterize(ctx->img, (int*)(ctx->z_buffer), current_line);
-		i++;
+			rasterize(ctx->img, ctx->z_buffer, current_line);
 	}
 	if (mlx_is_key_down(ctx->mlx, MLX_KEY_ESCAPE))
 		mlx_close_window(ctx->mlx);
 }
 
-static inline int	check_key_pair(mlx_t *m, keys_t key0, keys_t key1)
+static int	check_key_pair(mlx_t *m, keys_t key0, keys_t key1)
 {
 	return (mlx_is_key_down(m, key0) - mlx_is_key_down(m, key1));
 }
@@ -106,33 +103,30 @@ static inline int	check_key_pair(mlx_t *m, keys_t key0, keys_t key1)
 static void	move(mlx_t *m, t_transform *T)
 {
 	if (mlx_is_key_down(m, MLX_KEY_RIGHT_ALT))
-	{
-		T->pitch += check_key_pair(m, MLX_KEY_S, MLX_KEY_W);
-		T->yaw += check_key_pair(m, MLX_KEY_D, MLX_KEY_A);
-		T->roll += check_key_pair(m, MLX_KEY_E, MLX_KEY_Q);
-	}
+		T->rotation = v3i_add(T->rotation,
+				v3i(
+					3 * check_key_pair(m, MLX_KEY_D, MLX_KEY_A),
+					3 * check_key_pair(m, MLX_KEY_S, MLX_KEY_W),
+					3 * check_key_pair(m, MLX_KEY_E, MLX_KEY_Q)
+				   ));
 	else if (mlx_is_key_down(m, MLX_KEY_RIGHT_SHIFT))
-	{
-		T->scale += check_key_pair(m, MLX_KEY_W, MLX_KEY_S);
-		if (T->scale < 3)
-			T->scale = 3;
-	}
+		T->scale = ft_max(3, T->scale + check_key_pair(m, MLX_KEY_W, MLX_KEY_S));
 	else if (!mlx_is_key_down(m, MLX_KEY_RIGHT_SHIFT))
-	{
-		T->offset_y += 5 * check_key_pair(m, MLX_KEY_S, MLX_KEY_W);
-		T->offset_x += 5 * check_key_pair(m, MLX_KEY_D, MLX_KEY_A);
-	}
+		T->offset = v2i_add(T->offset, v2i(
+					5 * check_key_pair(m, MLX_KEY_D, MLX_KEY_A),
+					5 * check_key_pair(m, MLX_KEY_S, MLX_KEY_W)
+					));
 	if (mlx_is_key_down(m, MLX_KEY_R))
 	{
 		ft_bzero(T, sizeof(*T));
 		T->scale = 100;
-		T->offset_y = m->height / 2;
-		T->offset_x = m->width / 2;
+		T->offset.y = m->height / 2;
+		T->offset.x = m->width / 2;
 	}
-	T->cos_yaw = cos(T->yaw * M_PI / 180.0);
-	T->sin_yaw = sin(T->yaw * M_PI / 180.0);
-	T->cos_pitch = cos(T->pitch * M_PI / 180.0);
-	T->sin_pitch = sin(T->pitch * M_PI / 180.0);
-	T->cos_roll = cos(T->roll * M_PI / 180.0);
-	T->sin_roll = sin(T->roll * M_PI / 180.0);
+	T->cos_yaw = cos(T->rotation.x * M_PI / 180.0);
+	T->sin_yaw = sin(T->rotation.x * M_PI / 180.0);
+	T->cos_pitch = cos(T->rotation.y * M_PI / 180.0);
+	T->sin_pitch = sin(T->rotation.y * M_PI / 180.0);
+	T->cos_roll = cos(T->rotation.z * M_PI / 180.0);
+	T->sin_roll = sin(T->rotation.z * M_PI / 180.0);
 }

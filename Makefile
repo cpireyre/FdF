@@ -48,6 +48,7 @@ $(obj_dir)/%.o: $(src_dir)/%.c Makefile
 	@mkdir -p $(@D)
 	$(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $@
 
+.PHONY: $(libft)
 $(libft):
 	CFLAGS="$(CFLAGS)" $(MAKE) -j4 -C $(libft_dir)
 
