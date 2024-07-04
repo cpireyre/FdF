@@ -6,7 +6,7 @@
 /*   By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 13:33:18 by copireyr          #+#    #+#             */
-/*   Updated: 2024/07/04 11:27:32 by copireyr         ###   ########.fr       */
+/*   Updated: 2024/07/04 11:33:24 by copireyr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@
 # include "rasterize.h"
 # include <limits.h>
 
-# define WIN_WIDTH	200*16
-# define WIN_HEIGHT	200*9
+# define WIN_WIDTH	50*16
+# define WIN_HEIGHT	50*9
 # define FULLSCREEN	false
 
 typedef struct s_render_context

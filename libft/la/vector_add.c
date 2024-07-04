@@ -1,32 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   to_vec.c                                           :+:      :+:    :+:   */
+/*   vector_add.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/26 13:34:15 by copireyr          #+#    #+#             */
-/*   Updated: 2024/06/28 11:19:30 by copireyr         ###   ########.fr       */
+/*   Created: 2024/07/02 13:08:46 by copireyr          #+#    #+#             */
+/*   Updated: 2024/07/04 12:24:40 by copireyr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_math.h"
+#include "ft_la.h"
 
-t_vector	ft_vec2(int x, int y)
+t_v3d	v3d_add(t_v3d a, t_v3d b)
 {
-	t_vector	v;
-
-	v.x = x;
-	v.y = y;
-	return (v);
+	return ((t_v3d){a.x + b.x, a.y + b.y, a.z + b.z});
 }
 
-t_vector	ft_vec3(int x, int y, int z)
+t_v3d	v3d_mul(t_v3d a, int n)
 {
-	t_vector	v;
-
-	v.x = x;
-	v.y = y;
-	v.z = z;
-	return (v);
+	return ((t_v3d){n * a.x, n * a.y, n * a.z});
 }
