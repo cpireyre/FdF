@@ -13,26 +13,26 @@
 #ifndef FT_MATH_H
 # define FT_MATH_H
 
-typedef struct s_vector
+typedef struct s_v4i
 {
 	int	x;
 	int	y;
 	int	z;
 	int	c;
-}		t_vector;
+}		t_v4i;
 
-typedef struct s_vecd
+typedef struct s_v3d
 {
 	double	x;
 	double	y;
 	double	z;
-}				t_vecd;
+}				t_v3d;
 
-t_vector	ft_vec2(int x, int y);
-t_vector	ft_vec3(int x, int y, int z);
-t_vecd		ft_vecd_add(t_vecd a, t_vecd b);
-t_vecd		ft_vecd_mul(t_vecd a, int n);
-t_vecd		ft_vecd_from_int(int x, int y, int z);
+t_v4i	ft_vec2(int x, int y);
+t_v4i	ft_vec3(int x, int y, int z);
+t_v3d		ft_v3d_add(t_v3d a, t_v3d b);
+t_v3d		ft_v3d_mul(t_v3d a, int n);
+t_v3d		ft_v3d_from_int(int x, int y, int z);
 
 double		ft_distance(int x0, int y0, int x1, int y1);
 

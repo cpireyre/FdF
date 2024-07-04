@@ -12,12 +12,12 @@
 
 #include "ft_math.h"
 
-t_vecd	ft_vecd_add(t_vecd a, t_vecd b)
+t_v3d	ft_v3d_add(t_v3d a, t_v3d b)
 {
-	return ((t_vecd){a.x + b.x, a.y + b.y, a.z + b.z});
+	return ((t_v3d){a.x + b.x, a.y + b.y, a.z + b.z});
 }
 
-t_vecd	ft_vecd_mul(t_vecd a, int n)
+t_v3d	ft_v3d_mul(t_v3d a, int n)
 {
-	return ((t_vecd){n * a.x, n * a.y, n * a.z});
+	return ((t_v3d){n * a.x, n * a.y, n * a.z});
 }

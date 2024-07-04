@@ -12,15 +12,15 @@
 
 #include "parse.h"
 
-static t_line	to_line(t_vector a, t_vector b);
+static t_line	to_line(t_v4i a, t_v4i b);
 static void		find_min_max_elevation(t_map *map, int *min, int *max);
 
 int	to_lines(t_map *map, t_line **l, t_arena a)
 {
-	t_vector	curr;
+	t_v4i	curr;
 	int			num_lines;
 	t_line		*lines;
-	t_vector	inc;
+	t_v4i	inc;
 
 	num_lines = (map->rows - 1) * map->cols + (map->cols - 1) * map->rows;
 	lines = arena_calloc(a, (size_t)num_lines, sizeof(t_line));
@@ -44,7 +44,7 @@ int	to_lines(t_map *map, t_line **l, t_arena a)
 	return (num_lines);
 }
 
-static t_line	to_line(t_vector a, t_vector b)
+static t_line	to_line(t_v4i a, t_v4i b)
 {
 	t_line	line;
 

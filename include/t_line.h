@@ -17,10 +17,10 @@
 
 typedef struct s_line
 {
-	t_vector	screen0;
-	t_vector	screen1;
-	t_vecd		world0;
-	t_vecd		world1;
+	t_v4i	screen0;
+	t_v4i	screen1;
+	t_v3d		world0;
+	t_v3d		world1;
 	int			length;
 	int			delta_x;
 	int			delta_y;

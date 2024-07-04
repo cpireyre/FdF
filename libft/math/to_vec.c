@@ -12,18 +12,18 @@
 
 #include "ft_math.h"
 
-t_vector	ft_vec2(int x, int y)
+t_v4i	ft_vec2(int x, int y)
 {
-	t_vector	v;
+	t_v4i	v;
 
 	v.x = x;
 	v.y = y;
 	return (v);
 }
 
-t_vector	ft_vec3(int x, int y, int z)
+t_v4i	ft_vec3(int x, int y, int z)
 {
-	t_vector	v;
+	t_v4i	v;
 
 	v.x = x;
 	v.y = y;
