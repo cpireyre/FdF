@@ -17,3 +17,20 @@ t_v2i v2i3d(t_v3d a)
 	result.y = (int)a.y;
 	return (result);
 }
+
+int	v2i_sqrlen(t_v2i a)
+{
+	return (a.x * a.x + a.y * a.y);
+}
+
+t_v2i	v2i_sub(t_v2i a, t_v2i b)
+{
+	a.x -= b.x;
+	a.y -= b.y;
+	return (a);
+}
+
+int	v2i_eq(t_v2i a, t_v2i b)
+{
+	return (a.x == b.x && a.y == b.y);
+}

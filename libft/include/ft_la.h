@@ -43,6 +43,10 @@ int			ft_sign(int a, int b);
 
 t_v2i	v2i(int x, int y);
 t_v2i v2i3d(t_v3d a);
+t_v2i	v2i_sub(t_v2i a, t_v2i b);
+int	v2i_eq(t_v2i a, t_v2i b);
+int	v2i_sqrlen(t_v2i a);
+
 t_v3d	v3d_add(t_v3d a, t_v3d b);
 t_v3d	v3dd(double x);
 t_v3d	v3d_div(t_v3d a, t_v3d b);

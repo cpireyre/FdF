@@ -21,18 +21,20 @@ int	clip(t_line *line, int xmax, int ymax)
 	t_line	orig;
 	double	ratio0;
 	double	ratio1;
-	double	orig_len;
 
 	orig = *line;
 	if (clip_line(line, xmax, ymax))
 	{
-		orig_len = ft_distance(orig.screen0.x, orig.screen0.y, orig.screen1.x, orig.screen1.y);
-		ratio0 = ft_distance(orig.screen0.x, orig.screen0.y, line->screen0.x, line->screen0.y) / orig_len;
-		ratio1 = ft_distance(orig.screen0.x, orig.screen0.y, line->screen1.x, line->screen1.y) / orig_len;
-		line->color0 = interpolate_color(
-				(uint32_t)orig.color0, (uint32_t)orig.color1, ratio0);
-		line->color1 = interpolate_color(
-				(uint32_t)orig.color0, (uint32_t)orig.color1, ratio1);
+		if (!v2i_eq(orig.screen0, line->screen0) || !v2i_eq(orig.screen1, line->screen1))
+		{
+			int orig_sqrlen = v2i_sqrlen(v2i_sub(orig.screen0, orig.screen1));
+			ratio0 = (double)v2i_sqrlen(v2i_sub(orig.screen0, line->screen0)) / (double)(orig_sqrlen);
+			ratio1 = (double)(v2i_sqrlen(v2i_sub(orig.screen0, line->screen1))) / (double)(orig_sqrlen);
+			line->color0 = interpolate_color(
+					(uint32_t)orig.color0, (uint32_t)orig.color1, ratio0);
+			line->color1 = interpolate_color(
+					(uint32_t)orig.color0, (uint32_t)orig.color1, ratio1);
+		}
 		return (1);
 	}
 	return (0);
