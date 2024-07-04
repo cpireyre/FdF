@@ -20,9 +20,9 @@
 # include "rasterize.h"
 # include <limits.h>
 
-# define WIN_WIDTH	100*16
-# define WIN_HEIGHT	100*10
-# define FULLSCREEN	true
+# define WIN_WIDTH	4*320
+# define WIN_HEIGHT	4*200
+# define FULLSCREEN	false
 
 typedef struct s_render_context
 {

@@ -17,16 +17,14 @@
 
 typedef struct s_line
 {
-	t_v2i	screen0;
-	t_v2i	screen1;
+	t_v2i		screen0;
+	t_v2i		screen1;
 	t_v3d		world0;
 	t_v3d		world1;
 	int			length;
-	int			delta_x;
-	int			delta_y;
+	t_v2i		delta;
 	int			z_dir;
-	int			slope_x;
-	int			slope_y;
+	t_v2i		slope;
 	uint32_t	color0;
 	uint32_t	color1;
 }				t_line;

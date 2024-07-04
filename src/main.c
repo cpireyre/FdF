@@ -98,7 +98,7 @@ static void	render_frame(t_render_context *ctx)
 		mlx_close_window(ctx->mlx);
 }
 
-int	check_key_pair(mlx_t *m, keys_t key0, keys_t key1)
+static inline int	check_key_pair(mlx_t *m, keys_t key0, keys_t key1)
 {
 	return (mlx_is_key_down(m, key0) - mlx_is_key_down(m, key1));
 }
