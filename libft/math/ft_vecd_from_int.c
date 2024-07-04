@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_math.h"
+#include "ft_la.h"
 
 t_v3d	ft_v3d_from_int(int x, int y, int z)
 {

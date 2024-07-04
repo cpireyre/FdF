@@ -17,8 +17,8 @@
 
 typedef struct s_line
 {
-	t_v4i	screen0;
-	t_v4i	screen1;
+	t_v2i	screen0;
+	t_v2i	screen1;
 	t_v3d		world0;
 	t_v3d		world1;
 	int			length;
@@ -29,7 +29,6 @@ typedef struct s_line
 	int			slope_y;
 	uint32_t	color0;
 	uint32_t	color1;
-	int			should_render;
 }				t_line;
 
 #endif /* T_LINE_H */

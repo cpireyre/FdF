@@ -46,7 +46,7 @@ src := ./io/ft_gnl.c      ./ctype/ft_atoi.c    ./str/ft_split.c \
 	   ./math/ft_abs.c 	  ./math/ft_max.c ./math/ft_min.c ./math/ft_sign.c ./math/to_vec.c \
 	   ./math/ft_distance.c ./mem/ft_memset_32.c ./math/vector_add.c \
 		./math/ft_vecd_from_int.c ./math/ft_vector_add.c \
-		./str/ft_strtok.c
+		./str/ft_strtok.c ./math/v2i.c ./math/v3d.c
 
 obj_dir := ./obj
 $(obj_dir)/%.o: %.c

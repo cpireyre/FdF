@@ -12,7 +12,7 @@
 
 #include "transform.h"
 
-static t_v3d	project(t_v3d v, t_transform *T);
+static t_v2i	project(t_v3d v, t_transform *T);
 
 t_v3d	calculate_center(t_line *lines, int num_lines)
 {
@@ -25,13 +25,11 @@ t_v3d	calculate_center(t_line *lines, int num_lines)
 	ft_bzero(&sum, sizeof(sum));
 	while (i < num_lines)
 	{
-		sum.x += lines[i].world0.x + lines[i].world1.x;
-		sum.y += lines[i].world0.y + lines[i].world1.y;
-		sum.z += lines[i].world0.z + lines[i].world1.z;
+		sum = v3d_add(sum, v3d_add(lines[i].world0, lines[i].world1));
 		count += 2;
 		i++;
 	}
-	return ((t_v3d){sum.x / count, sum.y / count, sum.z / count});
+	return (v3d_div(sum, v3dd(count)));
 }
 
 static t_v3d	rotate_yaw(t_v3d u, double cos_yaw, double sin_yaw)
@@ -67,18 +65,19 @@ static t_v3d	rotate_roll(t_v3d u, double cos_roll, double sin_roll)
 	return (ret);
 }
 
-static t_v3d	project(t_v3d v, t_transform *T)
+static t_v2i	project(t_v3d v, t_transform *T)
 {
 	t_v3d	iso;
 	t_v3d	scaled_iso;
+	t_v2i	result;
 
 	iso.x = (v.x - v.y) * COS45;
 	iso.y = (v.x + v.y) * SIN45 - v.z;
 	scaled_iso.x = (double)T->scale / (double)10 * iso.x;
 	scaled_iso.y = (double)T->scale / (double)10 * iso.y;
-	v.x = T->offset_x + scaled_iso.x;
-	v.y = T->offset_y + scaled_iso.y;
-	return (v);
+	result.x = (int)(T->offset_x + scaled_iso.x);
+	result.y = (int)(T->offset_y + scaled_iso.y);
+	return (result);
 }
 
 t_line	transform(t_line line, t_transform *T, t_v3d center)
@@ -88,25 +87,19 @@ t_line	transform(t_line line, t_transform *T, t_v3d center)
 
 	u = line.world0;
 	v = line.world1;
-	u = ft_v3d_add(u, ft_v3d_mul(center, -1));
-	v = ft_v3d_add(v, ft_v3d_mul(center, -1));
+	u = v3d_add(u, v3d_mul(center, v3dd(-1)));
+	v = v3d_add(v, v3d_mul(center, v3dd(-1)));
 	u = rotate_yaw(u, T->cos_yaw, T->sin_yaw);
 	v = rotate_yaw(v, T->cos_yaw, T->sin_yaw);
 	u = rotate_pitch(u, T->cos_pitch, T->sin_pitch);
 	v = rotate_pitch(v, T->cos_pitch, T->sin_pitch);
 	u = rotate_roll(u, T->cos_roll, T->sin_roll);
 	v = rotate_roll(v, T->cos_roll, T->sin_roll);
-	u = ft_v3d_add(u, center);
-	v = ft_v3d_add(v, center);
-	u = project(u, T);
-	v = project(v, T);
+	u = v3d_add(u, center);
+	v = v3d_add(v, center);
 	line.world0 = u;
 	line.world1 = v;
-	line.screen0.x = (int)round(u.x);
-	line.screen0.y = (int)round(u.y);
-	line.screen0.z = (int)round(u.z);
-	line.screen1.x = (int)round(v.x);
-	line.screen1.y = (int)round(v.y);
-	line.screen1.z = (int)round(v.z);
+	line.screen0 = project(u, T);
+	line.screen1 = project(v, T);
 	return (line);
 }
