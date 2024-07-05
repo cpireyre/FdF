@@ -6,7 +6,7 @@
 /*   By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 13:26:41 by copireyr          #+#    #+#             */
-/*   Updated: 2024/07/05 09:58:57 by copireyr         ###   ########.fr       */
+/*   Updated: 2024/07/05 12:50:06 by copireyr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,10 @@ int	clip(t_line *line, int xmax, int ymax)
 			|| !v2i_eq(orig.screen1, line->screen1))
 		{
 			orig_sqrlen = v2i_sqrlen(v2i_sub(orig.screen0, orig.screen1));
-			ratio0 = (double)v2i_sqrlen(v2i_sub(orig.screen0, line->screen0)) / (double)(orig_sqrlen);
-			ratio1 = (double)(v2i_sqrlen(v2i_sub(orig.screen0, line->screen1))) / (double)(orig_sqrlen);
+			ratio0 = (double)v2i_sqrlen(v2i_sub(orig.screen0, line->screen0))
+				/ (double)(orig_sqrlen);
+			ratio1 = (double)(v2i_sqrlen(v2i_sub(orig.screen0, line->screen1)))
+				/ (double)(orig_sqrlen);
 			line->color0 = interpolate_color(
 					(uint32_t)orig.color0, (uint32_t)orig.color1, ratio0);
 			line->color1 = interpolate_color(
@@ -92,16 +94,19 @@ static t_clip_code	compute_code(int x, int y, int xmax, int ymax)
 static t_v2i	clamp(t_line *l, int xmax, int ymax, t_clip_code code)
 {
 	t_v2i	ret;
-	double		slope;
+	double	slope;
 
 	ret = v2i(0, 0);
-	slope = (double)(l->screen1.y - l->screen0.y) / (double)(l->screen1.x - l->screen0.x);
+	slope = (double)(l->screen1.y - l->screen0.y)
+		/ (double)(l->screen1.x - l->screen0.x);
 	if (code & TOP)
 		ret = v2i(l->screen0.x - (int)(l->screen0.y / slope), 0);
 	else if (code & BOTTOM)
-		ret = v2i(l->screen0.x + (int)((ymax - l->screen0.y) / slope), ymax - 1);
+		ret = v2i(l->screen0.x + (int)((ymax - l->screen0.y) / slope),
+				ymax - 1);
 	else if (code & RIGHT)
-		ret = v2i(xmax - 1, l->screen0.y + (int)fma(slope, xmax - l->screen0.x, 0));
+		ret = v2i(xmax - 1, l->screen0.y
+				+ (int)fma(slope, xmax - l->screen0.x, 0));
 	else if (code & LEFT)
 		ret = v2i(0, l->screen0.y - (int)fma(slope, l->screen0.x, 0));
 	return (ret);

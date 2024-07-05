@@ -6,7 +6,7 @@
 /*   By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 09:45:09 by copireyr          #+#    #+#             */
-/*   Updated: 2024/07/05 12:11:43 by copireyr         ###   ########.fr       */
+/*   Updated: 2024/07/05 12:42:39 by copireyr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static t_render_context	initialize_ctx(const char *name, t_arena a);
 static void				render_frame(t_render_context *ctx);
-static void	key_hook(mlx_key_data_t keydata, t_render_context *ctx);
+static void				key_hook(mlx_key_data_t keydata, t_render_context *ctx);
 
 int	main(int argc, char **argv)
 {
