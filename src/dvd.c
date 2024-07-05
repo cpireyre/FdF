@@ -6,7 +6,7 @@
 /*   By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 11:08:29 by copireyr          #+#    #+#             */
-/*   Updated: 2024/07/05 12:05:08 by copireyr         ###   ########.fr       */
+/*   Updated: 2024/07/05 12:59:32 by copireyr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,13 @@
 
 void	dvd(t_transform *T, int width, int height)
 {
-	static t_v4i	direction;
+	static t_v2i	direction;
 	static t_v3i	rotation;
 
 	if (!direction.x)
-		direction.x = 1;
+		direction.x = 4;
 	if (!direction.y)
-		direction.y = 1;
+		direction.y = 4;
 	if (!rotation.y)
 		rotation.y = 1;
 	T->rotation = v3i_add(T->rotation, rotation);
