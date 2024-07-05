@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_math.h                                          :+:      :+:    :+:   */
+/*   ft_la.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/26 13:31:05 by copireyr          #+#    #+#             */
-/*   Updated: 2024/07/02 13:25:07 by copireyr         ###   ########.fr       */
+/*   Created: 2024/07/05 09:55:11 by copireyr          #+#    #+#             */
+/*   Updated: 2024/07/05 09:55:29 by copireyr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_MATH_H
-# define FT_MATH_H
+#ifndef FT_LA_H
+# define FT_LA_H
 
 typedef struct s_v4i
 {
@@ -41,12 +41,12 @@ typedef struct s_v3i
 	int	z;
 }				t_v3i;
 
-double		ft_distance(int x0, int y0, int x1, int y1);
+double	ft_distance(int x0, int y0, int x1, int y1);
 
-int			ft_abs(int a);
-int			ft_min(int a, int b);
-int			ft_max(int a, int b);
-int			ft_sign(int a, int b);
+int		ft_abs(int a);
+int		ft_min(int a, int b);
+int		ft_max(int a, int b);
+int		ft_sign(int a, int b);
 
 t_v2i	v2i(int x, int y);
 t_v2i	v2i3d(t_v3d a);

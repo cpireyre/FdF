@@ -6,7 +6,7 @@
 /*   By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 09:45:09 by copireyr          #+#    #+#             */
-/*   Updated: 2024/07/04 11:27:17 by copireyr         ###   ########.fr       */
+/*   Updated: 2024/07/05 09:59:14 by copireyr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,15 +109,13 @@ static void	move(mlx_t *m, t_transform *T)
 				v3i(
 					3 * check_key_pair(m, MLX_KEY_D, MLX_KEY_A),
 					3 * check_key_pair(m, MLX_KEY_S, MLX_KEY_W),
-					3 * check_key_pair(m, MLX_KEY_E, MLX_KEY_Q)
-				   ));
+					3 * check_key_pair(m, MLX_KEY_E, MLX_KEY_Q)));
 	else if (mlx_is_key_down(m, MLX_KEY_RIGHT_SHIFT))
 		T->scale = ft_max(3, T->scale + check_key_pair(m, MLX_KEY_W, MLX_KEY_S));
 	else if (!mlx_is_key_down(m, MLX_KEY_RIGHT_SHIFT))
 		T->offset = v2i_add(T->offset, v2i(
 					5 * check_key_pair(m, MLX_KEY_D, MLX_KEY_A),
-					5 * check_key_pair(m, MLX_KEY_S, MLX_KEY_W)
-					));
+					5 * check_key_pair(m, MLX_KEY_S, MLX_KEY_W)));
 	if (mlx_is_key_down(m, MLX_KEY_R))
 	{
 		ft_bzero(T, sizeof(*T));

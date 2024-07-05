@@ -6,7 +6,7 @@
 /*   By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 13:26:41 by copireyr          #+#    #+#             */
-/*   Updated: 2024/06/28 15:09:37 by copireyr         ###   ########.fr       */
+/*   Updated: 2024/07/05 09:58:57 by copireyr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,17 @@ static t_v2i			clamp(t_line *l, int xmax, int ymax, t_clip_code code);
 int	clip(t_line *line, int xmax, int ymax)
 {
 	t_line	orig;
+	int		orig_sqrlen;
 	double	ratio0;
 	double	ratio1;
 
 	orig = *line;
 	if (clip_line(line, xmax, ymax))
 	{
-		if (!v2i_eq(orig.screen0, line->screen0) || !v2i_eq(orig.screen1, line->screen1))
+		if (!v2i_eq(orig.screen0, line->screen0)
+			|| !v2i_eq(orig.screen1, line->screen1))
 		{
-			int orig_sqrlen = v2i_sqrlen(v2i_sub(orig.screen0, orig.screen1));
+			orig_sqrlen = v2i_sqrlen(v2i_sub(orig.screen0, orig.screen1));
 			ratio0 = (double)v2i_sqrlen(v2i_sub(orig.screen0, line->screen0)) / (double)(orig_sqrlen);
 			ratio1 = (double)(v2i_sqrlen(v2i_sub(orig.screen0, line->screen1))) / (double)(orig_sqrlen);
 			line->color0 = interpolate_color(
@@ -46,7 +48,7 @@ static int	clip_line(t_line *line, int xmax, int ymax)
 {
 	t_clip_code	code0;
 	t_clip_code	code1;
-	t_v2i	clamped;
+	t_v2i		clamped;
 
 	while (1)
 	{

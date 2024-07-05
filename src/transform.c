@@ -6,7 +6,7 @@
 /*   By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 11:32:00 by copireyr          #+#    #+#             */
-/*   Updated: 2024/07/02 13:25:55 by copireyr         ###   ########.fr       */
+/*   Updated: 2024/07/05 09:54:46 by copireyr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,4 +64,3 @@ static t_v2i	project(t_transform *T, t_v3d v)
 	result.y = (int)(T->offset.y + scaled_iso.y);
 	return (result);
 }
-

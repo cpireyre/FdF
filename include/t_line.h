@@ -6,7 +6,7 @@
 /*   By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 13:32:59 by copireyr          #+#    #+#             */
-/*   Updated: 2024/07/02 10:56:07 by copireyr         ###   ########.fr       */
+/*   Updated: 2024/07/05 10:55:02 by copireyr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ typedef struct s_line
 	t_v2i		slope;
 	uint32_t	color0;
 	uint32_t	color1;
+	double		step;
 }				t_line;
 
 #endif /* T_LINE_H */

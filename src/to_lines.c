@@ -6,7 +6,7 @@
 /*   By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 13:33:57 by copireyr          #+#    #+#             */
-/*   Updated: 2024/07/02 13:37:59 by copireyr         ###   ########.fr       */
+/*   Updated: 2024/07/05 09:54:40 by copireyr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@ static void		find_min_max_elevation(t_map *map, int *min, int *max);
 int	to_lines(t_map *map, t_line **l, t_arena a)
 {
 	t_v4i	curr;
-	int			num_lines;
-	t_line		*lines;
+	int		num_lines;
+	t_line	*lines;
 	t_v4i	inc;
 
 	num_lines = (map->rows - 1) * map->cols + (map->cols - 1) * map->rows;
