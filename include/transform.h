@@ -6,7 +6,7 @@
 /*   By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 11:07:22 by copireyr          #+#    #+#             */
-/*   Updated: 2024/07/02 13:10:21 by copireyr         ###   ########.fr       */
+/*   Updated: 2024/07/05 11:00:37 by copireyr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@
 
 typedef struct s_transform
 {
-	t_v3d		center;
 	t_v3i		rotation;
 	t_v2i		offset;
 	double		cos_yaw;
@@ -38,6 +37,6 @@ typedef struct s_transform
 	int			scale;
 }				t_transform;
 
-extern t_line	transform(t_transform *T, t_line line);
+t_line	transform(t_transform *T, t_v3d center, t_line line);
 
 #endif /* TRANSFORM_H */

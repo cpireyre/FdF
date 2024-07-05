@@ -6,7 +6,7 @@
 /*   By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 09:55:11 by copireyr          #+#    #+#             */
-/*   Updated: 2024/07/05 09:55:29 by copireyr         ###   ########.fr       */
+/*   Updated: 2024/07/05 12:36:16 by copireyr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,8 @@ int		v2i_sqrlen(t_v2i a);
 
 t_v3i	v3i_add(t_v3i a, t_v3i b);
 t_v3i	v3i(int x, int y, int z);
+t_v3i	v3i_mul(t_v3i a, t_v3i b);
+t_v3i	v3ii(int a);
 
 t_v3d	v3d_add(t_v3d a, t_v3d b);
 t_v3d	v3dd(double x);

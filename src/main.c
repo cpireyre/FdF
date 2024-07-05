@@ -6,7 +6,7 @@
 /*   By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 09:45:09 by copireyr          #+#    #+#             */
-/*   Updated: 2024/07/05 09:59:14 by copireyr         ###   ########.fr       */
+/*   Updated: 2024/07/05 12:11:43 by copireyr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static t_render_context	initialize_ctx(const char *name, t_arena a);
 static void				render_frame(t_render_context *ctx);
-static void				move(mlx_t *m, t_transform *T);
+static void	key_hook(mlx_key_data_t keydata, t_render_context *ctx);
 
 int	main(int argc, char **argv)
 {
@@ -31,7 +31,7 @@ int	main(int argc, char **argv)
 		if (ctx.num_lines && ctx.init_success)
 		{
 			mlx_loop_hook(ctx.mlx, (t_hook)render_frame, &ctx);
-			mlx_key_hook(ctx.mlx, (mlx_keyfunc)toggle_dvd_mode, &ctx);
+			mlx_key_hook(ctx.mlx, (mlx_keyfunc)key_hook, &ctx);
 			mlx_loop(ctx.mlx);
 			serialize(ctx.t);
 		}
@@ -76,20 +76,21 @@ static void	render_frame(t_render_context *ctx)
 {
 	t_line	current_line;
 	t_line	*line;
+	t_v3d	center;
 
 	ft_memset_32(ctx->img->pixels, ctx->bg_color, ctx->image_size_in_pixels);
 	ft_memset_32(ctx->z_buffer, (uint32_t)INT_MIN, WIN_WIDTH * WIN_HEIGHT);
 	move(ctx->mlx, &ctx->t);
 	if (ctx->dvd_mode_on)
 		dvd(&ctx->t, WIN_WIDTH, WIN_HEIGHT);
-	ctx->t.center = v3dd(0);
+	center = v3dd(0);
 	line = ctx->lines - 1;
 	while (++line != ctx->lines + ctx->num_lines)
-		ctx->t.center = v3d_add(ctx->t.center, v3d_add(line->world0, line->world1));
-	ctx->t.center = v3d_div(ctx->t.center, v3dd(2 * ctx->num_lines));
+		center = v3d_add(center, v3d_add(line->world0, line->world1));
+	center = v3d_div(center, v3dd(2 * ctx->num_lines));
 	while (line-- != ctx->lines)
 	{
-		current_line = transform(&ctx->t, *line);
+		current_line = transform(&ctx->t, center, *line);
 		if (clip(&current_line, (int)ctx->img->width, (int)ctx->img->height))
 			rasterize(ctx->img, ctx->z_buffer, current_line);
 	}
@@ -97,36 +98,15 @@ static void	render_frame(t_render_context *ctx)
 		mlx_close_window(ctx->mlx);
 }
 
-static int	check_key_pair(mlx_t *m, keys_t key0, keys_t key1)
+static void	key_hook(mlx_key_data_t keydata, t_render_context *ctx)
 {
-	return (mlx_is_key_down(m, key0) - mlx_is_key_down(m, key1));
-}
-
-static void	move(mlx_t *m, t_transform *T)
-{
-	if (mlx_is_key_down(m, MLX_KEY_RIGHT_ALT))
-		T->rotation = v3i_add(T->rotation,
-				v3i(
-					3 * check_key_pair(m, MLX_KEY_D, MLX_KEY_A),
-					3 * check_key_pair(m, MLX_KEY_S, MLX_KEY_W),
-					3 * check_key_pair(m, MLX_KEY_E, MLX_KEY_Q)));
-	else if (mlx_is_key_down(m, MLX_KEY_RIGHT_SHIFT))
-		T->scale = ft_max(3, T->scale + check_key_pair(m, MLX_KEY_W, MLX_KEY_S));
-	else if (!mlx_is_key_down(m, MLX_KEY_RIGHT_SHIFT))
-		T->offset = v2i_add(T->offset, v2i(
-					5 * check_key_pair(m, MLX_KEY_D, MLX_KEY_A),
-					5 * check_key_pair(m, MLX_KEY_S, MLX_KEY_W)));
-	if (mlx_is_key_down(m, MLX_KEY_R))
+	if (keydata.key == MLX_KEY_SPACE && keydata.action == MLX_PRESS)
+		ctx->dvd_mode_on ^= 1;
+	if (keydata.key == MLX_KEY_R && keydata.action == MLX_PRESS)
 	{
-		ft_bzero(T, sizeof(*T));
-		T->scale = 100;
-		T->offset.y = m->height / 2;
-		T->offset.x = m->width / 2;
+		ft_bzero(&ctx->t, sizeof(ctx->t));
+		ctx->t.scale = 100;
+		ctx->t.offset.y = ctx->img->height / 2;
+		ctx->t.offset.x = ctx->img->width / 2;
 	}
-	T->cos_yaw = cos(T->rotation.x * M_PI / 180.0);
-	T->sin_yaw = sin(T->rotation.x * M_PI / 180.0);
-	T->cos_pitch = cos(T->rotation.y * M_PI / 180.0);
-	T->sin_pitch = sin(T->rotation.y * M_PI / 180.0);
-	T->cos_roll = cos(T->rotation.z * M_PI / 180.0);
-	T->sin_roll = sin(T->rotation.z * M_PI / 180.0);
 }

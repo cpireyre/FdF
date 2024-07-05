@@ -6,7 +6,7 @@
 /*   By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 11:32:00 by copireyr          #+#    #+#             */
-/*   Updated: 2024/07/05 09:54:46 by copireyr         ###   ########.fr       */
+/*   Updated: 2024/07/05 11:00:30 by copireyr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,18 +15,18 @@
 static t_v2i	project(t_transform *T, t_v3d v);
 static t_v3d	rotate(t_transform *T, t_v3d a);
 
-t_line	transform(t_transform *T, t_line line)
+t_line	transform(t_transform *T, t_v3d center, t_line line)
 {
 	{
-		line.world0 = v3d_add(line.world0, v3d_mul(T->center, v3dd(-1)));
+		line.world0 = v3d_add(line.world0, v3d_mul(center, v3dd(-1)));
 		line.world0 = rotate(T, line.world0);
-		line.world0 = v3d_add(line.world0, T->center);
+		line.world0 = v3d_add(line.world0, center);
 		line.screen0 = project(T, line.world0);
 	}
 	{
-		line.world1 = v3d_add(line.world1, v3d_mul(T->center, v3dd(-1)));
+		line.world1 = v3d_add(line.world1, v3d_mul(center, v3dd(-1)));
 		line.world1 = rotate(T, line.world1);
-		line.world1 = v3d_add(line.world1, T->center);
+		line.world1 = v3d_add(line.world1, center);
 		line.screen1 = project(T, line.world1);
 	}
 	return (line);

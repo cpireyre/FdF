@@ -6,7 +6,7 @@
 /*   By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 11:08:29 by copireyr          #+#    #+#             */
-/*   Updated: 2024/07/02 13:27:32 by copireyr         ###   ########.fr       */
+/*   Updated: 2024/07/05 12:05:08 by copireyr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,4 @@ void	dvd(t_transform *T, int width, int height)
 		direction.y *= -1;
 		rotation.y *= -1;
 	}
-}
-
-void	toggle_dvd_mode(mlx_key_data_t keydata, t_render_context *ctx)
-{
-	if (keydata.key == MLX_KEY_SPACE && keydata.action == MLX_PRESS)
-		ctx->dvd_mode_on ^= 1;
 }

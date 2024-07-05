@@ -6,7 +6,7 @@
 /*   By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 13:33:18 by copireyr          #+#    #+#             */
-/*   Updated: 2024/07/05 10:26:48 by copireyr         ###   ########.fr       */
+/*   Updated: 2024/07/05 12:11:27 by copireyr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,9 @@
 # define WIN_WIDTH	4*320
 # define WIN_HEIGHT	4*200
 # define FULLSCREEN	false
+# define ROT_SPEED	6
+# define MOVE_SPEED	5
+# define ZOOM_SPEED	2
 
 typedef struct s_render_context
 {
@@ -43,6 +46,6 @@ typedef void	(*t_hook)(void*);
 void		serialize(t_transform T);
 t_transform	deserialize(int default_width, int default_height);
 void		dvd(t_transform *T, int width, int height);
-void		toggle_dvd_mode(mlx_key_data_t keydata, t_render_context *ctx);
+void		move(mlx_t *m, t_transform *T);
 
 #endif /* MAIN_H */
