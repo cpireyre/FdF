@@ -6,7 +6,7 @@
 /*   By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 13:16:52 by copireyr          #+#    #+#             */
-/*   Updated: 2024/07/05 09:53:18 by copireyr         ###   ########.fr       */
+/*   Updated: 2024/07/11 11:45:17 by copireyr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,13 +77,13 @@ static t_v4i	*tokenize(int fd, int row, t_map *map, t_arena a)
 		return (NULL);
 	}
 	i = -1;
-	token = ft_strtok((char *)line, " \t\n");
+	token = ft_strtok((char *)line, " \t\v\n\r\f");
 	while (++i < map->cols)
 	{
 		points[i].x = i;
 		points[i].y = row;
 		points[i].z = ft_atoi(token);
-		token = ft_strtok(NULL, " \t\n");
+		token = ft_strtok(NULL, " \t\v\n\r\f");
 	}
 	ft_memdel((void **)&line);
 	return (points);
