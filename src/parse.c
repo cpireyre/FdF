@@ -6,7 +6,7 @@
 /*   By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 13:16:52 by copireyr          #+#    #+#             */
-/*   Updated: 2024/07/11 15:11:02 by copireyr         ###   ########.fr       */
+/*   Updated: 2024/07/11 15:14:09 by copireyr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ static int	count_lines_in_file(const char *path)
 		if (line && ft_strlen(line) < 2)
 		{
 			ft_memdel((void **)&line);
-			return (-1);
+			num_lines = -1;
 		}
 		ft_memdel((void **)&line);
 		if (ret == 0 || ret == -1)
@@ -120,8 +120,6 @@ static int	count_lines_in_file(const char *path)
 		num_lines++;
 	}
 	close(fd);
-	if (ret == -1)
-		return (-1);
 	return (num_lines);
 }
 
