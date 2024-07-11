@@ -6,7 +6,7 @@
 #    By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/23 09:17:29 by copireyr          #+#    #+#              #
-#    Updated: 2024/07/05 12:11:35 by copireyr         ###   ########.fr        #
+#    Updated: 2024/07/11 11:40:11 by copireyr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@
 .SUFFIXES:
 UNAME_S := $(shell uname -s)
 
-bin 		:= fdf
+bin 		:= FdF
 src_dir 	:= ./src
 obj_dir 	:= ./obj
 inc_dir		:= ./include
@@ -27,7 +27,7 @@ libmlx_dir	:= ./MLX42
 libft		:= $(libft_dir)/libft.a
 libmlx 		:= $(libmlx_dir)/build/libmlx42.a
 
-CC			:= clang
+CC			:= gcc
 # debug		:= -fsanitize=undefined -fsanitize=address
 # debug		+= -g3
 optimization := -O2 

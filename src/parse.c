@@ -77,13 +77,13 @@ static t_v4i	*tokenize(int fd, int row, t_map *map, t_arena a)
 		return (NULL);
 	}
 	i = -1;
-	token = ft_strtok((char *)line, " \n");
+	token = ft_strtok((char *)line, " \t\n");
 	while (++i < map->cols)
 	{
 		points[i].x = i;
 		points[i].y = row;
 		points[i].z = ft_atoi(token);
-		token = ft_strtok(NULL, " \n");
+		token = ft_strtok(NULL, " \t\n");
 	}
 	ft_memdel((void **)&line);
 	return (points);

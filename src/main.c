@@ -6,7 +6,7 @@
 /*   By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 09:45:09 by copireyr          #+#    #+#             */
-/*   Updated: 2024/07/05 12:42:39 by copireyr         ###   ########.fr       */
+/*   Updated: 2024/07/11 11:40:52 by copireyr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ static void	key_hook(mlx_key_data_t keydata, t_render_context *ctx)
 	{
 		ft_bzero(&ctx->t, sizeof(ctx->t));
 		ctx->t.scale = 100;
-		ctx->t.offset.y = ctx->img->height / 2;
-		ctx->t.offset.x = ctx->img->width / 2;
+		ctx->t.offset.y = (int)(ctx->img->height / 2);
+		ctx->t.offset.x = (int)(ctx->img->width / 2);
 	}
 }
