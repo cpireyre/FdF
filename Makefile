@@ -6,7 +6,7 @@
 #    By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/23 09:17:29 by copireyr          #+#    #+#              #
-#    Updated: 2024/07/11 11:40:11 by copireyr         ###   ########.fr        #
+#    Updated: 2024/07/11 15:07:44 by copireyr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,9 +27,9 @@ libmlx_dir	:= ./MLX42
 libft		:= $(libft_dir)/libft.a
 libmlx 		:= $(libmlx_dir)/build/libmlx42.a
 
-CC			:= gcc
-# debug		:= -fsanitize=undefined -fsanitize=address
-# debug		+= -g3
+CC			:= clang
+debug		:= -fsanitize=undefined -fsanitize=address
+debug		+= -g3
 optimization := -O2 
 CFLAGS		:= -Wconversion $(debug) $(optimization)
 CFLAGS		+= -Wall -Wextra -Werror -MMD -MP -pedantic
@@ -105,6 +105,10 @@ m: $(bin)
 .PHONY: l
 l: $(bin)
 	./$(bin) ./test_maps/line.fdf
+
+.PHONY: test
+test: $(bin)
+	./$(bin) ./test_maps/basictest.fdf
 
 .PHONY: norm
 ifeq ($(shell command -v norminette),)

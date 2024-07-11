@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   ft_gnl.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: copireyr <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 09:27:31 by copireyr          #+#    #+#             */
-/*   Updated: 2024/05/20 10:12:04 by copireyr         ###   ########.fr       */
+/*   Updated: 2024/07/11 12:28:23 by copireyr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,5 +134,5 @@ static ssize_t	extract_line(char *buf, char **line)
 		return (-1);
 	remaining_length = ft_strlen(buf) - endline_offset;
 	ft_memmove(buf, buf + endline_offset, remaining_length + 1);
-	return ((ssize_t)endline_offset);
+	return (1);
 }

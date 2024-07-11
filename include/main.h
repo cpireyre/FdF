@@ -6,7 +6,7 @@
 /*   By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 13:33:18 by copireyr          #+#    #+#             */
-/*   Updated: 2024/07/05 12:44:37 by copireyr         ###   ########.fr       */
+/*   Updated: 2024/07/11 14:07:19 by copireyr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@
 # include "rasterize.h"
 # include <limits.h>
 
-# define WIN_WIDTH	3200
-# define WIN_HEIGHT	1800
+# define WIN_WIDTH	1280
+# define WIN_HEIGHT	720
 # define FULLSCREEN	0
 # define ROT_SPEED	3
 # define MOVE_SPEED	5
