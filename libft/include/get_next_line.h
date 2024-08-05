@@ -5,25 +5,35 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/15 12:52:30 by copireyr          #+#    #+#             */
-/*   Updated: 2024/05/27 13:30:49 by copireyr         ###   ########.fr       */
+/*   Created: 2024/07/17 12:53:59 by copireyr          #+#    #+#             */
+/*   Updated: 2024/08/05 11:38:29 by copireyr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
 
-# ifndef BUFFER_SIZE
-#  define BUFFER_SIZE	500
-# endif
-
 # include <stdlib.h>
 # include <unistd.h>
+# include <fcntl.h>
+# include "arena.h"
 
-size_t	ft_strlen(const char *str);
-char	*ft_strchr(const char *s, int c);
-char	*ft_strcat(char *dst, const char *src);
-char	*ft_strndup(const char *src, size_t n);
-void	*ft_memmove(void *dst, const void *src, size_t len);
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE	1024
+# endif /* BUFFER_SIZE */
 
-#endif
+typedef struct s_gnl_list
+{
+	char				chunk[BUFFER_SIZE];
+	int					size;
+	int					newline_index;
+	struct s_gnl_list	*next;
+}				t_gnl_list;
+
+extern char	*get_next_line(int fd);
+extern char	*arena_gnl(t_arena arena, int fd);
+
+void		*ft_memcpy(void *dst, const void *src, size_t n);
+void		*ft_calloc(size_t elems, size_t elem_size);
+
+#endif /* GET_NEXT_LINE_H */

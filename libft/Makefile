@@ -6,7 +6,7 @@
 #    By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/23 15:14:47 by copireyr          #+#    #+#              #
-#    Updated: 2024/07/05 12:48:31 by copireyr         ###   ########.fr        #
+#    Updated: 2024/08/05 11:54:58 by copireyr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,12 +14,8 @@
 .DELETE_ON_ERROR:
 .SUFFIXES:
 
-ifeq ($(CC), )
-CC		 := cc
-endif
-ifeq ($(CFLAGS), )
-CFLAGS	 += -Wall -Wextra -Werror -Wsign-conversion
-endif
+CC		 := ccache clang
+CFLAGS	 += -Wall -Wextra -Werror -O2 -fno-builtin
 CPPFLAGS := -I./include
 
 libft := libft.a
@@ -34,7 +30,7 @@ ft_printf_src := ./ft_printf/src/emit.c       \
 				 ./ft_printf/src/charformat_bonus.c  \
 				 ./ft_printf/src/uintformat_bonus.c
 
-src := ./io/ft_gnl.c      ./ctype/ft_atoi.c    ./str/ft_split.c \
+src := ./ctype/ft_atoi.c    ./str/ft_split.c \
 	   ./mem/ft_bzero.c   ./mem/ft_memchr.c    ./mem/ft_memcmp.c \
 	   ./mem/ft_memcpy.c  ./mem/ft_memset.c    ./str/ft_strdup.c  \
 	   ./str/ft_strlen.c  ./str/ft_strchr.c    ./str/ft_substr.c   \
@@ -42,11 +38,11 @@ src := ./io/ft_gnl.c      ./ctype/ft_atoi.c    ./str/ft_split.c \
 	   ./str/ft_strrchr.c ./str/ft_strlcpy.c   ./str/ft_strncmp.c    \
 	   ./str/ft_strndup.c ./str/ft_strjoin.c   ./str/ft_strlcat.c     \
 	   ./str/ft_strtrim.c ./ctype/ft_isdigit.c ./mem/ft_memdel.c       \
-	   ./io/ft_error.c	  ./ctype/ft_isspace.c ./arena/arena.c 			\
+	   	./ctype/ft_isspace.c ./arena/arena.c 			\
 	   ./math/ft_abs.c 	  ./math/ft_max.c ./math/ft_min.c ./math/ft_sign.c \
 	   ./math/ft_distance.c ./mem/ft_memset_32.c \
 		./str/ft_strtok.c ./la/v2i.c ./la/v3d.c \
-		./la/v2i_mul.c ./la/v3i.c
+		./la/v2i_mul.c ./la/v3i.c ./io/get_next_line.c ./mem/ft_calloc.c ./math/ft_min4.c ./mem/ft_swap.c ./str/ft_streq.c ./ctype/ft_parse_int.c ./io/arena_gnl.c ./io/ft_arena_slurp.c ./str/ft_count_tokens.c
 
 obj_dir := ./obj
 $(obj_dir)/%.o: %.c
@@ -75,6 +71,7 @@ fclean: clean
 	$(RM) $(libft)
 
 .PHONY: re
-re: fclean all
+re:
+	make fclean && make -j
 
 -include $(obj:.o=.d) $(ft_printf_objs:.o=.d)

@@ -1,21 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_error.c                                         :+:      :+:    :+:   */
+/*   ft_min4.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/27 13:31:05 by copireyr          #+#    #+#             */
-/*   Updated: 2024/05/27 13:31:10 by copireyr         ###   ########.fr       */
+/*   Created: 2024/08/02 12:43:37 by copireyr          #+#    #+#             */
+/*   Updated: 2024/08/02 12:43:39 by copireyr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <stdlib.h>
-
-int	ft_error(void *data, char *msg)
+int	ft_min4(int a, int b, int c, int d)
 {
-	free(data);
-	perror(msg);
-	return (1);
+	int	min;
+
+	min = a;
+	if (b < min)
+		min = b;
+	if (c < min)
+		min = c;
+	if (d < min)
+		min = d;
+	return (min);
 }
