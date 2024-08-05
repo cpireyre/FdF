@@ -6,7 +6,7 @@
 /*   By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 13:18:24 by copireyr          #+#    #+#             */
-/*   Updated: 2024/07/05 09:56:48 by copireyr         ###   ########.fr       */
+/*   Updated: 2024/08/05 16:53:31 by copireyr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,14 @@ typedef struct s_map
 	int		rows;
 	int		cols;
 }	t_map;
+
+typedef struct s_v4c
+{
+	int			x;
+	int			y;
+	int			z;
+	uint32_t	c;
+}				t_v4c;
 
 extern int		parse(const char *path, t_line **lines, t_arena a);
 int				to_lines(t_map *map, t_line **l, t_arena a);

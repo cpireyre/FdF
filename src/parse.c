@@ -6,51 +6,55 @@
 /*   By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 13:16:52 by copireyr          #+#    #+#             */
-/*   Updated: 2024/08/05 14:14:45 by copireyr         ###   ########.fr       */
+/*   Updated: 2024/08/05 17:21:09 by copireyr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parse.h"
 
-static int		count_lines_in_file(const char *path);
-static t_v4i	**parse_file(int fd, t_map *map, t_arena a);
-static t_v4i	*tokenize(int fd, int row, t_map *map, t_arena a);
-static int		count_words_in_line(const char *line);
+static t_v4i	**parse_file(char **file, t_map *map, t_arena a);
+static t_v4i	*tokenize(char *line, int row, t_map *map, t_arena a);
 
 int	parse(const char *path, t_line **lines, t_arena a)
 {
-	int		fd;
-	int		lines_in_file;
+	char	**file;
 	t_map	map;
+	t_arena	scratch;
+	int		ret;
 
-	lines_in_file = count_lines_in_file(path);
-	if (lines_in_file < 1 || lines_in_file > 1000)
-		return (0);
-	map.rows = lines_in_file;
-	fd = open(path, O_RDONLY);
-	if (fd == -1)
-		return (0);
-	map.points = parse_file(fd, &map, a);
-	if (!map.points)
-		return (0);
-	close(fd);
-	assign_colors(&map, LOW_COLOR, HIGH_COLOR);
-	return (to_lines(&map, lines, a));
+	ret = 0;
+	scratch = arena_new();
+	if (!scratch)
+		return (!ft_dprintf(2, "error: can't alloc memory\n"));
+	file = ft_arena_slurp(scratch, path);
+	map.rows = 0;
+	while (file && file[map.rows])
+		map.rows++;
+	if (file)
+		map.points = parse_file(file, &map, scratch);
+	if (file && map.points && map.cols)
+	{
+		assign_colors(&map, LOW_COLOR, HIGH_COLOR);
+		ret = to_lines(&map, lines, a);
+	}
+	else
+		ft_dprintf(2, "error: invalid file\n");
+	arena_dispose(&scratch);
+	return (ret);
 }
 
-static t_v4i	**parse_file(int fd, t_map *map, t_arena a)
+static t_v4i	**parse_file(char **file, t_map *map, t_arena scratch)
 {
 	int	i;
 	int	cols;
 
-	map->points = arena_calloc(a, (size_t)map->rows, sizeof(t_v4i *));
-	if (!map->points)
-		return (NULL);
+	map->points = arena_calloc(scratch, (size_t)map->rows, sizeof(t_v4i *));
 	i = 0;
 	cols = 0;
-	while (i < map->rows)
+	map->cols = 0;
+	while (map->points && i < map->rows)
 	{
-		map->points[i] = tokenize(fd, i, map, a);
+		map->points[i] = tokenize(file[i], i, map, scratch);
 		if (!cols)
 			cols = map->cols;
 		if (cols != map->cols || !map->points[i])
@@ -60,71 +64,57 @@ static t_v4i	**parse_file(int fd, t_map *map, t_arena a)
 	return (map->points);
 }
 
-static t_v4i	*tokenize(int fd, int row, t_map *map, t_arena a)
+uint32_t	atoc(char *str)
+{
+	static const char	*base = "0123456789ABCDEF";
+	int					digits;
+	uint32_t			color;
+
+	digits = 0;
+	color = 0;
+	while (*str && ft_strchr(base, *str))
+	{
+		color = (uint32_t)(color * 16 + ft_strchr(base, *str++) - base);
+		digits++;
+	}
+	while (digits++ < 8)
+		color = color * 16;
+	color += 0xff;
+	return (color);
+}
+
+t_v4i	read_z_and_color(char *tok)
+{
+	const size_t		example_color = ft_strlen(",0xFFFFFF");
+	t_v4i				ret;
+	char				*color_ptr;
+
+	ret.z = ft_atoi(tok);
+	color_ptr = ft_strchr(tok, ',');
+	ret.c = 0;
+	if (color_ptr && ft_strlen(color_ptr) == example_color)
+		ret.c = (int)atoc(color_ptr + 3);
+	return (ret);
+}
+
+static t_v4i	*tokenize(char *line, int row, t_map *map, t_arena scratch)
 {
 	int		i;
-	char	*line;
 	char	*token;
 	t_v4i	*points;
 
-	line = get_next_line(fd);
-	if (!line)
-		return (NULL);
-	map->cols = count_words_in_line(line);
-	points = arena_calloc(a, (size_t)map->cols, sizeof(t_v4i));
+	map->cols = ft_count_tokens(line);
+	points = arena_calloc(scratch, (size_t)map->cols, sizeof(t_v4i));
 	if (!points)
-	{
-		ft_memdel((void **)&line);
 		return (NULL);
-	}
 	i = -1;
 	token = ft_strtok((char *)line, " \t\v\n\r\f");
 	while (++i < map->cols)
 	{
+		points[i] = read_z_and_color(token);
 		points[i].x = i;
 		points[i].y = row;
-		points[i].z = ft_atoi(token);
 		token = ft_strtok(NULL, " \t\v\n\r\f");
 	}
-	ft_memdel((void **)&line);
 	return (points);
-}
-
-static int	count_lines_in_file(const char *path)
-{
-	int		fd;
-	char	*line;
-	int		num_lines;
-
-	fd = open(path, O_RDONLY);
-	if (fd == -1)
-		return (-1);
-	num_lines = 0;
-	while (1)
-	{
-		line = get_next_line(fd);
-		if (!line)
-			break ;
-		ft_memdel((void **)&line);
-		num_lines++;
-	}
-	close(fd);
-	return (num_lines);
-}
-
-static int	count_words_in_line(const char *line)
-{
-	int	words;
-
-	words = 0;
-	while (*line)
-	{
-		while (*line && ft_isspace(*line))
-			line++;
-		if (*line && !ft_isspace(*line))
-			words++;
-		while (*line && !ft_isspace(*line))
-			line++;
-	}
-	return (words);
 }

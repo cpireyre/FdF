@@ -6,7 +6,7 @@
 #    By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/23 09:17:29 by copireyr          #+#    #+#              #
-#    Updated: 2024/07/11 15:07:44 by copireyr         ###   ########.fr        #
+#    Updated: 2024/08/05 15:58:09 by copireyr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,12 +27,13 @@ libmlx_dir	:= ./MLX42
 libft		:= $(libft_dir)/libft.a
 libmlx 		:= $(libmlx_dir)/build/libmlx42.a
 
-CC			:= clang
+CC			:= ccache clang
 debug		:= -fsanitize=undefined -fsanitize=address
-debug		+= -g3
-optimization := -O2 
+debug		+= -g3 -Og
+# optimization := -O2 -fno-builtin
 CFLAGS		:= -Wconversion $(debug) $(optimization)
-CFLAGS		+= -Wall -Wextra -Werror -MMD -MP -pedantic
+CFLAGS		+= -MMD -MP -pedantic
+# CFLAGS		+= -Wall -Wextra -Werror 
 LDFLAGS		:= -L$(libft_dir) -lft -L$(libmlx_dir)/build -lmlx42 $(debug)
 ifeq ($(UNAME_S), Darwin)
 LDFLAGS		+= -framework Cocoa -framework OpenGL -framework IOKit
@@ -63,11 +64,7 @@ $(bin): $(libmlx) $(libft) $(objects)
 	LIBRARY_PATH=$(glfw_path) $(CC) $(objects) $(LDFLAGS) -o $@
 
 .PHONY: all
-all: $(bin) | norm tags
-
-tags: $(addprefix $(src_dir)/, $(sources))
-	ctags **/*.c **/*.h
-	# ctags --recurse
+all: $(bin)
 
 .PHONY: bonus
 bonus: $(bin)
@@ -109,14 +106,5 @@ l: $(bin)
 .PHONY: test
 test: $(bin)
 	./$(bin) ./test_maps/basictest.fdf
-
-.PHONY: norm
-ifeq ($(shell command -v norminette),)
-norm:
-	@echo "norminette not installed, skipping lint check."
-else
-norm:
-	@norminette $(src_dir) $(libft_dir) $(inc_dir) | grep -v "OK" || true
-endif
 
 -include $(objects:.o=.d)

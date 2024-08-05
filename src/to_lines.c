@@ -6,7 +6,7 @@
 /*   By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 13:33:57 by copireyr          #+#    #+#             */
-/*   Updated: 2024/07/11 15:11:02 by copireyr         ###   ########.fr       */
+/*   Updated: 2024/08/05 17:11:49 by copireyr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,9 +73,12 @@ void	assign_colors(t_map *map, uint32_t low_color, uint32_t high_color)
 		j = 0;
 		while (j < map->cols)
 		{
-			map->points[i][j].c = (int)interpolate_color(
-					(uint32_t)low_color, (uint32_t)high_color,
-					(double)map->points[i][j].z / (double)(max - min));
+			if (!map->points[i][j].c)
+			{
+				map->points[i][j].c = (int)interpolate_color(
+						(uint32_t)low_color, (uint32_t)high_color,
+						(double)map->points[i][j].z / (double)(max - min));
+			}
 			j++;
 		}
 		i++;
