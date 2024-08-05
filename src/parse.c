@@ -6,7 +6,7 @@
 /*   By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 13:16:52 by copireyr          #+#    #+#             */
-/*   Updated: 2024/08/05 17:21:09 by copireyr         ###   ########.fr       */
+/*   Updated: 2024/08/05 17:53:50 by copireyr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ static t_v4i	**parse_file(char **file, t_map *map, t_arena scratch)
 
 uint32_t	atoc(char *str)
 {
-	static const char	*base = "0123456789ABCDEF";
+	static const char	*base ="0123456789ABCDEF0123456789abcdef";
 	int					digits;
 	uint32_t			color;
 
@@ -74,7 +74,7 @@ uint32_t	atoc(char *str)
 	color = 0;
 	while (*str && ft_strchr(base, *str))
 	{
-		color = (uint32_t)(color * 16 + ft_strchr(base, *str++) - base);
+		color = (uint32_t)(color * 16 + (ft_strchr(base, *str++) - base) % 16);
 		digits++;
 	}
 	while (digits++ < 8)
