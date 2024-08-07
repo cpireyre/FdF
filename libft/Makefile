@@ -6,7 +6,7 @@
 #    By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/23 15:14:47 by copireyr          #+#    #+#              #
-#    Updated: 2024/08/07 11:20:14 by copireyr         ###   ########.fr        #
+#    Updated: 2024/08/07 11:29:53 by copireyr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,8 +14,9 @@
 .DELETE_ON_ERROR:
 .SUFFIXES:
 
-CC		 := clang
-CFLAGS	 := -Wall -Wextra -Werror -O2 -fno-builtin
+CC		 := gcc
+CFLAGS	 := -Wall -Wextra -Werror #-O2 -fno-builtin
+CFLAGS	+= -fsanitize=address,undefined,leak -g3 -Og
 CPPFLAGS := -I./include
 
 libft := libft.a

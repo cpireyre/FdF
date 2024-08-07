@@ -6,7 +6,7 @@
 /*   By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 12:48:12 by copireyr          #+#    #+#             */
-/*   Updated: 2024/08/05 11:55:08 by copireyr         ###   ########.fr       */
+/*   Updated: 2024/08/07 11:32:59 by copireyr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,8 @@ long	ft_atol(const char *str);
 int		ft_parse_int(char *str, long *n);
 
 /* IO */
+
+# define FT_INITIAL_SIZE 16
 
 ssize_t	ft_gnl(int fd, char **line);
 int		ft_error(void *data, const char *msg);

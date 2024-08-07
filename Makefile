@@ -6,7 +6,7 @@
 #    By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/23 09:17:29 by copireyr          #+#    #+#              #
-#    Updated: 2024/08/07 11:16:42 by copireyr         ###   ########.fr        #
+#    Updated: 2024/08/07 11:24:40 by copireyr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,10 +27,10 @@ libmlx_dir	:= ./MLX42
 libft		:= $(libft_dir)/libft.a
 libmlx 		:= $(libmlx_dir)/build/libmlx42.a
 
-CC			:= clang
-# debug		:= -fsanitize=undefined -fsanitize=address
-# debug		+= -g3 -Og
-optimization := -O2 -fno-builtin
+CC			:= gcc
+debug		:= -fsanitize=undefined -fsanitize=address
+debug		+= -g3 -Og
+# optimization := -O2 -fno-builtin
 CFLAGS		:= -Wconversion $(debug) $(optimization)
 CFLAGS		+= -MMD -MP -pedantic
 CFLAGS		+= -Wall -Wextra -Werror 
