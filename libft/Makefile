@@ -6,7 +6,7 @@
 #    By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/23 15:14:47 by copireyr          #+#    #+#              #
-#    Updated: 2024/08/07 11:29:53 by copireyr         ###   ########.fr        #
+#    Updated: 2024/08/07 11:33:55 by copireyr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,8 +15,8 @@
 .SUFFIXES:
 
 CC		 := gcc
-CFLAGS	 := -Wall -Wextra -Werror #-O2 -fno-builtin
-CFLAGS	+= -fsanitize=address,undefined,leak -g3 -Og
+CFLAGS	 := -Wall -Wextra -Werror -O2 -fno-builtin
+# CFLAGS	+= -fsanitize=address,undefined,leak -g3 -Og
 CPPFLAGS := -I./include
 
 libft := libft.a
