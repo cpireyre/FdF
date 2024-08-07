@@ -6,7 +6,7 @@
 #    By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/23 09:17:29 by copireyr          #+#    #+#              #
-#    Updated: 2024/08/07 11:33:48 by copireyr         ###   ########.fr        #
+#    Updated: 2024/08/07 11:38:18 by copireyr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -49,9 +49,8 @@ $(obj_dir)/%.o: $(src_dir)/%.c Makefile
 	@mkdir -p $(@D)
 	$(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $@
 
-.PHONY: $(libft)
 $(libft):
-	CFLAGS="$(CFLAGS)" $(MAKE) -j4 -C $(libft_dir)
+	$(MAKE) -j4 -C $(libft_dir)
 
 $(libmlx):
 	cmake $(cmakeflags) $(libmlx_dir) -B $(libmlx_dir)/build > /dev/null
