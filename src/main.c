@@ -6,7 +6,7 @@
 /*   By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 09:45:09 by copireyr          #+#    #+#             */
-/*   Updated: 2024/07/11 14:01:59 by copireyr         ###   ########.fr       */
+/*   Updated: 2024/08/07 11:19:37 by copireyr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ int	main(int argc, char **argv)
 		ctx.num_lines = parse(argv[1], &ctx.lines, a);
 		if (ctx.num_lines && ctx.init_success)
 		{
-			ft_dprintf(2, "Num lines: %d\n", ctx.num_lines);
 			mlx_loop_hook(ctx.mlx, (t_hook)render_frame, &ctx);
 			mlx_key_hook(ctx.mlx, (mlx_keyfunc)key_hook, &ctx);
 			mlx_loop(ctx.mlx);

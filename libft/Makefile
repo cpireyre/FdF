@@ -6,7 +6,7 @@
 #    By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/23 15:14:47 by copireyr          #+#    #+#              #
-#    Updated: 2024/08/05 11:54:58 by copireyr         ###   ########.fr        #
+#    Updated: 2024/08/07 11:20:14 by copireyr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,8 +14,8 @@
 .DELETE_ON_ERROR:
 .SUFFIXES:
 
-CC		 := ccache clang
-CFLAGS	 += -Wall -Wextra -Werror -O2 -fno-builtin
+CC		 := clang
+CFLAGS	 := -Wall -Wextra -Werror -O2 -fno-builtin
 CPPFLAGS := -I./include
 
 libft := libft.a

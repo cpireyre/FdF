@@ -6,7 +6,7 @@
 /*   By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 13:16:52 by copireyr          #+#    #+#             */
-/*   Updated: 2024/08/05 17:53:50 by copireyr         ###   ########.fr       */
+/*   Updated: 2024/08/07 11:20:40 by copireyr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ static t_v4i	**parse_file(char **file, t_map *map, t_arena scratch)
 
 uint32_t	atoc(char *str)
 {
-	static const char	*base ="0123456789ABCDEF0123456789abcdef";
+	static const char	*base = "0123456789ABCDEF0123456789abcdef";
 	int					digits;
 	uint32_t			color;
 
