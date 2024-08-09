@@ -6,7 +6,7 @@
 /*   By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 09:45:09 by copireyr          #+#    #+#             */
-/*   Updated: 2024/08/07 11:19:37 by copireyr         ###   ########.fr       */
+/*   Updated: 2024/08/09 16:25:41 by copireyr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ int	main(int argc, char **argv)
 		{
 			mlx_loop_hook(ctx.mlx, (t_hook)render_frame, &ctx);
 			mlx_key_hook(ctx.mlx, (mlx_keyfunc)key_hook, &ctx);
+			mouse_hooks_set(&ctx);
 			mlx_loop(ctx.mlx);
 			serialize(ctx.t);
 		}
@@ -48,17 +49,14 @@ static t_render_context	initialize_ctx(const char *name, t_arena a)
 {
 	t_render_context	ctx;
 
-	ctx.dvd_mode_on = 0;
+	ft_bzero(&ctx, sizeof(ctx));
 	ctx.z_buffer = arena_alloc(a, WIN_HEIGHT * WIN_WIDTH * sizeof(int));
 	if (!ctx.z_buffer)
 		return (ctx);
-	ctx.init_success = 0;
 	ctx.bg_color = BG_COLOR;
 	ctx.t = deserialize(WIN_WIDTH, WIN_HEIGHT);
 	mlx_set_setting(MLX_FULLSCREEN, FULLSCREEN);
 	mlx_set_setting(MLX_STRETCH_IMAGE, true);
-	ctx.mlx = NULL;
-	ctx.img = NULL;
 	ctx.mlx = mlx_init(WIN_WIDTH, WIN_HEIGHT, name, true);
 	if (!ctx.mlx)
 		return (ctx);
@@ -94,6 +92,7 @@ static void	render_frame(t_render_context *ctx)
 		if (clip(&current_line, (int)ctx->img->width, (int)ctx->img->height))
 			rasterize(ctx->img, ctx->z_buffer, current_line);
 	}
+	drag(ctx);
 	if (mlx_is_key_down(ctx->mlx, MLX_KEY_ESCAPE))
 		mlx_close_window(ctx->mlx);
 }

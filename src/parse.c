@@ -6,7 +6,7 @@
 /*   By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 13:16:52 by copireyr          #+#    #+#             */
-/*   Updated: 2024/08/07 11:20:40 by copireyr         ###   ########.fr       */
+/*   Updated: 2024/08/08 19:53:00 by copireyr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,18 +27,20 @@ int	parse(const char *path, t_line **lines, t_arena a)
 	if (!scratch)
 		return (!ft_dprintf(2, "error: can't alloc memory\n"));
 	file = ft_arena_slurp(scratch, path);
-	map.rows = 0;
-	while (file && file[map.rows])
-		map.rows++;
 	if (file)
-		map.points = parse_file(file, &map, scratch);
-	if (file && map.points && map.cols)
 	{
-		assign_colors(&map, LOW_COLOR, HIGH_COLOR);
-		ret = to_lines(&map, lines, a);
+		map.rows = 0;
+		while (file[map.rows])
+			map.rows++;
+		map.points = parse_file(file, &map, scratch);
+		if (map.points && map.cols)
+		{
+			assign_colors(&map, LOW_COLOR, HIGH_COLOR);
+			ret = to_lines(&map, lines, a);
+		}
+		else
+			ft_dprintf(2, "error: invalid file\n");
 	}
-	else
-		ft_dprintf(2, "error: invalid file\n");
 	arena_dispose(&scratch);
 	return (ret);
 }

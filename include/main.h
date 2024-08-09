@@ -6,7 +6,7 @@
 /*   By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 13:33:18 by copireyr          #+#    #+#             */
-/*   Updated: 2024/07/11 14:07:19 by copireyr         ###   ########.fr       */
+/*   Updated: 2024/08/09 16:26:34 by copireyr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,32 +14,19 @@
 # define MAIN_H
 
 # include "libft.h"
+# include "render.h"
 # include "parse.h"
-# include "transform.h"
 # include "clip.h"
 # include "rasterize.h"
+# include "mouse.h"
 # include <limits.h>
 
-# define WIN_WIDTH	1280
-# define WIN_HEIGHT	720
+# define WIN_WIDTH	800
+# define WIN_HEIGHT	600
 # define FULLSCREEN	0
 # define ROT_SPEED	3
 # define MOVE_SPEED	5
 # define ZOOM_SPEED	2
-
-typedef struct s_render_context
-{
-	int				*z_buffer;
-	mlx_t			*mlx;
-	t_line			*lines;
-	int				num_lines;
-	t_transform		t;
-	uint32_t		bg_color;
-	int				init_success;
-	size_t			image_size_in_pixels;
-	mlx_image_t		*img;
-	int				dvd_mode_on;
-}				t_render_context;
 
 typedef void	(*t_hook)(void*);
 
