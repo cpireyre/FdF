@@ -6,7 +6,7 @@
 /*   By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 09:50:42 by copireyr          #+#    #+#             */
-/*   Updated: 2024/08/10 10:12:57 by copireyr         ###   ########.fr       */
+/*   Updated: 2024/08/10 10:21:13 by copireyr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static void	mouse_scroll_zoom(double xdelta, double ydelta,
 
 void	mouse_hooks_set(t_render_context *ctx)
 {
-	mlx_scroll_hook(ctx->mlx, (mlx_scrollfunc)&mouse_scroll_zoom, &ctx->t);
+	mlx_scroll_hook(ctx->mlx, (mlx_scrollfunc)mouse_scroll_zoom, &ctx->t);
 }
 
 static void	mouse_scroll_zoom(double xdelta, double ydelta,
