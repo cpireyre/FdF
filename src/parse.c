@@ -6,7 +6,7 @@
 /*   By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 13:16:52 by copireyr          #+#    #+#             */
-/*   Updated: 2024/08/08 19:53:00 by copireyr         ###   ########.fr       */
+/*   Updated: 2024/08/10 10:16:30 by copireyr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,6 @@ int	parse(const char *path, t_line **lines, t_arena a)
 	file = ft_arena_slurp(scratch, path);
 	if (file)
 	{
-		map.rows = 0;
-		while (file[map.rows])
-			map.rows++;
 		map.points = parse_file(file, &map, scratch);
 		if (map.points && map.cols)
 		{
@@ -50,6 +47,9 @@ static t_v4i	**parse_file(char **file, t_map *map, t_arena scratch)
 	int	i;
 	int	cols;
 
+	map->rows = 0;
+	while (file[map->rows])
+		map->rows++;
 	map->points = arena_calloc(scratch, (size_t)map->rows, sizeof(t_v4i *));
 	i = 0;
 	cols = 0;

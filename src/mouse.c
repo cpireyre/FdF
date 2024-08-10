@@ -1,13 +1,27 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   mouse.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/08/10 09:50:42 by copireyr          #+#    #+#             */
+/*   Updated: 2024/08/10 10:12:57 by copireyr         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "mouse.h"
 
-static void	mouse_scroll_zoom(double xdelta, double ydelta, t_transform *transform);
+static void	mouse_scroll_zoom(double xdelta, double ydelta,
+				t_transform *transform);
 
 void	mouse_hooks_set(t_render_context *ctx)
 {
 	mlx_scroll_hook(ctx->mlx, (mlx_scrollfunc)&mouse_scroll_zoom, &ctx->t);
 }
 
-static void	mouse_scroll_zoom(double xdelta, double ydelta, t_transform *transform)
+static void	mouse_scroll_zoom(double xdelta, double ydelta,
+		t_transform *transform)
 {
 	transform->scale += (int)round(ydelta);
 	if (transform->scale < 1)
@@ -15,7 +29,7 @@ static void	mouse_scroll_zoom(double xdelta, double ydelta, t_transform *transfo
 	(void)xdelta;
 }
 
-void drag(t_render_context *ctx)
+void	drag(t_render_context *ctx)
 {
 	t_v2i	mouse_pos_current;
 	t_v2i	mouse_pos_delta;
