@@ -6,7 +6,7 @@
 #    By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/23 09:17:29 by copireyr          #+#    #+#              #
-#    Updated: 2024/08/26 12:45:35 by copireyr         ###   ########.fr        #
+#    Updated: 2024/09/12 14:26:44 by copireyr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,8 +29,7 @@ libft		:= $(libft_dir)/libft.a
 libmlx 		:= $(libmlx_dir)/build/libmlx42.a
 
 CC			:= gcc
-# debug		:= -fsanitize=undefined -fsanitize=address
-# debug		+= -g3 -Og
+debug		+= -g3 -Og
 optimization := -O2 -fno-builtin
 CFLAGS		:= -Wconversion $(debug) $(optimization)
 CFLAGS		+= -MMD -MP -pedantic

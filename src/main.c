@@ -6,7 +6,7 @@
 /*   By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/23 09:45:09 by copireyr          #+#    #+#             */
-/*   Updated: 2024/08/09 16:25:41 by copireyr         ###   ########.fr       */
+/*   Updated: 2024/09/13 10:38:46 by copireyr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	main(int argc, char **argv)
 		arena_dispose(&a);
 	}
 	else
-		ft_dprintf(2, "Usage: ./fdf map.fdf\n");
+		ft_dprintf(2, "Usage: %s map.fdf\n", argv[0]);
 	return (0);
 }
 
@@ -51,6 +51,7 @@ static t_render_context	initialize_ctx(const char *name, t_arena a)
 
 	ft_bzero(&ctx, sizeof(ctx));
 	ctx.z_buffer = arena_alloc(a, WIN_HEIGHT * WIN_WIDTH * sizeof(int));
+	ctx.mode = PARALLEL;
 	if (!ctx.z_buffer)
 		return (ctx);
 	ctx.bg_color = BG_COLOR;
@@ -88,7 +89,7 @@ static void	render_frame(t_render_context *ctx)
 	center = v3d_div(center, v3dd(2 * ctx->num_lines));
 	while (line-- != ctx->lines)
 	{
-		current_line = transform(&ctx->t, center, *line);
+		current_line = transform(&ctx->t, center, *line, ctx->mode);
 		if (clip(&current_line, (int)ctx->img->width, (int)ctx->img->height))
 			rasterize(ctx->img, ctx->z_buffer, current_line);
 	}
@@ -108,4 +109,6 @@ static void	key_hook(mlx_key_data_t keydata, t_render_context *ctx)
 		ctx->t.offset.y = (int)(ctx->img->height / 2);
 		ctx->t.offset.x = (int)(ctx->img->width / 2);
 	}
+	if (keydata.key == MLX_KEY_P && keydata.action == MLX_PRESS)
+		ctx->mode = (ctx->mode + 1) % 2;
 }
