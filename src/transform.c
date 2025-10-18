@@ -6,28 +6,32 @@
 /*   By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 11:32:00 by copireyr          #+#    #+#             */
-/*   Updated: 2024/08/05 15:49:58 by copireyr         ###   ########.fr       */
+/*   Updated: 2024/09/13 10:45:11 by copireyr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "transform.h"
 
-static t_v2i	project(t_transform *T, t_v3d v);
+static t_v2i	project(t_transform *T, t_v3d v,
+					enum e_projection_mode projection);
 static t_v3d	rotate(t_transform *T, t_v3d a);
 
-t_line	transform(t_transform *T, t_v3d center, t_line line)
+t_line	transform(t_transform *T, t_v3d center, t_line line,
+				enum e_projection_mode mode)
 {
 	{
 		line.world0 = v3d_add(line.world0, v3d_mul(center, v3dd(-1)));
-		line.world0 = rotate(T, line.world0);
+		if (mode == ISOMETRIC)
+			line.world0 = rotate(T, line.world0);
 		line.world0 = v3d_add(line.world0, center);
-		line.screen0 = project(T, line.world0);
+		line.screen0 = project(T, line.world0, mode);
 	}
 	{
 		line.world1 = v3d_add(line.world1, v3d_mul(center, v3dd(-1)));
-		line.world1 = rotate(T, line.world1);
+		if (mode == ISOMETRIC)
+			line.world1 = rotate(T, line.world1);
 		line.world1 = v3d_add(line.world1, center);
-		line.screen1 = project(T, line.world1);
+		line.screen1 = project(T, line.world1, mode);
 	}
 	return (line);
 }
@@ -50,14 +54,23 @@ static t_v3d	rotate(t_transform *T, t_v3d a)
 	return (roll);
 }
 
-static t_v2i	project(t_transform *T, t_v3d v)
+static t_v2i	project(t_transform *T, t_v3d v,
+					enum e_projection_mode projection)
 {
 	t_v3d	iso;
 	t_v3d	scaled_iso;
 	t_v2i	result;
 
-	iso.x = (v.x - v.y) * COS45;
-	iso.y = (v.x + v.y) * SIN45 - v.z;
+	if (projection == PARALLEL)
+	{
+		iso.x = v.x;
+		iso.y = v.y;
+	}
+	else
+	{
+		iso.x = (v.x - v.y) * COS45;
+		iso.y = (v.x + v.y) * SIN45 - v.z;
+	}
 	scaled_iso.x = (double)T->scale / 10 * iso.x;
 	scaled_iso.y = (double)T->scale / 10 * iso.y;
 	result.x = (int)(T->offset.x + scaled_iso.x);

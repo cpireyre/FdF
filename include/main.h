@@ -6,7 +6,7 @@
 /*   By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 13:33:18 by copireyr          #+#    #+#             */
-/*   Updated: 2024/08/09 16:26:34 by copireyr         ###   ########.fr       */
+/*   Updated: 2024/08/26 12:40:55 by copireyr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@
 # include "mouse.h"
 # include <limits.h>
 
-# define WIN_WIDTH	800
-# define WIN_HEIGHT	600
+# define WIN_WIDTH	1920
+# define WIN_HEIGHT	1080
 # define FULLSCREEN	0
 # define ROT_SPEED	3
 # define MOVE_SPEED	5

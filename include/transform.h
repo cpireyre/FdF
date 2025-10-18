@@ -6,7 +6,7 @@
 /*   By: copireyr <copireyr@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 11:07:22 by copireyr          #+#    #+#             */
-/*   Updated: 2024/07/05 11:00:37 by copireyr         ###   ########.fr       */
+/*   Updated: 2024/09/13 10:35:42 by copireyr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,12 @@ typedef struct s_transform
 	int			scale;
 }				t_transform;
 
-t_line	transform(t_transform *T, t_v3d center, t_line line);
+enum e_projection_mode
+{
+	ISOMETRIC,
+	PARALLEL,
+};
+
+t_line	transform(t_transform *T, t_v3d center, t_line line, enum e_projection_mode mode);
 
 #endif /* TRANSFORM_H */
