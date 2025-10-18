@@ -2,6 +2,8 @@
 
 3D wireframe terrain renderer from scratch in C, using 1990s graphics programming techniques.
 
+The program takes a height map and renders it as an interactive rotatable 3D wireframe. Everything implemented by me: [Bresenham line algorithm](https://en.wikipedia.org/wiki/Bresenham%27s_line_algorithm), z-buffering, and [Cohen-Sutherland clipping](https://en.wikipedia.org/wiki/Cohen%E2%80%93Sutherland_algorithm). Interestingly, it can work almost out of the box with topographic data such as from the [National Land Survey of Finland](https://www.maanmittauslaitos.fi/en/maps-and-spatial-data/expert-users/product-descriptions/elevation-model-10-m).
+
 <table>
 <tr>
 <td width="50%">
@@ -21,7 +23,6 @@
 </tr>
 </table>
 
-The program takes a height map and renders it as an interactive rotatable 3D wireframe. Everything implemented by me: [Bresenham line algorithm](https://en.wikipedia.org/wiki/Bresenham%27s_line_algorithm), z-buffering, and [Cohen-Sutherland clipping](https://en.wikipedia.org/wiki/Cohen%E2%80%93Sutherland_algorithm). Interestingly, it can work almost out of the box with topographic data such as from the [National Land Survey of Finland](https://www.maanmittauslaitos.fi/en/maps-and-spatial-data/expert-users/product-descriptions/elevation-model-10-m).
 
 ![rotation gif - placeholder]
 
