@@ -31,6 +31,6 @@ Were I to work on this further, I'd love to improve the performance and renderin
 
 <div align="center">
 
-![FdF interactive 3D wireframe rotation demo](assets/fdf_demo.mp4)
+![FdF interactive 3D wireframe rotation demo](assets/fdf_demo.gif)
 
 </div>
