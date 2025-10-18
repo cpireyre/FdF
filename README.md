@@ -1,4 +1,4 @@
-# FdF: Wireframe Renderer
+# Wireframe Renderer
 
 3D wireframe terrain renderer from scratch in C, using 1990s graphics programming techniques.
 
