@@ -86,24 +86,24 @@ re: fclean all
 
 .PHONY: run
 run: $(bin)
-	./$(bin) ./test_maps/42.fdf
+	./$(bin) ./input/42.fdf
 .PHONY: r
 r: run
 
 .PHONY: j
 j: $(bin)
-	./$(bin) ./test_maps/julia.fdf
+	./$(bin) ./input/julia.fdf
 
 .PHONY: m
 m: $(bin)
-	./$(bin) ./test_maps/mars.fdf
+	./$(bin) ./input/mars.fdf
 
 .PHONY: l
 l: $(bin)
-	./$(bin) ./test_maps/line.fdf
+	./$(bin) ./input/line.fdf
 
 .PHONY: test
 test: $(bin)
-	./$(bin) ./test_maps/basictest.fdf
+	./$(bin) ./input/basictest.fdf
 
 -include $(objects:.o=.d)

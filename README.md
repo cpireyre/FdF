@@ -8,12 +8,12 @@ The program takes a height map and renders it as an interactive rotatable 3D wir
 <tr>
 <td width="50%">
 
-![FdF wireframe rendering of Helsinki harbor area showing elevation data as a 3D mesh](helsinki_fdf_render.png)
+![FdF wireframe rendering of Helsinki harbor area showing elevation data as a 3D mesh](assets/helsinki_fdf_render.png)
 
 </td>
 <td width="50%">
 
-![Apple Maps view of the same Helsinki harbor area for comparison, showing Kalasatama, Mustikkamaa island, and the surrounding waterways](helsinki_apple_maps.png)
+![Apple Maps view of the same Helsinki harbor area for comparison, showing Kalasatama, Mustikkamaa island, and the surrounding waterways](assets/helsinki_apple_maps.png)
 
 </td>
 </tr>
@@ -33,6 +33,6 @@ Were I to work on this further, I'd love to improve the performance and renderin
 
 <div align="center">
 
-![FdF interactive 3D wireframe rotation demo](fdf_demo.gif)
+![FdF interactive 3D wireframe rotation demo](assets/fdf_demo.mp4)
 
 </div>
