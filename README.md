@@ -24,7 +24,7 @@ The program takes a height map and renders it as an interactive rotatable 3D wir
 </table>
 
 
-![rotation gif - placeholder]
+![FdF interactive 3D wireframe rotation demo](fdf_demo.gif)
 
 ## Implementation details and further thoughts
 
